@@ -1,0 +1,78 @@
+{
+  "name": "pacco",
+  "description": "A bundler for modular and extensible web projects.",
+  "version": "1.0.0",
+  "bin": "bin/index.js",
+  "keywords": [
+    "bundler",
+    "modular",
+    "extensible",
+    "web",
+    "projects",
+    "js",
+    "scss",
+    "gulp"
+  ],
+  "bugs": {
+    "url": "https://github.com/svelto/pacco/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Fabio Spampinato",
+    "email": "spampinabio@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/svelto/pacco.git"
+  },
+  "scripts": {
+    "test:clean": "rm -rf test/dist",
+    "test:build": "node test/index.js",
+    "test:build:check": "npm run test:build -- --check",
+    "test": "npm run test:clean && npm run test:build:check"
+  },
+  "dependencies": {
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-runtime": "^6.18.0",
+    "caniuse-db": "^1.0.30000693",
+    "chalk": "^1.1.3",
+    "cssnano": "^3.10.0",
+    "del": "^3.0.0",
+    "execa": "^0.8.0",
+    "fsevents": "^1.1.2",
+    "google-closure-compiler-js": "^20170521.0.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-babili": "^0.1.4",
+    "gulp-bump": "^2.6.1",
+    "gulp-bytediff": "^1.0.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-flatten": "^0.3.1",
+    "gulp-foreach": "^0.1.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-jsonminify": "^1.0.0",
+    "gulp-newer": "^1.3.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^7.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-touch-cmd": "0.0.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.7",
+    "lodash": "^4.16.6",
+    "node-notifier": "^5.0.0",
+    "path": "^0.12.7",
+    "require-dot-file": "^0.4.0",
+    "through2": "^2.0.0",
+    "yargs": "^6.0.0"
+  },
+  "devDependencies": {
+    "globby": "^8.0.0"
+  }
+}

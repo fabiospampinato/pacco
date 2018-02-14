@@ -1,0 +1,22 @@
+
+Now:
+  ☐ check all `//FIXME` and `//TODO`
+  ☐ Make the code cross-platform
+  ☐ Test on Windows
+  ☐ Maybe rename `@before` to something else, since it has a different meaning than in `foo.before.js`
+  ☐ Do we support `@after` already? we should, for consistency
+  ☐ We should support `@override`
+  ☐ bump version to 1.0.0
+
+Next:
+  ☐ add verbose and very verbose flags, for extra output, useful during debugging
+  ☐ replace redundant names with index (tab/tab.scss => tab/index.scss) @high
+    ☐ allow implicit befores/requires (@require tab/tab.scss => @require tab/index.scss => @require tab)
+    ☐ should `variables.scss` be inferred too?
+  ☐ Add support for importing node modules @high
+  ☐ adding `@require`s to extenders (.before, .after) doesn't work, since they get moved after... maybe we should move left or right the one more to the left in the dependencies list instead... @high
+
+Future:
+  ☐ Migrate code to TypeScript
+  ☐ Add TypeScript compilation support
+  ☐ Maybe add patch files that patch single lines, like `foo.patch.js` (quite ugly and not future proof)
