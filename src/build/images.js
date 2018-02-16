@@ -1,6 +1,4 @@
 
-//TODO: Add webp support
-
 /* REQUIRE */
 
 const gulp     = require ( 'gulp' ),

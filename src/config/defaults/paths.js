@@ -19,7 +19,7 @@ const paths = {
   input: {
     json: '[src]/**/*.json',
     fonts: '[src]/**/*.{eot,ttf,woff,woff2}',
-    images: '[src]/**/*.{bmp,gif,ico,jpg,jpeg,png,svg}',
+    images: '[src]/**/*.{bmp,gif,ico,jpg,jpeg,png,svg,webp}',
     javascript: {
       all: '[src]/**/*.js',
       temp: '[temp]/javascript/**/*.js'
