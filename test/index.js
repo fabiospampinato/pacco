@@ -21,18 +21,24 @@ const argv   = require ( 'yargs' ).argv,
 const PACCO_BIN = path.resolve ( __dirname, '../bin/index.js' ),
       TEST_ENV = 'development';
 
-/* HELPERS */
+/* UTILITIES */
 
 async function getTests () {
 
-  if ( argv.only ) return [argv.only];
-
-  const cwd = path.join ( __dirname, 'src' );
-
-  return await globby ( '*', {
-    cwd,
+  const tests = await globby ( '*', {
+    cwd: path.join ( __dirname, 'src' ),
     onlyDirectories: true
   });
+
+  if ( argv.only ) {
+
+    if ( tests.includes ( argv.only ) ) return [argv.only];
+
+    throw new Error ( chalk.red ( `Test "${chalk.underline ( argv.only )} not found"` ) );
+
+  }
+
+  return tests;
 
 }
 
