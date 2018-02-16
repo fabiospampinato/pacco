@@ -11,7 +11,7 @@ const paths = {
   tokens: {
     src: 'src',
     dist: 'dist',
-    temp: '.pacco',
+    temp: undefined, // Setted dynamically, only if left undefined
     bundle: 'pacco',
     env: undefined, // Setted dynamically
     environment: undefined // Setted dynamically

@@ -3,7 +3,9 @@
 
 const _    = require ( 'lodash' ),
       argv = require ( 'yargs' ).argv,
+      gulp = require ( 'gulp' ),
       path = require ( 'path' ),
+      sha1 = require ( 'sha1' ),
       file = require ( './file' );
 
 /* ENVIRONMENT */
@@ -57,6 +59,19 @@ const environment = {
     if ( !argv.config ) return;
 
     return environment.getConfigObjJSON () || file.load ( environment.getConfigPath () );
+
+  },
+
+  /* PROJECT */
+
+  getProjectHash ( project ) { // Uniquely identifies src and environment
+
+    const src = _.castArray ( project.paths.tokens.src ),
+          absSrc = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulp.cwd, src ) ),
+          id = `${absSrc.join ( '|' )}|${project.paths.tokens.environment}`,
+          hash = sha1 ( id );
+
+    return hash;
 
   }
 

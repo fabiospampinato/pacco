@@ -6,6 +6,7 @@
 const _            = require ( 'lodash' ),
       argv         = require ( 'yargs' ).argv,
       path         = require ( 'path' ),
+      sha1         = require ( 'sha1' ),
       defaults     = require ( './defaults' ),
       environment  = require ( '../utilities/environment' ),
       environments = require ( '../utilities/environments' ),
@@ -31,6 +32,7 @@ const project = _.merge ( {}, defaults, ...defaultsEnvs, custom, ...customEnvs, 
 project.environment = envs;
 project.paths.tokens.env = prettyEnvs;
 project.paths.tokens.environment = prettyEnvs
+project.paths.tokens.temp = project.paths.tokens.temp || path.join ( process.cwd (), '.temp', environment.getProjectHash ( project ) ); // In order to allow for multiple simultaneous compilations
 
 /* EXPORT */
 

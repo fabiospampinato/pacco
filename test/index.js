@@ -120,7 +120,7 @@ async function test () {
 
   const tests = await getTests ();
 
-  for ( let test of tests ) { // We can't iterate asyncronously over them or their temp directories will interfere with each other //FIXME
+  tests.forEach ( async test => {
 
     await buildTest ( test );
 
@@ -128,7 +128,7 @@ async function test () {
       await checkTest ( test );
     }
 
-  }
+  });
 
 }
 
