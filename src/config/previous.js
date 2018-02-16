@@ -5,9 +5,9 @@ const PATH = require ( 'path' ).join ( __dirname, '.project.previous.json' );
 
 /* REQUIRE */
 
-const file     = require ( '../../utilities/file' ),
+const file     = require ( '../utilities/file' ),
       previous = file.load ( PATH, {} ),
-      project  = require ( '..' );
+      project  = require ( '.' );
 
 /* UPDATE */
 

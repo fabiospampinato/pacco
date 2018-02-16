@@ -1,12 +1,10 @@
 
-//FIXME: Do we actually support multiple instances of the bundler running simultaneously?
-
 /* REQUIRE */
 
 const _           = require ( 'lodash' ),
       argv        = require ( 'yargs' ).argv,
       project     = require ( '../config' ),
-      projectPrev = require ( '../config/previous/project' );
+      projectPrev = require ( '../config/previous' );
 
 /* CHANGED */
 
