@@ -26,10 +26,12 @@
     "url": "https://github.com/svelto/pacco.git"
   },
   "scripts": {
-    "test:clean": "rm -rf test/dist",
+    "clean:temp": "rm -rf .temp",
+    "clean:test": "rm -rf test/dist",
+    "clean": "npm run clean:temp && npm run clean:test",
     "test:build": "node test/index.js",
     "test:build:check": "npm run test:build -- --check",
-    "test": "npm run test:clean && npm run test:build:check"
+    "test": "npm run clean && npm run test:build:check"
   },
   "dependencies": {
     "babel-plugin-syntax-async-functions": "^6.13.0",
