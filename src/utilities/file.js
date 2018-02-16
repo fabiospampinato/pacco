@@ -45,18 +45,19 @@ const file = {
 
     if ( file.file2moduleCache[filepath] ) return this.file2moduleCache[filepath];
 
-    if ( !file._file2moduleAbsSrcRe ) {
+    if ( !file._file2moduleSrcAbsRe ) {
 
-      const src = _.castArray ( require ( '../config' ).paths.tokens.src ), // In order to avoid a cyclic dependency
-            absSrc = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulp.cwd, src ) ),
-            absSrcRe = new RegExp ( `^(${absSrc.map ( _.escapeRegExp ).join ( '|' )})\/?` );
+      const gulpCwd = require ( './environment' ).getGulpCwd (), // In order to avoid a cyclic dependency
+            src = _.castArray ( require ( '../config' ).paths.tokens.src ), // In order to avoid a cyclic dependency
+            srcAbs = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulpCwd, src ) ),
+            srcAbsRe = new RegExp ( `^(${srcAbs.map ( _.escapeRegExp ).join ( '|' )})\/?` );
 
-      file._file2moduleAbsSrcRe = absSrcRe;
+      file._file2moduleSrcAbsRe = srcAbsRe;
 
     }
 
     const module = filepath.replace ( /[\\|/]+/g, '/' )
-                           .replace ( file._file2moduleAbsSrcRe, '' );
+                           .replace ( file._file2moduleSrcAbsRe, '' );
 
     this.file2moduleCache[filepath] = module;
 

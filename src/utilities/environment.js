@@ -66,9 +66,10 @@ const environment = {
 
   getProjectHash ( project ) { // Uniquely identifies src and environment
 
-    const src = _.castArray ( project.paths.tokens.src ),
-          absSrc = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulp.cwd, src ) ),
-          id = `${absSrc.join ( '|' )}|${project.paths.tokens.environment}`,
+    const gulpCwd = environment.getGulpCwd (),
+          src = _.castArray ( project.paths.tokens.src ),
+          srcAbs = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulpCwd, src ) ),
+          id = `${srcAbs.join ( '|' )}|${project.paths.tokens.environment}`,
           hash = sha1 ( id );
 
     return hash;
