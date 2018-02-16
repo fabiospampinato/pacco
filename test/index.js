@@ -8,18 +8,19 @@
 
 /* REQUIRE */
 
-const argv   = require ( 'yargs' ).argv,
+const _      = require ( 'lodash' ),
+      argv   = require ( 'yargs' ).argv,
       chalk  = require ( 'chalk' ),
       execa  = require ( 'execa' ),
       fs     = require ( 'fs' ),
       globby = require ( 'globby' ),
       mkdirp = require ( 'mkdirp' ),
-      path   = require ( 'path' );
+      path   = require ( 'path' ),
+      rimraf = require ( 'rimraf' );
 
 /* VARIABLES */
 
-const PACCO_BIN = path.resolve ( __dirname, '../bin/index.js' ),
-      TEST_ENV = 'development';
+const PACCO_BIN = path.resolve ( __dirname, '../bin/index.js' );
 
 /* UTILITIES */
 
@@ -45,6 +46,7 @@ async function getTests () {
 function getTestPaths ( test ) {
 
   return {
+    config: path.join ( __dirname, `config/${test}.json` ),
     src: path.join ( __dirname, `src/${test}` ),
     dist: path.join ( __dirname, `dist/${test}` ),
     check: path.join ( __dirname, `check/${test}` )
@@ -52,21 +54,65 @@ function getTestPaths ( test ) {
 
 }
 
+function getTestConfigGeneral ( test ) {
+
+  const {src, dist} = getTestPaths ( test ),
+        configPath = path.resolve ( __dirname, 'config/general.json' ),
+        configStr = fs.readFileSync ( configPath, { encoding: 'utf-8' } ),
+        configStrReplaced = configStr.replace ( '[src]', src ).replace ( '[dist]', dist ),
+        config = JSON.parse ( configStrReplaced );
+
+  return config;
+
+}
+
+function getTestConfigSpecific ( test ) {
+
+  try {
+
+    const {config: configPath} = getTestPaths ( test ),
+          configStr = fs.readFileSync ( configPath, { encoding: 'utf-8' } ),
+          config = JSON.parse ( configStr );
+
+    return config;
+
+  } catch ( e ) {
+
+    return {};
+
+  }
+
+}
+
 function getTestConfig ( test ) {
 
-  const {src, dist} = getTestPaths ( test );
+  const general = getTestConfigGeneral ( test ),
+        specific = getTestConfigSpecific ( test ),
+        config = _.merge ( general, specific );
 
-  const baseSrc = ( test === 'extend' ) ? [path.join ( __dirname, `src/component` )] : []; //FIXME: Ugly
+  return JSON.stringify ( config );
 
-  return JSON.stringify ({
-    environment: TEST_ENV,
-    paths: {
-      tokens: {
-        src: baseSrc.concat ( src ),
-        dist
-      }
-    }
-  });
+}
+
+/* TESTING */
+
+async function testTest ( test ) {
+
+  await cleanTest ( test );
+
+  await buildTest ( test );
+
+  if ( argv.check ) {
+    await checkTest ( test );
+  }
+
+}
+
+async function cleanTest ( test ) {
+
+  const {dist} = getTestPaths ( test );
+
+  rimraf.sync ( dist );
 
 }
 
@@ -80,13 +126,13 @@ async function buildTest ( test ) {
 
   if ( !argv.check ) { // The `output.txt` files will interfere with diffing
 
+    console.log ( `${chalk.underline ( test )} built.` );
+
     ['stdout', 'stderr'].forEach ( output => {
       if ( !build[output] ) return;
       const outputPath = path.join ( dist, `${output}.txt` );
       fs.writeFileSync ( outputPath, build[output] );
     });
-
-    console.log ( `${chalk.underline ( test )} built.` );
 
   }
 
@@ -120,15 +166,7 @@ async function test () {
 
   const tests = await getTests ();
 
-  tests.forEach ( async test => {
-
-    await buildTest ( test );
-
-    if ( argv.check ) {
-      await checkTest ( test );
-    }
-
-  });
+  tests.map ( testTest );
 
 }
 

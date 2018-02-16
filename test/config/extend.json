@@ -1,0 +1,7 @@
+{
+  "paths": {
+    "tokens": {
+      "src": ["test/src/component", "test/src/extend"]
+    }
+  }
+}

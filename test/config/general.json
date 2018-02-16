@@ -1,0 +1,9 @@
+{
+  "environment": "development",
+  "paths": {
+    "tokens": {
+      "src": "[src]",
+      "dist": "[dist]"
+    }
+  }
+}
