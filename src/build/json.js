@@ -14,18 +14,21 @@ const gulp       = require ( 'gulp' ),
       output     = require ( '../utilities/paths/output' ),
       filter     = require ( '../plugins/filter' ),
       override   = require ( '../plugins/override' ),
-      plugins    = require ( '../config' ).plugins;
+      substitute = require ( '../plugins/substitute' );
+      project    = require ( '../config' ),
+      {plugins}  = project;
 
 /* TASK */
 
 function task () {
 
-  const needUpdate = changed.plugins ( 'override', 'jsonminify' );
+  const needUpdate = changed.plugins ( 'override', 'substitute', 'jsonminify' );
 
   return gulp.src ( input.getPath ( 'json' ) )
              .pipe ( plumber ( log.error ) )
              .pipe ( gulpif ( plugins.filter.enabled, filter ( plugins.filter.options ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'json' ) ) ) )
              .pipe ( gulpif ( plugins.jsonminify.enabled, jsonminify ( plugins.jsonminify.options ) ) )

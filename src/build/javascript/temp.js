@@ -14,7 +14,8 @@ const _            = require ( 'lodash' ),
       newer        = require ( 'gulp-newer' ),
       plumber      = require ( 'gulp-plumber' ),
       touch        = require ( 'gulp-touch-cmd' ),
-      plugins      = require ( '../../config' ).plugins,
+      project      = require ( '../../config' ),
+      {plugins}    = project,
       changed      = require ( '../../utilities/changed' ),
       log          = require ( '../../utilities/log' ),
       input        = require ( '../../utilities/paths/input' ),
@@ -23,13 +24,14 @@ const _            = require ( 'lodash' ),
       extend       = require ( '../../plugins/extend' ),
       filter       = require ( '../../plugins/filter' ),
       orderPinner  = require ( '../../plugins/order_pinner' ),
-      override     = require ( '../../plugins/override' );
+      override     = require ( '../../plugins/override' ),
+      substitute   = require ( '../../plugins/substitute' );
 
 /* TASK */
 
 function task () {
 
-  const needCleaning = changed.project ( 'components' ) || changed.project ( 'output.javascript' ) || changed.plugins ( 'filter', 'override', 'dependencies', 'extend' ),
+  const needCleaning = changed.project ( 'components' ) || changed.project ( 'output.javascript' ) || changed.plugins ( 'filter', 'override', 'substitute', 'dependencies', 'extend' ),
         needUpdate   = needCleaning || changed.plugin ( 'babel' );
 
   if ( needCleaning ) {
@@ -44,6 +46,7 @@ function task () {
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( gulpif ( plugins.extend.enabled, extend ( plugins.extend.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
              .pipe ( orderPinner () )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'javascript.temp' ) ) ) )

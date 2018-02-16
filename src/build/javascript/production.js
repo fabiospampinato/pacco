@@ -23,6 +23,7 @@ const gulp         = require ( 'gulp' ),
       extend       = require ( '../../plugins/extend' ),
       filter       = require ( '../../plugins/filter' ),
       override     = require ( '../../plugins/override' ),
+      substitute   = require ( '../../plugins/substitute' ),
       project      = require ( '../../config' ),
       plugins      = project.plugins;
 
@@ -30,7 +31,7 @@ const gulp         = require ( 'gulp' ),
 
 function task () {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'filter', 'override', 'dependencies', 'extend', 'babel', 'babili', 'uglify', 'closure' );
+  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'filter', 'override', 'substitute', 'dependencies', 'extend', 'babel', 'babili', 'uglify', 'closure' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
              .pipe ( plumber ( log.error ) )
@@ -39,10 +40,9 @@ function task () {
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( gulpif ( plugins.extend.enabled, extend ( plugins.extend.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
              .pipe ( flatten () )
              .pipe ( concat ( output.getName ( 'javascript.uncompressed' ) ) )
-            //  .pipe ( replace ( /ENVIRONMENT: '(.*)'/, `ENVIRONMENT: '${environments.pretty ( project.environment )}'` ) ) //TODO: Write a plugin for this
-            //  .pipe ( replace ( /DEVELOPMENT: (.*),/, `DEVELOPMENT: ${!!project.isDevelopment},` ) ) //TODO: Write a plugin for this
              .pipe ( gulpif ( plugins.babel.enabled, babel ( plugins.babel.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.uncompressed' ) ) )
              .pipe ( gulpif ( plugins.babili.enabled, babili ( plugins.babili.options ) ) )

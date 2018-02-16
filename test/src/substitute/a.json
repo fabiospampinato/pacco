@@ -1,0 +1,4 @@
+{
+  "environment": "[pacco.environment[0]]",
+  "development": [pacco.isDevelopment]
+}

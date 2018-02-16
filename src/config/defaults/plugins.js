@@ -124,6 +124,12 @@ const plugins = {
       precision: 10
     }
   },
+  substitute: {
+    enabled: true,
+    options: {
+      log: !!argv.verbose
+    }
+  },
   uglify: {
     enabled: true,
     options: {}

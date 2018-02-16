@@ -7,7 +7,8 @@ const gulp         = require ( 'gulp' ),
       newer        = require ( 'gulp-newer' ),
       plumber      = require ( 'gulp-plumber' ),
       touch        = require ( 'gulp-touch-cmd' ),
-      plugins      = require ( '../../../config' ).plugins,
+      project      = require ( '../../../config' ),
+      {plugins}    = project,
       changed      = require ( '../../../utilities/changed' ),
       log          = require ( '../../../utilities/log' ),
       input        = require ( '../../../utilities/paths/input' ),
@@ -15,13 +16,14 @@ const gulp         = require ( 'gulp' ),
       dependencies = require ( '../../../plugins/dependencies' ),
       extend       = require ( '../../../plugins/extend' ),
       filter       = require ( '../../../plugins/filter' ),
-      override     = require ( '../../../plugins/override' );
+      override     = require ( '../../../plugins/override' ),
+      substitute   = require ( '../../../plugins/substitute' );
 
 /* GENERAL */
 
 function general ( name, filterable ) {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'filter', 'override', 'dependencies', 'extend' );
+  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'filter', 'override', 'substitute', 'dependencies', 'extend' );
 
   return gulp.src ( input.getPath ( `scss.${name}` ) )
              .pipe ( plumber ( log.error ) )
@@ -30,6 +32,7 @@ function general ( name, filterable ) {
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( gulpif ( plugins.extend.enabled, extend ( plugins.extend.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
              .pipe ( concat ( output.getName ( `scss.${name}` ) ) )
              .pipe ( gulp.dest ( output.getDir ( `scss.${name}` ) ) )
              .pipe ( touch () );

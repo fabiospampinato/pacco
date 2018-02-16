@@ -19,8 +19,6 @@ function task () {
   return gulp.src ( input.getPath ( 'javascript.temp' ) )
              .pipe ( newer ( output.getPath ( 'javascript.uncompressed' ) ) )
              .pipe ( concat ( output.getName ( 'javascript.uncompressed' ) ) )
-            //  .pipe ( replace ( /ENVIRONMENT: '(.*)'/, `ENVIRONMENT: '${environments.pretty ( project.environment )}'` ) ) //TODO: Write a plugin for this
-            //  .pipe ( replace ( /DEVELOPMENT: (.*),/, `DEVELOPMENT: ${!!project.isDevelopment},` ) ) //TODO: Write a plugin for this
              .pipe ( gulp.dest ( output.getDir ( 'javascript.uncompressed' ) ) )
              .pipe ( rename ( output.getName ( 'javascript.compressed' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.compressed' ) ) )
