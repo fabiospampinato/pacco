@@ -62,6 +62,21 @@ const environment = {
 
   },
 
+  getDynamicConfigObj () {
+
+    const src = argv.source || argv.src || argv.s,
+          dist = argv.distribution || argv.destination || argv.dist || argv.dest || argv.d,
+          environment = argv.environments || argv.environment || argv.envs || argv.env || argv.e;
+
+    return {
+      environment,
+      paths: {
+        tokens: { src, dist }
+      }
+    };
+
+  },
+
   /* PROJECT */
 
   getProjectHash ( project ) { // Uniquely identifies src and environment
