@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const _       = require ( 'lodash' ),
+     argv     = require ( 'yargs' ).argv,
      path     = require ( 'path' ),
      cssnano  = require ( 'cssnano' ),
      imagemin = require ( 'gulp-imagemin' );
@@ -48,19 +49,19 @@ const plugins = {
   dependencies: {
     enabled: true,
     options: {
-      log: false
+      log: !!argv.verbose
     }
   },
   extend: {
     enabled: true,
     options: {
-      log: false
+      log: !!argv.verbose
     }
   },
   filter: {
     enabled: true,
     options: {
-      log: false
+      log: !!argv.verbose
     }
   },
   github: {
@@ -101,7 +102,7 @@ const plugins = {
   override: {
     enabled: true,
     options: {
-      log: false
+      log: !!argv.verbose
     }
   },
   postcss: {

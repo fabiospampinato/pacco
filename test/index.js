@@ -68,7 +68,7 @@ async function buildTest ( test ) {
 
   const {dist} = getTestPaths ( test ),
         config = getTestConfig ( test ),
-        build = await execa ( PACCO_BIN, ['build', '--config', config, '--no-notification'] );
+        build = await execa ( PACCO_BIN, ['build', '--config', config, '--no-notification', '--verbose'] );
 
   mkdirp.sync ( dist ); // In case nothing has been built, but we need the folder for `output.txt` files and for diffing
 
