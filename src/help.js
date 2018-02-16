@@ -1,27 +1,43 @@
 
-// Tasks containing `[ALL]` in the description will only be displayed on `--dev`
-// Tasks containing `[ALL]` in the description will only be displayed on `--dev` or `--all`
+//TODO: Maybe export as an external module
+// Tasks containing `[ALL]` in the description will only be displayed on `--all`
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
-      argv    = require ( 'yargs' ).argv,
-      spawn   = require ( 'child_process' ).spawn,
-      gulp    = require ( 'gulp' ),
-      log     = require ( './utilities/log' ),
-      plugins = require ( './config' ).plugins;
+const _     = require ( 'lodash' ),
+      argv  = require ( 'yargs' ).argv,
+      execa = require ( 'execa' ),
+      gulp  = require ( 'gulp' ),
+      log   = require ( './utilities/log' );
+
+/* UTILITIES */
+
+function parseTasks ( tasks ) {
+
+  return tasks.split ( '\n' )
+              .map ( mapTask )
+              .filter ( _.identity )
+              .join ( '\n' );
+
+}
+
+function mapTask ( task ) {
+
+  const re = /\[([^\d]+?)\]\s+/g,
+        match = re.exec ( task ),
+        show = !match || argv[match[1].toLowerCase ()];
+
+  return show ? task.replace ( re, '' ) : false;
+
+}
 
 /* TASK */
 
-function task () {
+async function task () {
 
-  let command = 'gulp --tasks --depth 0 --color';
+  const {stdout} = await execa ( 'npx', ['gulp', '--tasks', '--depth', 0, '--color'] );
 
-  command += argv.all
-               ? ' | sed "s/\\[ALL\\] //g"' // Strip out `[ALL] `
-               : ' | grep "\\[ALL\\]" -v'; // Filter out tasks containing `[ALL]`
-
-  return spawn ( 'npx', ['-c', command], { stdio: 'inherit' } ); //TODO: Maybe spawn gulp itself
+  console.log ( parseTasks ( stdout ) );
 
 }
 
