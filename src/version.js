@@ -1,16 +1,17 @@
 
 /* REQUIRE */
 
-const _     = require ( 'lodash' ),
-      gulp  = require ( 'gulp' ),
-      pacco = require ( '../package.json' );
+const _       = require ( 'lodash' ),
+      gulp    = require ( 'gulp' ),
+      readPkg = require ( 'read-pkg-up' );
 
 /* TASK */
 
-function task ( done ) {
+async function task ( done ) {
 
-  const name = _.startCase ( pacco.name ),
-        version = pacco.version;
+  const {pkg} = await readPkg ({ cwd: __dirname }),
+        name = _.startCase ( pkg.name ),
+        version = pkg.version;
 
   console.log ( `${name} version: ${version}` );
 

@@ -70,6 +70,7 @@
     "lodash": "^4.16.6",
     "node-notifier": "^5.0.0",
     "path": "^0.12.7",
+    "read-pkg-up": "^3.0.0",
     "require-dot-file": "^0.4.0",
     "rimraf": "^2.6.2",
     "sha1": "^1.1.1",
