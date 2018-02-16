@@ -16,7 +16,7 @@ const _            = require ( 'lodash' ),
 
 /* ENVIRONMENT */
 
-const envsRaw = argv.environments || argv.environment || argv.envs || argv.env || arg.environment || dot.environment || custom.environment || defaults.environment,
+const envsRaw = argv.env || arg.environment || dot.environment || custom.environment || defaults.environment,
       envs = environments.parse ( envsRaw ),
       prettyEnvs = environments.pretty ( envs ),
       defaultsEnvs = environments.get ( defaults, envs ),
