@@ -20,7 +20,7 @@ const _      = require ( 'lodash' ),
 
 /* VARIABLES */
 
-const PACCO_BIN = path.resolve ( __dirname, '../bin/index.js' );
+const PACCO_BIN = path.resolve ( __dirname, '..', 'bin', 'index.js' );
 
 /* UTILITIES */
 
@@ -46,10 +46,10 @@ async function getTests () {
 function getTestPaths ( test ) {
 
   return {
-    config: path.join ( __dirname, `config/${test}.json` ),
-    src: path.join ( __dirname, `src/${test}` ),
-    dist: path.join ( __dirname, `dist/${test}` ),
-    check: path.join ( __dirname, `check/${test}` )
+    config: path.join ( __dirname, 'config', `${test}.json` ),
+    src: path.join ( __dirname, 'src', `${test}` ),
+    dist: path.join ( __dirname, 'dist', `${test}` ),
+    check: path.join ( __dirname, 'check', `${test}` )
   };
 
 }
@@ -57,7 +57,7 @@ function getTestPaths ( test ) {
 function getTestConfigGeneral ( test ) {
 
   const {src, dist} = getTestPaths ( test ),
-        configPath = path.resolve ( __dirname, 'config/general.json' ),
+        configPath = path.join ( __dirname, 'config', 'general.json' ),
         configStr = fs.readFileSync ( configPath, { encoding: 'utf-8' } ),
         configStrReplaced = configStr.replace ( '[src]', src ).replace ( '[dist]', dist ),
         config = JSON.parse ( configStrReplaced );
