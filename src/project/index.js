@@ -29,6 +29,8 @@ const envsRaw = dynamic.environment || arg.environment || dot.environment || cus
 
 const project = _.merge ( {}, defaults, ...defaultsEnvs, custom, ...customEnvs, dot, ...dotEnvs, arg, ...argEnvs, dynamic, ...dynamicEnvs );
 
+projectU.checkSrcPaths ( project );
+
 /* RUNTIME CONFIGURATION */
 
 project.environment = envs;

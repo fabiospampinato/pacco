@@ -2,8 +2,10 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
+      chalk = require ( 'chalk' ),
       path = require ( 'path' ),
       sha1 = require ( 'sha1' ),
+      file = require ( './file' ),
       gutil = require ( './gutil' );
 
 /* PROJECT */
@@ -15,6 +17,19 @@ const project = {
     const src = _.castArray ( config.paths.tokens.src );
 
     return src.map ( gutil.abs );
+
+  },
+
+  checkSrcPaths ( config ) {
+
+    const src = project.getSrcPaths ( config ),
+          missing = src.filter ( _.negate ( file.exists ) );
+
+    if ( !missing.length ) return;
+
+    console.error ( chalk.red ( `Source path(s) not found:\n  ${missing.map ( m => chalk.underline ( m ) ).join ( '\n  ' )}` ) );
+
+    process.exit ( 1 );
 
   },
 
