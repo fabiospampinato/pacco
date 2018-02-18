@@ -5,7 +5,7 @@ const argv = require ( 'yargs' ).argv,
       chalk = require ( 'chalk' ),
       path = require ( 'path' ),
       project = require ( '../../project' ),
-      environment = require ( '../../utilities/environment' );
+      gutil = require ( '../../utilities/gutil' );
 
 /* TASK */
 
@@ -15,7 +15,7 @@ async function task () {
 
   if ( argv.quiet ) return;
 
-  const gulpCwd = environment.getGulpCwd (),
+  const gulpCwd = gutil.cwd (),
         distToken = project.paths.tokens.dist,
         dist = path.isAbsolute ( distToken ) ? distToken : path.resolve ( gulpCwd, distToken );
 

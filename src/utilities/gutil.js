@@ -1,6 +1,4 @@
 
-//TODO: maybe move to -> `gutil.js`
-
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
@@ -9,8 +7,9 @@ const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       fancyLog = require ( 'fancy-log' ),
       gulp = require ( 'gulp' ),
+      path = require ( 'path' ),
       time = require ( 'pretty-time' ),
-      environment = require ( './environment' );
+      config = require ( './config' );
 
 /* GUTIL */
 
@@ -18,13 +17,23 @@ const gutil = {
 
   log: fancyLog,
 
+  cwd () {
+
+    const configPath = config.getPath ();
+
+    if ( !configPath ) return process.cwd ();
+
+    return path.dirname ( configPath );
+
+  },
+
   patch () {
 
     /* SRC & DEST & SYMLINK */
 
     // Ensuring Gulp's `cwd` is always `--config` or, if not a path or is missing, `process.cwd ()`
 
-    const cwd = environment.getGulpCwd (),
+    const cwd = gutil.cwd (),
           methods = ['src', 'dest', 'symlink'],
           proto = Object.getPrototypeOf ( gulp );
 

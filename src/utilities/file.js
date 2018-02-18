@@ -47,7 +47,7 @@ const file = {
 
     if ( !file._file2moduleSrcAbsRe ) {
 
-      const gulpCwd = require ( './environment' ).getGulpCwd (), // In order to avoid a cyclic dependency
+      const gulpCwd = require ( './gutil' ).cwd (), // In order to avoid a cyclic dependency
             src = _.castArray ( require ( '../project' ).paths.tokens.src ), // In order to avoid a cyclic dependency
             srcAbs = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulpCwd, src ) ),
             srcAbsRe = new RegExp ( `^(${srcAbs.map ( _.escapeRegExp ).join ( '|' )})\/?` );

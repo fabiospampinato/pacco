@@ -5,13 +5,14 @@ const _ = require ( 'lodash' ),
       path = require ( 'path' ),
       sha1 = require ( 'sha1' ),
       defaults = require ( './defaults' ),
-      environment = require ( '../utilities/environment' ),
+      config = require ( '../utilities/config' ),
+      projectU = require ( '../utilities/project' ),
       environments = require ( '../utilities/environments' ),
       file = require ( '../utilities/file' ),
       custom       = file.loadRecursive ( 'pacco.json', {} ),
       dot          = file.loadRecursive ( '.pacco.json', {} ),
-      arg          = environment.getConfigObj () || {},
-      dynamic      = environment.getDynamicConfigObj ();
+      arg          = config.getObj () || {},
+      dynamic      = config.getDynamicObj ();
 
 /* ENVIRONMENT */
 
@@ -33,7 +34,7 @@ const project = _.merge ( {}, defaults, ...defaultsEnvs, custom, ...customEnvs, 
 project.environment = envs;
 project.paths.tokens.env = prettyEnvs;
 project.paths.tokens.environment = prettyEnvs
-project.paths.tokens.temp = project.paths.tokens.temp || path.join ( process.cwd (), '.temp', environment.getProjectHash ( project ) ); // In order to allow for multiple simultaneous compilations
+project.paths.tokens.temp = project.paths.tokens.temp || path.join ( process.cwd (), '.temp', projectU.getHash ( project ) ); // In order to allow for multiple simultaneous compilations
 
 /* EXPORT */
 
