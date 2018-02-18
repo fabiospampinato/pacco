@@ -71,9 +71,10 @@ async function CLI () {
 
   const command = app._defaultCommand;
   const helpLines = [
-    `pacco ${chalk.magenta ( 'help' )} ${chalk.green ( '--all' )}`,
     `pacco ${chalk.green ( '--src' )} ${chalk.blue ( './source' )} ${chalk.green ( '--dist' )} ${chalk.blue ( './bundle' )}`,
     `pacco ${chalk.green ( '--config' )} ${chalk.blue ( '/path/to/pacco.json' )}`,
+    `pacco ${chalk.magenta ( 'help' )} ${chalk.green ( '--all' )}`,
+    `pacco ${chalk.magenta ( 'config' )} ${chalk.yellow ( 'paths.tokens' )}`,
     `pacco ${chalk.magenta ( 'build' )} ${chalk.green ( '--config' )} ${chalk.blue ( '/path/to/pacco.json' )} ${chalk.green ( '--env' )} ${chalk.blue ( 'development' )}`
   ];
 
