@@ -1,7 +1,7 @@
 
 /* REQUIRE */
 
-const _    = require ( 'lodash' ),
+const _ = require ( 'lodash' ),
       argv = require ( 'yargs' ).argv,
       gulp = require ( 'gulp' ),
       path = require ( 'path' ),
@@ -14,17 +14,11 @@ const environment = {
 
   /* CWD */
 
-  getShellCwd () {
-
-    return argv.shellCwd || process.cwd ();
-
-  },
-
   getGulpCwd () {
 
     const configPath = environment.getConfigPath ();
 
-    if ( !configPath ) return environment.getShellCwd ();
+    if ( !configPath ) return process.cwd ();
 
     return path.dirname ( configPath );
 
@@ -40,7 +34,7 @@ const environment = {
 
     if ( _.isPlainObject ( config ) ) return;
 
-    return path.isAbsolute ( argv.config ) ? argv.config : path.resolve ( environment.getShellCwd (), argv.config );
+    return path.isAbsolute ( argv.config ) ? argv.config : path.resolve ( process.cwd (), argv.config );
 
   },
 
@@ -65,7 +59,7 @@ const environment = {
   getDynamicConfigObj () {
 
     const src = argv.source || argv.src || argv.s,
-          dist = argv.distribution || argv.destination || argv.dist || argv.dest || argv.d,
+          dist = argv.distribution || argv.destination || argv.dist || argv.dest || argv.dst || argv.d,
           environment = argv.environments || argv.environment || argv.envs || argv.env || argv.e;
 
     return {

@@ -1,10 +1,10 @@
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
-      path    = require ( 'path' ),
-      tokens  = require ( './tokens' ),
-      project = require ( '../../config' );
+const _ = require ( 'lodash' ),
+      path = require ( 'path' ),
+      tokens = require ( './tokens' ),
+      project = require ( '../../project' );
 
 /* PATHS */
 

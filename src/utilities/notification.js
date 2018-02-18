@@ -1,10 +1,10 @@
 
 /* REQUIRE */
 
-const _        = require ( 'lodash' ),
-      argv     = require ( 'yargs' ).argv,
+const _ = require ( 'lodash' ),
+      argv = require ( 'yargs' ).argv,
       notifier = require ( 'node-notifier' ),
-      path     = require ( 'path' );
+      path = require ( 'path' );
 
 /* NOTIFICATION */
 

@@ -1,16 +1,9 @@
 #!/usr/bin/env node
 
-/* IMPORT */
+/* REQUIRE */
 
-const execa = require ( 'execa' ),
-      path = require ( 'path' );
+const CLI = require ( '../src/cli' );
 
-/* EXECUTE */
+/* CLI */
 
-const args = ['gulp', ...process.argv.slice ( 2 ), '--shell-cwd', process.cwd ()];
-const opts = {
-  cwd: path.resolve ( __dirname, '..' ), // Where `gulpfile.js` is located
-  stdio: 'inherit'
-};
-
-execa.sync ( 'npx', args, opts );
+CLI ();

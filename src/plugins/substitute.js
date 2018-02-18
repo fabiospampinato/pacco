@@ -1,10 +1,10 @@
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
-      chalk   = require ( 'chalk' ),
+const _ = require ( 'lodash' ),
+      chalk = require ( 'chalk' ),
       through = require ( 'through2' ),
-      gutil   = require ( 'gulp-util' );
+      gutil = require ( 'gulp-util' );
 
 /* UTILITIES */
 

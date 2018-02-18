@@ -1,12 +1,12 @@
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
-      chalk   = require ( 'chalk' ),
-      path    = require ( 'path' ),
+const _ = require ( 'lodash' ),
+      chalk = require ( 'chalk' ),
+      path = require ( 'path' ),
       through = require ( 'through2' ),
-      gutil   = require ( 'gulp-util' ),
-      fileU   = require ( '../utilities/file' );
+      gutil = require ( 'gulp-util' ),
+      fileU = require ( '../utilities/file' );
 
 /* UTILITIES */
 

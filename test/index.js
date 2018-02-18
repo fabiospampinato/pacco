@@ -1,5 +1,6 @@
 
 // Generating a custom config for each `test/src/*`
+//   Merging a specific `test/config/*.json` with `test/config/general.json`
 // Building in `test/dist/*`
 // Diffing `test/dist/*` against `test/check/*`
 // Options:
@@ -8,14 +9,14 @@
 
 /* REQUIRE */
 
-const _      = require ( 'lodash' ),
-      argv   = require ( 'yargs' ).argv,
-      chalk  = require ( 'chalk' ),
-      execa  = require ( 'execa' ),
-      fs     = require ( 'fs' ),
+const _ = require ( 'lodash' ),
+      argv = require ( 'yargs' ).argv,
+      chalk = require ( 'chalk' ),
+      execa = require ( 'execa' ),
+      fs = require ( 'fs' ),
       globby = require ( 'globby' ),
       mkdirp = require ( 'mkdirp' ),
-      path   = require ( 'path' ),
+      path = require ( 'path' ),
       rimraf = require ( 'rimraf' );
 
 /* VARIABLES */

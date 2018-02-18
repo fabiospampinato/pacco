@@ -1,7 +1,7 @@
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
+const _ = require ( 'lodash' ),
       through = require ( 'through2' );
 
 /* UTILITIES */

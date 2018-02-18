@@ -1,9 +1,9 @@
 
 /* REQUIRE */
 
-const _            = require ( 'lodash' ),
-      chalk        = require ( 'chalk' ),
-      gutil        = require ( 'gulp-util' ),
+const _ = require ( 'lodash' ),
+      chalk = require ( 'chalk' ),
+      gutil = require ( 'gulp-util' ),
       notification = require ( './notification' );
 
 /* LOG */
@@ -52,34 +52,6 @@ const log = {
     // Prevents `watch` tasks from crashing
 
     this.emit ( 'end' );
-
-  },
-
-  options ( ...options ) {
-
-    let output = [];
-
-    for ( let [key, args] of options ) {
-
-      let part = chalk.cyan ( `--${key}` );
-
-      if ( args ) {
-
-        if ( !_.isArray ( args ) ) args = [args];
-
-        if ( args.length ) {
-
-          part += '=' + args.map ( arg => chalk.magenta ( arg ) ).join ( '|' );
-
-        }
-
-      }
-
-      output.push ( part );
-
-    }
-
-    return `[${output.join ( ', ' )}]`;
 
   }
 

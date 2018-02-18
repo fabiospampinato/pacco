@@ -1,10 +1,10 @@
 
 /* REQUIRE */
 
-const _           = require ( 'lodash' ),
-      argv        = require ( 'yargs' ).argv,
-      project     = require ( '../config' ),
-      projectPrev = require ( '../config/previous' );
+const _ = require ( 'lodash' ),
+      argv = require ( 'yargs' ).argv,
+      project = require ( '../project' ),
+      projectPrev = require ( '../project/previous' );
 
 /* CHANGED */
 

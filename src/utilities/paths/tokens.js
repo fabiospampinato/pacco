@@ -1,9 +1,9 @@
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
-      path    = require ( 'path' ),
-      project = require ( '../../config' );
+const _ = require ( 'lodash' ),
+      path = require ( 'path' ),
+      project = require ( '../../project' );
 
 /* TOKENS */
 

@@ -1,11 +1,11 @@
 
 /* REQUIRE */
 
-const _       = require ( 'lodash' ),
+const _ = require ( 'lodash' ),
       through = require ( 'through2' ),
-      gutil   = require ( 'gulp-util' ),
-      project = require ( '../config' ),
-      fileU   = require ( '../utilities/file' );
+      gutil = require ( 'gulp-util' ),
+      project = require ( '../project' ),
+      fileU = require ( '../utilities/file' );
 
 /* COMPONENTS */
 
