@@ -40,4 +40,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-json', 'Build JSON', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-json', 'Build JSON', 'more' );

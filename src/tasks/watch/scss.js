@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'watch-scss', 'Watch SCSS', 'more' );
+module.exports = gutil.task.enhance ( task, 'watch-scss', 'Watch SCSS', 'more' );

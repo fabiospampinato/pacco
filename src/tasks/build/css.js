@@ -38,4 +38,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-css', 'Build CSS', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-css', 'Build CSS', 'more' );

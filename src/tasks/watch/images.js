@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'watch-images', 'Watch images', 'more' );
+module.exports = gutil.task.enhance ( task, 'watch-images', 'Watch images', 'more' );

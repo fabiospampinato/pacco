@@ -34,6 +34,7 @@
     "test": "npm run clean && npm run test:build:check"
   },
   "dependencies": {
+    "async-done": "^1.2.4",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-regenerator": "^6.22.0",
     "babel-preset-es2015": "^6.3.13",
@@ -72,6 +73,7 @@
     "lodash": "^4.16.6",
     "node-notifier": "^5.0.0",
     "path": "^0.12.7",
+    "pify": "^3.0.0",
     "pretty-time": "^0.2.0",
     "read-pkg-up": "^3.0.0",
     "require-dot-file": "^0.4.0",

@@ -1,8 +1,7 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
-      gutil = require ( '../../utilities/gulp' ),
+const gutil = require ( '../../utilities/gulp' ),
       buildJSON = require ( './json' ),
       buildFonts = require ( './fonts' ),
       buildImages = require ( './images' ),
@@ -12,8 +11,8 @@ const gulp = require ( 'gulp' ),
 
 /* TASK */
 
-const task = gulp.series ( gulp.parallel ( buildJSON, buildFonts, buildImages, buildJavascript, buildStyle ), notify );
+const task = gutil.series ( gutil.parallel ( buildJSON, buildFonts, buildImages, buildJavascript, buildStyle ), notify );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build', 'Build your project' );
+module.exports = gutil.task.enhance ( task, 'build', 'Build your project' );

@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean', 'Clean generated files' );
+module.exports = gutil.task.enhance ( task, 'clean', 'Clean generated files' );

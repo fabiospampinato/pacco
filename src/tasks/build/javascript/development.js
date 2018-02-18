@@ -29,4 +29,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-javascript-development', 'Build development JavaScript', 'all' );
+module.exports = gutil.task.enhance ( task, 'build-javascript-development', 'Build development JavaScript', 'all' );

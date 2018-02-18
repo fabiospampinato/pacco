@@ -10,4 +10,4 @@ const task = () => general ( 'style', true );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-style', 'Build SCSS style', 'all' );
+module.exports = gutil.task.enhance ( task, 'build-scss-style', 'Build SCSS style', 'all' );

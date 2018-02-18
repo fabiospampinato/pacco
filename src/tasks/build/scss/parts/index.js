@@ -1,8 +1,7 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
-      gutil = require ( '../../../../utilities/gulp' ),
+const gutil = require ( '../../../../utilities/gulp' ),
       buildFunctions = require ( './functions' ),
       buildMixins = require ( './mixins' ),
       buildVariables = require ( './variables' ),
@@ -11,8 +10,8 @@ const gulp = require ( 'gulp' ),
 
 /* TASK */
 
-const task = gulp.series ( buildFunctions, buildMixins, buildVariables, buildKeyframes, buildStyle );
+const task = gutil.series ( buildFunctions, buildMixins, buildVariables, buildKeyframes, buildStyle );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-parts', 'Build SCSS parts', 'all' );
+module.exports = gutil.task.enhance ( task, 'build-scss-parts', 'Build SCSS parts', 'all' );

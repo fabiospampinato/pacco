@@ -1,17 +1,20 @@
 
+//TODO: maybe move to -> `gutil.js`
+
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
       argv = require ( 'yargs' ).argv,
+      asyncDone = require ( 'async-done' ),
       chalk = require ( 'chalk' ),
+      gulp = require ( 'gulp' ),
       log = require ( 'fancy-log' ),
-      g = require ( 'gulp' ),
       time = require ( 'pretty-time' ),
       environment = require ( './environment' );
 
-/* GULP */
+/* GUTIL */
 
-const gulp = {
+const gutil = {
 
   patch () {
 
@@ -21,7 +24,7 @@ const gulp = {
 
     const cwd = environment.getGulpCwd (),
           methods = ['src', 'dest', 'symlink'],
-          proto = Object.getPrototypeOf ( g );
+          proto = Object.getPrototypeOf ( gulp );
 
     methods.forEach ( method => {
 
@@ -39,29 +42,88 @@ const gulp = {
 
   },
 
-  logger ( task, name, description, group ) {
+  sequence ( type, ...tasks ) { // In order to make the invoker return a promise instead of undefined
 
-    async function taskWithLogs () {
+    return function invoker ( callback ) {
 
-      const start = process.hrtime ();
+      return new Promise ( resolve => {
 
-      log ( `Starting '${chalk.cyan ( name )}'...` );
+        gulp.series ( gulp[type].call ( gulp, ...tasks ), resolve )( callback );
 
-      await task (); //FIXME: Not really good enough
-
-      const elapsed = process.hrtime ( start );
-
-      log ( `Finished '${chalk.cyan ( name )}' after ${chalk.magenta ( time ( elapsed ) )}` );
+      });
 
     }
 
-    const enhanced = argv.quiet ? task : taskWithLogs;
+  },
 
-    if ( name ) enhanced.displayName = name;
-    if ( description ) enhanced.description = description;
-    if ( group ) enhanced.group = group;
+  series ( ...tasks ) {
 
-    return enhanced;
+    return gutil.sequence ( 'series', ...tasks );
+
+  },
+
+  parallel ( ...tasks ) {
+
+    return gutil.sequence ( 'parallel', ...tasks );
+
+  },
+
+  task: {
+
+    withLogger ( task, name ) {
+
+      function withLogger ( ...args ) {
+
+        let startTime;
+
+        function start () {
+
+          startTime = process.hrtime ();
+
+          log ( `Starting '${chalk.cyan ( name )}'...` );
+
+        }
+
+        function end () {
+
+          const elapsed = process.hrtime ( startTime );
+
+          log ( `Finished '${chalk.cyan ( name )}' after ${chalk.magenta ( time ( elapsed ) )}` );
+
+        }
+
+        start ();
+
+        const res = task ( ...args );
+
+        asyncDone ( () => res, end );
+
+        return res;
+
+      }
+
+      return withLogger;
+
+    },
+
+    withMetadata ( task, name, description, group ) {
+
+      if ( name ) task.displayName = name;
+      if ( description ) task.description = description;
+      if ( group ) task.group = group;
+
+      return task;
+
+    },
+
+    enhance ( task, ...metadata ) {
+
+      const withLogger = argv.quiet ? task : gutil.task.withLogger ( task, ...metadata ),
+            withMetadata = gutil.task.withMetadata ( withLogger, ...metadata );
+
+      return withMetadata;
+
+    }
 
   }
 
@@ -69,4 +131,4 @@ const gulp = {
 
 /* EXPORT */
 
-module.exports = gulp;
+module.exports = gutil;

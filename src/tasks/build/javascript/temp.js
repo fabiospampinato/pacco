@@ -59,4 +59,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-javascript-temp', 'Build temporary JavaScript', 'all' );
+module.exports = gutil.task.enhance ( task, 'build-javascript-temp', 'Build temporary JavaScript', 'all' );

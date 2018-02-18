@@ -8,18 +8,18 @@ const project = require ( '../../project' ),
 
 /* TASK */
 
-function task ( done ) {
+function task () { //TODO: Maybe output dest directory to the terminal
 
   const envsPretty = environments.pretty ( project.environment );
 
-  notification.send ({
+  return notification.send ({
     title: `Built [${envsPretty}]`,
     message: 'Your bundle is ready', //TODO: Update me, maybe the bundle wasn't successful
     sound: 'Glass'
-  }, done );
+  });
 
 }
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-notify', 'Notifiy about the build status', 'all' );
+module.exports = gutil.task.enhance ( task, 'build-notify', 'Notifiy about the build status', 'all' );

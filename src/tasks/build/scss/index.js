@@ -24,4 +24,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss', 'Build SCSS', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-scss', 'Build SCSS', 'more' );

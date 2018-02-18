@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-fonts', 'Clean generated fonts', 'more' );
+module.exports = gutil.task.enhance ( task, 'clean-fonts', 'Clean generated fonts', 'more' );

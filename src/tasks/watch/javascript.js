@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'watch-javascript', 'Watch JavaScript', 'more' );
+module.exports = gutil.task.enhance ( task, 'watch-javascript', 'Watch JavaScript', 'more' );

@@ -1,8 +1,7 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
-      project = require ( '../../../project' ),
+const project = require ( '../../../project' ),
       gutil = require ( '../../../utilities/gulp' ),
       cleanTemp = require ( '../../clean/javascript_temp' ),
       buildDevelopment = require ( './development' ),
@@ -11,8 +10,8 @@ const gulp = require ( 'gulp' ),
 
 /* TASK */
 
-const task = project.isDevelopment ? gulp.series ( cleanTemp, buildTemp, buildDevelopment ) : () => buildProduction ();
+const task = project.isDevelopment ? gutil.series ( cleanTemp, buildTemp, buildDevelopment ) : () => buildProduction (); // Wrapping `buildProduction` for proper enhancing
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-javascript', 'Build JavaScript', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-javascript', 'Build JavaScript', 'more' );

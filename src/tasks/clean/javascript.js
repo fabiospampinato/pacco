@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-javascript', 'Clean generated JavaScript', 'more' );
+module.exports = gutil.task.enhance ( task, 'clean-javascript', 'Clean generated JavaScript', 'more' );

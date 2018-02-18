@@ -4,7 +4,8 @@
 const _ = require ( 'lodash' ),
       argv = require ( 'yargs' ).argv,
       notifier = require ( 'node-notifier' ),
-      path = require ( 'path' );
+      path = require ( 'path' ),
+      pify = require ( 'pify' );
 
 /* NOTIFICATION */
 
@@ -15,13 +16,13 @@ const notification = {
     wait: false
   },
 
-  send ( options, done = _.noop ) {
+  send ( options ) {
 
-    if ( !_.isUndefined ( argv.notification ) && !argv.notification ) return done ();
+    if ( !_.isUndefined ( argv.notification ) && !argv.notification ) return Promise.resolve ();
 
     options = _.merge ( {}, notification.defaultOptions, options );
 
-    return notifier.notify ( options, done );
+    return pify ( notifier.notify.bind ( notifier ) )( options );
 
   }
 

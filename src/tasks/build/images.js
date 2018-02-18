@@ -40,4 +40,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-images', 'Build images', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-images', 'Build images', 'more' );

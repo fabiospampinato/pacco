@@ -35,4 +35,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-fonts', 'Build fonts', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-fonts', 'Build fonts', 'more' );

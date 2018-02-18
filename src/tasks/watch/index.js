@@ -1,8 +1,7 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
-      gutil = require ( '../../utilities/gulp' ),
+const gutil = require ( '../../utilities/gulp' ),
       watchJSON = require ( './json' ),
       watchFonts = require ( './fonts' ),
       watchImages = require ( './images' ),
@@ -11,8 +10,8 @@ const gulp = require ( 'gulp' ),
 
 /* TASK */
 
-const task = gulp.parallel ( watchJSON, watchFonts, watchImages, watchJavascript, watchSCSS );
+const task = gutil.parallel ( watchJSON, watchFonts, watchImages, watchJavascript, watchSCSS );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'watch', 'Watch files for changes and rebuild' );
+module.exports = gutil.task.enhance ( task, 'watch', 'Watch files for changes and rebuild' );

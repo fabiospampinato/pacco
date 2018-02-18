@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'watch-fonts', 'Watch fonts', 'more' );
+module.exports = gutil.task.enhance ( task, 'watch-fonts', 'Watch fonts', 'more' );
