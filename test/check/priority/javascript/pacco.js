@@ -1,10 +1,36 @@
 
-// c.js
+// integer/c.js
 // @priority 100
 
 
-// b.js
+// float/c.js
+// @priority 11
+
+
+// float/d.js
+// @priority 10.5
+
+
+// float/b.js
 // @priority 10
 
 
-// a.js
+// integer/b.js
+// @priority 10
+
+
+// float/a.js
+
+
+// integer/a.js
+
+
+// negative/a.js
+
+
+// negative/b.js
+// @priority -10
+
+
+// negative/c.js
+// @priority -10.5

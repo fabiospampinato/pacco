@@ -292,7 +292,7 @@ function dependencies ( config ) {
 
   config = _.merge ({
     priority: true,
-    priorityRe: /@priority[\s]+([0-9]+)[\s]*/g, //TODO: Add support for float priorities (why?)
+    priorityRe: /@priority[\s]+(-?(?:(?:\d+)(?:\.\d*)?|(?:\.\d+)+))[\s]*/g,
     beforeRe: /@before[\s]+([\S]+\.[\S]+)[\s]*/g,
     requireRe: /@require[\s]+([\S]+\.[\S]+)[\s]*/g,
     log: false
