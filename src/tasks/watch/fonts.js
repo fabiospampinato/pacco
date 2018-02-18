@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../../utilities/gulp' ),
       input = require ( '../../utilities/paths/input' ),
       buildFonts = require ( '../build/fonts' );
 
@@ -13,10 +14,6 @@ function task () {
 
 }
 
-task.displayName = 'watch-fonts';
-task.description = 'Watch fonts';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'watch-fonts', 'Watch fonts', 'more' );

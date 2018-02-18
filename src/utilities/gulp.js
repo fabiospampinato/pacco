@@ -39,25 +39,29 @@ const gulp = {
 
   },
 
-  taskLogger ( task ) {
+  logger ( task, name, description, group ) {
 
-    if ( argv.quiet ) return task;
-
-    async function logger () {
+    async function taskWithLogs () {
 
       const start = process.hrtime ();
 
-      log ( `Starting '${chalk.cyan ( task.displayName )}'...` );
+      log ( `Starting '${chalk.cyan ( name )}'...` );
 
-      await task ();
+      await task (); //FIXME: Not really good enough
 
       const elapsed = process.hrtime ( start );
 
-      log ( `Finished '${chalk.cyan ( task.displayName )}' after ${chalk.magenta ( time ( elapsed ) )}` );
+      log ( `Finished '${chalk.cyan ( name )}' after ${chalk.magenta ( time ( elapsed ) )}` );
 
     }
 
-    return logger;
+    const enhanced = argv.quiet ? task : taskWithLogs;
+
+    if ( name ) enhanced.displayName = name;
+    if ( description ) enhanced.description = description;
+    if ( group ) enhanced.group = group;
+
+    return enhanced;
 
   }
 

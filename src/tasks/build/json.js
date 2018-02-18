@@ -9,8 +9,9 @@ const gulp = require ( 'gulp' ),
       plumber = require ( 'gulp-plumber' ),
       touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../utilities/changed' ),
-      log = require ( '../../utilities/log' ),
+      gutil = require ( '../../utilities/gulp' ),
       input = require ( '../../utilities/paths/input' ),
+      log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
       filter = require ( '../../plugins/filter' ),
       override = require ( '../../plugins/override' ),
@@ -37,10 +38,6 @@ function task () {
 
 }
 
-task.displayName = 'build-json';
-task.description = 'Build json';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-json', 'Build json', 'more' );

@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../../../../utilities/gulp' ),
       buildFunctions = require ( './functions' ),
       buildMixins = require ( './mixins' ),
       buildVariables = require ( './variables' ),
@@ -12,10 +13,6 @@ const gulp = require ( 'gulp' ),
 
 const task = gulp.series ( buildFunctions, buildMixins, buildVariables, buildKeyframes, buildStyle );
 
-task.displayName = 'build-scss-parts';
-task.description = 'Build scss parts';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-scss-parts', 'Build scss parts', 'all' );

@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../../utilities/gulp' ),
       cleanSCSS = require ( './scss' ),
       cleanCSS = require ( './css' );
 
@@ -9,10 +10,6 @@ const gulp = require ( 'gulp' ),
 
 const task = gulp.parallel ( cleanSCSS, cleanCSS );
 
-task.displayName = 'clean-style';
-task.description = 'Clean generated scss and css';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'clean-style', 'Clean generated scss and css', 'more' );

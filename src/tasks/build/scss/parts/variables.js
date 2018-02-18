@@ -1,16 +1,13 @@
 
 /* REQUIRE */
 
-const general = require ( './general' );
+const gutil = require ( '../../../../utilities/gulp' ),
+      general = require ( './general' );
 
 /* TASK */
 
 const task = () => general ( 'variables', false );
 
-task.displayName = 'build-scss-variables';
-task.description = 'Build scss variables';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-scss-variables', 'Build scss variables', 'all' );

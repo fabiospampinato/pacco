@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../../utilities/gulp' ),
       input = require ( '../../utilities/paths/input' ),
       buildJSON = require ( '../build/json' );
 
@@ -13,10 +14,6 @@ function task () {
 
 }
 
-task.displayName = 'watch-json';
-task.description = 'Watch json';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'watch-json', 'Watch json', 'more' );

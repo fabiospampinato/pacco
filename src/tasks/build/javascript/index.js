@@ -3,6 +3,7 @@
 
 const gulp = require ( 'gulp' ),
       project = require ( '../../../project' ),
+      gutil = require ( '../../../utilities/gulp' ),
       cleanTemp = require ( '../../clean/javascript_temp' ),
       buildDevelopment = require ( './development' ),
       buildProduction = require ( './production' ),
@@ -12,10 +13,6 @@ const gulp = require ( 'gulp' ),
 
 const task = project.isDevelopment ? gulp.series ( cleanTemp, buildTemp, buildDevelopment ) : () => buildProduction ();
 
-task.displayName = 'build-javascript';
-task.description = 'Build javascript';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-javascript', 'Build javascript', 'more' );

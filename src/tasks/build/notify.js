@@ -3,6 +3,7 @@
 
 const project = require ( '../../project' ),
       environments = require ( '../../utilities/environments' ),
+      gutil = require ( '../../utilities/gulp' ),
       notification = require ( '../../utilities/notification' );
 
 /* TASK */
@@ -13,16 +14,12 @@ function task ( done ) {
 
   notification.send ({
     title: `Built [${envsPretty}]`,
-    message: 'Your bundle is ready',
+    message: 'Your bundle is ready', //TODO: Update me, maybe the bundle wasn't successful
     sound: 'Glass'
   }, done );
 
 }
 
-task.displayName = 'build-notify';
-task.description = 'Notifiy about the build status'; //TODO: Update me
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-notify', 'Notifiy about the build status', 'all' );

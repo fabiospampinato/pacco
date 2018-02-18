@@ -16,8 +16,9 @@ const gulp = require ( 'gulp' ),
       uglify = require ( 'gulp-uglify' ),
       changed = require ( '../../../utilities/changed' ),
       environments = require ( '../../../utilities/environments' ),
-      log = require ( '../../../utilities/log' ),
+      gutil = require ( '../../../utilities/gulp' ),
       input = require ( '../../../utilities/paths/input' ),
+      log = require ( '../../../utilities/log' ),
       output = require ( '../../../utilities/paths/output' ),
       dependencies = require ( '../../../plugins/dependencies' ),
       extend = require ( '../../../plugins/extend' ),
@@ -54,10 +55,6 @@ function task () {
 
 }
 
-task.displayName = 'build-javascript-production';
-task.description = 'Build production javascript';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-javascript-production', 'Build production javascript', 'all' );

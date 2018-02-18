@@ -7,7 +7,7 @@ const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       readPkg = require ( 'read-pkg-up' ),
       updateNotifier = require ( 'update-notifier' ),
-      gulp = require ( './utilities/gulp' );
+      gutil = require ( './utilities/gulp' );
 
 /* CLI */
 
@@ -15,7 +15,7 @@ async function CLI () {
 
   /* GULP */
 
-  gulp.patch ();
+  gutil.patch ();
 
   /* APP */
 

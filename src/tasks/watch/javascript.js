@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../../utilities/gulp' ),
       input = require ( '../../utilities/paths/input' ),
       buildJavascript = require ( '../build/javascript' );
 
@@ -13,10 +14,6 @@ function task () {
 
 }
 
-task.displayName = 'watch-javascript';
-task.description = 'Watch javascript';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'watch-javascript', 'Watch javascript', 'more' );

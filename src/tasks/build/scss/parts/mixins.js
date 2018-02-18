@@ -1,16 +1,13 @@
 
 /* REQUIRE */
 
-const general = require ( './general' );
+const gutil = require ( '../../../../utilities/gulp' ),
+      general = require ( './general' );
 
 /* TASK */
 
 const task = () => general ( 'mixins', false );
 
-task.displayName = 'build-scss-mixins';
-task.description = 'Build scss mixins';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-scss-mixins', 'Build scss mixins', 'all' );

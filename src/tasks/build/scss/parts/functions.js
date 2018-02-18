@@ -1,16 +1,13 @@
 
 /* REQUIRE */
 
-const general = require ( './general' );
+const gutil = require ( '../../../../utilities/gulp' ),
+      general = require ( './general' );
 
 /* TASK */
 
 const task = () => general ( 'functions', false );
 
-task.displayName = 'build-scss-functions';
-task.description = 'Build scss functions';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-scss-functions', 'Build scss functions', 'all' );

@@ -3,6 +3,7 @@
 
 const del = require ( 'del' ),
       plugins = require ( '../../project' ).plugins,
+      gutil = require ( '../../utilities/gulp' ),
       output = require ( '../../utilities/paths/output' );
 
 /* TASK */
@@ -13,10 +14,6 @@ function task () {
 
 }
 
-task.displayName = 'clean-javascript-temp';
-task.description = 'Clean generated temporary javascript';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'clean-javascript-temp', 'Clean generated temporary javascript', 'all' );

@@ -5,6 +5,7 @@ const gulp = require ( 'gulp' ),
       concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
       touch = require ( 'gulp-touch-cmd' ),
+      gutil = require ( '../../../utilities/gulp' ),
       output = require ( '../../../utilities/paths/output' );
 
 /* TASK */
@@ -21,10 +22,6 @@ function task () {
 
 }
 
-task.displayName = 'build-scss';
-task.description = 'Build scss';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-scss', 'Build scss', 'more' );

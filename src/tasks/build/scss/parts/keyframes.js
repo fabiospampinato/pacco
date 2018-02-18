@@ -1,16 +1,13 @@
 
 /* REQUIRE */
 
-const general = require ( './general' );
+const gutil = require ( '../../../../utilities/gulp' ),
+      general = require ( './general' );
 
 /* TASK */
 
 const task = () => general ( 'keyframes', true );
 
-task.displayName = 'build-scss-keyframes';
-task.description = 'Build scss keyframes';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-scss-keyframes', 'Build scss keyframes', 'all' );

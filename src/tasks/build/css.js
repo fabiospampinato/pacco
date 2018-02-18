@@ -11,6 +11,7 @@ const gulp = require ( 'gulp' ),
       sass = require ( 'gulp-sass' ),
       touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../utilities/changed' ),
+      gutil = require ( '../../utilities/gulp' ),
       log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
       plugins = require ( '../../project' ).plugins;
@@ -35,10 +36,6 @@ function task () {
 
 }
 
-task.displayName = 'build-css';
-task.description = 'Build css';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-css', 'Build css', 'more' );

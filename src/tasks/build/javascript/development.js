@@ -8,6 +8,7 @@ const gulp = require ( 'gulp' ),
       replace = require ( 'gulp-replace' ),
       touch = require ( 'gulp-touch-cmd' ),
       environments = require ( '../../../utilities/environments' ),
+      gutil = require ( '../../../utilities/gulp' ),
       input = require ( '../../../utilities/paths/input' ),
       output = require ( '../../../utilities/paths/output' ),
       project = require ( '../../../project' );
@@ -26,10 +27,6 @@ function task () {
 
 }
 
-task.displayName = 'build-javascript-development';
-task.description = 'Build development javascript';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-javascript-development', 'Build development javascript', 'all' );

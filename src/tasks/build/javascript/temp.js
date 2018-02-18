@@ -15,10 +15,11 @@ const _ = require ( 'lodash' ),
       plumber = require ( 'gulp-plumber' ),
       touch = require ( 'gulp-touch-cmd' ),
       project = require ( '../../../project' ),
-      {plugins}    = project,
+      {plugins} = project,
       changed = require ( '../../../utilities/changed' ),
-      log = require ( '../../../utilities/log' ),
+      gutil = require ( '../../../utilities/gulp' ),
       input = require ( '../../../utilities/paths/input' ),
+      log = require ( '../../../utilities/log' ),
       output = require ( '../../../utilities/paths/output' ),
       dependencies = require ( '../../../plugins/dependencies' ),
       extend = require ( '../../../plugins/extend' ),
@@ -56,10 +57,6 @@ function task () {
 
 }
 
-task.displayName = 'build-javascript-temp';
-task.description = 'Build temporary javascript';
-task.group = 'all';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-javascript-temp', 'Build temporary javascript', 'all' );

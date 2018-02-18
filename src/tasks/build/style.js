@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' )
+      gutil = require ( '../../utilities/gulp' ),
       buildSCSSParts = require ( './scss/parts' ),
       buildSCSS = require ( './scss' ),
       buildCSS = require ( './css' );
@@ -10,10 +11,6 @@ const gulp = require ( 'gulp' )
 
 const task = gulp.series (  buildSCSSParts, buildSCSS, buildCSS );
 
-task.displayName = 'build-style';
-task.description = 'Build scss and css';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'build-style', 'Build scss and css', 'more' );

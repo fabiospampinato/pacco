@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../utilities/gulp' ),
       build = require ( './build' ),
       watch = require ( './watch' );
 
@@ -9,9 +10,6 @@ const gulp = require ( 'gulp' ),
 
 const task = gulp.series ( build, watch );
 
-task.displayName = 'default';
-task.description = 'Build and watch';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'default', 'Build and watch' );

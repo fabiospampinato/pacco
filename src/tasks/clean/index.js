@@ -3,7 +3,8 @@
 
 const del = require ( 'del' ),
       plugins = require ( '../../project' ).plugins,
-      clean = require ( '../../utilities/paths/clean' );
+      clean = require ( '../../utilities/paths/clean' ),
+      gutil = require ( '../../utilities/gulp' );
 
 /* TASK */
 
@@ -13,9 +14,6 @@ function task () {
 
 }
 
-task.displayName = 'clean';
-task.description = 'Clean generated files';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'clean', 'Clean generated files' );

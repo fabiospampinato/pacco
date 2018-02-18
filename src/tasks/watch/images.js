@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
+      gutil = require ( '../../utilities/gulp' ),
       input = require ( '../../utilities/paths/input' ),
       buildImages = require ( '../build/images' );
 
@@ -13,10 +14,6 @@ function task () {
 
 }
 
-task.displayName = 'watch-images';
-task.description = 'Watch images';
-task.group = 'more';
-
 /* EXPORT */
 
-module.exports = task;
+module.exports = gutil.logger ( task, 'watch-images', 'Watch images', 'more' );
