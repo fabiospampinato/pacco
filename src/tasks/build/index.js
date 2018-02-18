@@ -7,11 +7,12 @@ const gutil = require ( '../../utilities/gutil' ),
       buildImages = require ( './images' ),
       buildJavascript = require ( './javascript' ),
       buildStyle = require ( './style' ),
-      notify = require ( './notify' );
+      notify = require ( './notify' ),
+      log = require ( './log' );
 
 /* TASK */
 
-const task = gutil.series ( gutil.parallel ( buildJSON, buildFonts, buildImages, buildJavascript, buildStyle ), notify );
+const task = gutil.series ( gutil.parallel ( buildJSON, buildFonts, buildImages, buildJavascript, buildStyle ), gutil.parallel ( notify, log ) );
 
 /* EXPORT */
 
