@@ -16,13 +16,13 @@ const notification = {
     wait: false
   },
 
-  send ( options ) {
+  async send ( options ) {
 
-    if ( !_.isUndefined ( argv.notification ) && !argv.notification ) return Promise.resolve ();
+    if ( argv.quiet || ( !_.isUndefined ( argv.notification ) && !argv.notification ) ) return;
 
     options = _.merge ( {}, notification.defaultOptions, options );
 
-    return pify ( notifier.notify.bind ( notifier ) )( options );
+    return await pify ( notifier.notify.bind ( notifier ) )( options );
 
   }
 
