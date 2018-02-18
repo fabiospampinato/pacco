@@ -8,7 +8,9 @@ const argv = require ( 'yargs' ).argv,
 
 /* TASK */
 
-async function task () { //TODO: Improve me
+async function task () {
+
+  return; //TODO: Improve me
 
   if ( argv.quiet ) return;
 
