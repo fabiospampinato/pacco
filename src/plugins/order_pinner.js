@@ -14,7 +14,7 @@ function orderPinner ( stream, file ) {
   return foreach ( ( stream, file ) => {
 
     const basename = path.basename ( file.path ),
-          padded   = _.padStart ( index++, 3, 0 ) + '-' + basename;
+          padded = _.padStart ( index++, 3, 0 ) + '-' + basename;
 
     file.path = file.path.replace ( basename, padded );
 

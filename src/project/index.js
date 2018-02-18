@@ -9,10 +9,10 @@ const _ = require ( 'lodash' ),
       projectU = require ( '../utilities/project' ),
       environments = require ( '../utilities/environments' ),
       file = require ( '../utilities/file' ),
-      custom       = file.loadRecursive ( 'pacco.json', {} ),
-      dot          = file.loadRecursive ( '.pacco.json', {} ),
-      arg          = config.getObj () || {},
-      dynamic      = config.getDynamicObj ();
+      custom = file.loadRecursive ( 'pacco.json', {} ),
+      dot = file.loadRecursive ( '.pacco.json', {} ),
+      arg = config.getObj () || {},
+      dynamic = config.getDynamicObj ();
 
 /* ENVIRONMENT */
 

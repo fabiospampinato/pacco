@@ -33,7 +33,7 @@ const _ = require ( 'lodash' ),
 function task () {
 
   const needCleaning = changed.project ( 'components' ) || changed.project ( 'output.javascript' ) || changed.plugins ( 'filter', 'override', 'substitute', 'dependencies', 'extend' ),
-        needUpdate   = needCleaning || changed.plugin ( 'babel' );
+        needUpdate = needCleaning || changed.plugin ( 'babel' );
 
   if ( needCleaning ) {
 

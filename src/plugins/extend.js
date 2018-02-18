@@ -14,14 +14,14 @@ const _ = require ( 'lodash' ),
 
 function getFilePaths ( file ) {
 
-  const module    = fileU.file2module ( file ),
-        basename  = path.basename ( module ),
-        dirs      = module.substr ( 0, module.indexOf ( basename ) ),
-        ext       = path.extname ( basename ),
-        fullname  = basename.substr ( 0, basename.indexOf ( ext ) ),
+  const module = fileU.file2module ( file ),
+        basename = path.basename ( module ),
+        dirs = module.substr ( 0, module.indexOf ( basename ) ),
+        ext = path.extname ( basename ),
+        fullname = basename.substr ( 0, basename.indexOf ( ext ) ),
         nameParts = fullname.split ( '.' ),
-        name      = nameParts.length > 1 ? nameParts.slice ( 0, nameParts.length - 1 ).join ( '.' ) : fullname,
-        suffix    = nameParts.length > 1 ? _.last ( nameParts ) : '';
+        name = nameParts.length > 1 ? nameParts.slice ( 0, nameParts.length - 1 ).join ( '.' ) : fullname,
+        suffix = nameParts.length > 1 ? _.last ( nameParts ) : '';
 
   return {
     module,

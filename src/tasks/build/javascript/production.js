@@ -26,7 +26,7 @@ const gulp = require ( 'gulp' ),
       override = require ( '../../../plugins/override' ),
       substitute = require ( '../../../plugins/substitute' ),
       project = require ( '../../../project' ),
-      plugins      = project.plugins;
+      plugins = project.plugins;
 
 /* TASK */
 
