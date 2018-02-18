@@ -14,9 +14,9 @@ const config = {
 
     if ( !argv.config ) return;
 
-    const config = config.getObjJSON ();
+    const obj = config.getObjJSON ();
 
-    if ( _.isPlainObject ( config ) ) return;
+    if ( _.isPlainObject ( obj ) ) return;
 
     return path.isAbsolute ( argv.config ) ? argv.config : path.resolve ( process.cwd (), argv.config );
 
@@ -26,9 +26,9 @@ const config = {
 
     if ( !argv.config ) return;
 
-    const config = _.attempt ( JSON.parse, argv.config );
+    const obj = _.attempt ( JSON.parse, argv.config );
 
-    return _.isError ( config ) ? undefined : config;
+    return _.isError ( obj ) ? undefined : obj;
 
   },
 
@@ -36,7 +36,7 @@ const config = {
 
     if ( !argv.config ) return;
 
-    return config.getConfigObjJSON () || file.load ( config.getConfigPath () );
+    return config.getObjJSON () || file.load ( config.getPath () );
 
   },
 
