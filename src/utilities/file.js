@@ -13,6 +13,22 @@ const _ = require ( 'lodash' ),
 
 const file = {
 
+  exists ( filepath ) {
+
+    try {
+
+      fs.accessSync ( filepath );
+
+      return true;
+
+    } catch ( e ) {
+
+      return false;
+
+    }
+
+  },
+
   load ( filepath, defaultValue ) {
 
     const file = _.attempt ( require, filepath );
