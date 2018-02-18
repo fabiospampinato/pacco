@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
+      chalk = require ( 'chalk' ),
       fs = require ( 'fs' ),
       gulp = require ( 'gulp' ),
       mkdirp = require ( 'mkdirp' ),
@@ -20,7 +21,9 @@ const file = {
 
       if ( !_.isUndefined ( defaultValue ) ) return defaultValue;
 
-      throw new Error ( `Failed to load "${filepath}"` );
+      console.error ( chalk.red ( `Failed to load "${chalk.underline ( filepath )}"` ) );
+
+      process.exit ( 1 );
 
     }
 

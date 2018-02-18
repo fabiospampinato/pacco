@@ -36,7 +36,9 @@ async function getTests () {
 
     if ( tests.includes ( argv.only ) ) return [argv.only];
 
-    throw new Error ( chalk.red ( `Test "${chalk.underline ( argv.only )} not found"` ) );
+    console.error ( chalk.red ( `Test "${chalk.underline ( argv.only )}" not found` ) );
+
+    process.exit ( 1 );
 
   }
 
