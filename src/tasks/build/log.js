@@ -8,15 +8,15 @@ const argv = require ( 'yargs' ).argv,
 
 /* TASK */
 
-async function task () {
-
-  return; //TODO: Improve me
+async function task () { //TODO: Improve me
 
   if ( argv.quiet ) return;
 
   const dist = projectU.getDistPath ( project );
 
-  console.log ( `Project bundled\n  - Path: ${chalk.yellow ( dist )}` );
+  setTimeout ( () => {
+    console.log ( `Project bundled\n  - Path: ${chalk.yellow ( dist )}` );
+  }); // In order to print this at the end
 
 }
 
