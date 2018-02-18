@@ -4,7 +4,7 @@
 const del = require ( 'del' ),
       plugins = require ( '../../project' ).plugins,
       clean = require ( '../../utilities/paths/clean' ),
-      gutil = require ( '../../utilities/gulp' );
+      gutil = require ( '../../utilities/gutil' );
 
 /* TASK */
 

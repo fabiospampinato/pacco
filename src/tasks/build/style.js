@@ -1,7 +1,7 @@
 
 /* REQUIRE */
 
-const gutil = require ( '../../utilities/gulp' ),
+const gutil = require ( '../../utilities/gutil' ),
       buildSCSSParts = require ( './scss/parts' ),
       buildSCSS = require ( './scss' ),
       buildCSS = require ( './css' );

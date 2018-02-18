@@ -3,7 +3,7 @@
 
 const del = require ( 'del' ),
       plugins = require ( '../../project' ).plugins,
-      gutil = require ( '../../utilities/gulp' ),
+      gutil = require ( '../../utilities/gutil' ),
       output = require ( '../../utilities/paths/output' );
 
 /* TASK */

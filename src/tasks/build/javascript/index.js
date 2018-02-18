@@ -2,7 +2,7 @@
 /* REQUIRE */
 
 const project = require ( '../../../project' ),
-      gutil = require ( '../../../utilities/gulp' ),
+      gutil = require ( '../../../utilities/gutil' ),
       cleanTemp = require ( '../../clean/javascript_temp' ),
       buildDevelopment = require ( './development' ),
       buildProduction = require ( './production' ),

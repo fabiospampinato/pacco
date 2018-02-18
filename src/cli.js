@@ -7,7 +7,7 @@ const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       readPkg = require ( 'read-pkg-up' ),
       updateNotifier = require ( 'update-notifier' ),
-      gutil = require ( './utilities/gulp' );
+      gutil = require ( './utilities/gutil' );
 
 /* CLI */
 

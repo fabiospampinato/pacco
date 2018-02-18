@@ -5,7 +5,7 @@ const gulp = require ( 'gulp' ),
       concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
       touch = require ( 'gulp-touch-cmd' ),
-      gutil = require ( '../../../utilities/gulp' ),
+      gutil = require ( '../../../utilities/gutil' ),
       output = require ( '../../../utilities/paths/output' );
 
 /* TASK */

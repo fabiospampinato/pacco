@@ -1,7 +1,7 @@
 
 /* REQUIRE */
 
-const gutil = require ( '../../utilities/gulp' ),
+const gutil = require ( '../../utilities/gutil' ),
       watchJSON = require ( './json' ),
       watchFonts = require ( './fonts' ),
       watchImages = require ( './images' ),
