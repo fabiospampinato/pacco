@@ -125,11 +125,12 @@ const gutil = {
 
     },
 
-    withMetadata ( task, name, description, group ) {
+    withMetadata ( task, name, description, group, args ) {
 
       if ( name ) task.displayName = name;
       if ( description ) task.description = description;
       if ( group ) task.group = group;
+      if ( args ) task.args = args;
 
       return task;
 
