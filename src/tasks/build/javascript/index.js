@@ -15,4 +15,4 @@ const task = project.isDevelopment ? gulp.series ( cleanTemp, buildTemp, buildDe
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-javascript', 'Build javascript', 'more' );
+module.exports = gutil.logger ( task, 'build-javascript', 'Build JavaScript', 'more' );

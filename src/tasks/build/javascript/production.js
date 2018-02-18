@@ -57,4 +57,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-javascript-production', 'Build production javascript', 'all' );
+module.exports = gutil.logger ( task, 'build-javascript-production', 'Build production JavaScript', 'all' );

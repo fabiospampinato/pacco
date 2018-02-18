@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'watch-json', 'Watch json', 'more' );
+module.exports = gutil.logger ( task, 'watch-json', 'Watch JSON', 'more' );

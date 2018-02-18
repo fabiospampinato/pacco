@@ -10,4 +10,4 @@ const task = () => general ( 'mixins', false );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-mixins', 'Build scss mixins', 'all' );
+module.exports = gutil.logger ( task, 'build-scss-mixins', 'Build SCSS mixins', 'all' );

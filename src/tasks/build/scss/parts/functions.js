@@ -10,4 +10,4 @@ const task = () => general ( 'functions', false );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-functions', 'Build scss functions', 'all' );
+module.exports = gutil.logger ( task, 'build-scss-functions', 'Build SCSS functions', 'all' );

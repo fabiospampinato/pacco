@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-javascript-temp', 'Clean generated temporary javascript', 'all' );
+module.exports = gutil.logger ( task, 'clean-javascript-temp', 'Clean generated temporary JavaScript', 'all' );

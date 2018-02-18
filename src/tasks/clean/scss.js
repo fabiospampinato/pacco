@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-scss', 'Clean generated scss', 'more' );
+module.exports = gutil.logger ( task, 'clean-scss', 'Clean generated SCSS', 'more' );

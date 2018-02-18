@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-json', 'Clean generated json', 'more' );
+module.exports = gutil.logger ( task, 'clean-json', 'Clean generated JSON', 'more' );

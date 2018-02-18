@@ -10,4 +10,4 @@ const task = () => general ( 'keyframes', true );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-keyframes', 'Build scss keyframes', 'all' );
+module.exports = gutil.logger ( task, 'build-scss-keyframes', 'Build SCSS keyframes', 'all' );

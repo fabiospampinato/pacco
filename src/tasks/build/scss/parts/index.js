@@ -15,4 +15,4 @@ const task = gulp.series ( buildFunctions, buildMixins, buildVariables, buildKey
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-parts', 'Build scss parts', 'all' );
+module.exports = gutil.logger ( task, 'build-scss-parts', 'Build SCSS parts', 'all' );

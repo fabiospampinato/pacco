@@ -10,4 +10,4 @@ const task = () => general ( 'variables', false );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-scss-variables', 'Build scss variables', 'all' );
+module.exports = gutil.logger ( task, 'build-scss-variables', 'Build SCSS variables', 'all' );

@@ -16,4 +16,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-css', 'Clean generated css', 'more' );
+module.exports = gutil.logger ( task, 'clean-css', 'Clean generated CSS', 'more' );

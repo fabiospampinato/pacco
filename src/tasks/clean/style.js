@@ -12,4 +12,4 @@ const task = gulp.parallel ( cleanSCSS, cleanCSS );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'clean-style', 'Clean generated scss and css', 'more' );
+module.exports = gutil.logger ( task, 'clean-style', 'Clean generated SCSS and CSS', 'more' );

@@ -13,4 +13,4 @@ const task = gulp.series (  buildSCSSParts, buildSCSS, buildCSS );
 
 /* EXPORT */
 
-module.exports = gutil.logger ( task, 'build-style', 'Build scss and css', 'more' );
+module.exports = gutil.logger ( task, 'build-style', 'Build SCSS and CSS', 'more' );
