@@ -71,6 +71,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.7",
     "lodash": "^4.16.6",
+    "mkdirp": "^0.5.1",
     "node-notifier": "^5.0.0",
     "path": "^0.12.7",
     "pify": "^3.0.0",

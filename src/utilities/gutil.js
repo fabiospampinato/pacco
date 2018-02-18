@@ -27,6 +27,14 @@ const gutil = {
 
   },
 
+  abs ( filepath ) {
+
+    if ( path.isAbsolute ( filepath ) ) return filepath;
+
+    return path.resolve ( gutil.cwd (), filepath );
+
+  },
+
   patch () {
 
     /* SRC & DEST & SYMLINK */

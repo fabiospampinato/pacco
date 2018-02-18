@@ -34,7 +34,7 @@ const project = _.merge ( {}, defaults, ...defaultsEnvs, custom, ...customEnvs, 
 project.environment = envs;
 project.paths.tokens.env = prettyEnvs;
 project.paths.tokens.environment = prettyEnvs
-project.paths.tokens.temp = project.paths.tokens.temp || path.join ( process.cwd (), '.temp', projectU.getHash ( project ) ); // In order to allow for multiple simultaneous compilations
+project.paths.tokens.temp = project.paths.tokens.temp || projectU.getTempPath ( project );
 
 /* EXPORT */
 

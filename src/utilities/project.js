@@ -10,12 +10,31 @@ const _ = require ( 'lodash' ),
 
 const project = {
 
-  getHash ( project ) { // Uniquely identifies a `paths.tokens.src` and `environment` combination
+  getSrcPaths ( config ) {
 
-    const gulpCwd = gutil.cwd (),
-          src = _.castArray ( project.paths.tokens.src ),
-          srcAbs = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulpCwd, src ) ),
-          id = `${srcAbs.join ( '|' )}|${project.paths.tokens.environment}`,
+    const src = _.castArray ( config.paths.tokens.src );
+
+    return src.map ( gutil.abs );
+
+  },
+
+  getDistPath ( config ) {
+
+    return gutil.abs ( config.paths.tokens.dist );
+
+  },
+
+  getTempPath ( config ) { // In order to allow for multiple simultaneous compilations
+
+    return path.resolve ( __dirname, '..', '..', '.temp', project.getHash ( config ) );
+
+  },
+
+  getHash ( config ) { // Uniquely identifies a `paths.tokens.src` and `environment` combination
+
+    const src = project.getSrcPaths ( config ),
+          environment = _.castArray ( config.environment ),
+          id = `${src.join ( '|' )}|${environment.join ( '|' )}`,
           hash = sha1 ( id );
 
     return hash;

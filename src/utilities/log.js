@@ -18,12 +18,6 @@ const log = {
 
   },
 
-  buffer ( buffer ) {
-
-    console.log ( buffer.toString ( 'utf8' ) );
-
-  },
-
   error ( error ) {
 
     /* NOTIFICATION */

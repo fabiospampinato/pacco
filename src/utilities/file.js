@@ -4,6 +4,7 @@
 const _ = require ( 'lodash' ),
       fs = require ( 'fs' ),
       gulp = require ( 'gulp' ),
+      mkdirp = require ( 'mkdirp' ),
       path = require ( 'path' ),
       rdf = require ( 'require-dot-file' );
 
@@ -35,6 +36,7 @@ const file = {
 
   write ( filepath, content ) {
 
+    mkdirp.sync ( path.dirname ( filepath ) );
     fs.writeFileSync ( filepath, JSON.stringify ( content ) );
 
   },
@@ -45,19 +47,19 @@ const file = {
 
     if ( file.file2moduleCache[filepath] ) return this.file2moduleCache[filepath];
 
-    if ( !file._file2moduleSrcAbsRe ) {
+    if ( !file._file2moduleSrcRe ) {
 
-      const gulpCwd = require ( './gutil' ).cwd (), // In order to avoid a cyclic dependency
-            src = _.castArray ( require ( '../project' ).paths.tokens.src ), // In order to avoid a cyclic dependency
-            srcAbs = src.map ( src => path.isAbsolute ( src ) ? src : path.resolve ( gulpCwd, src ) ),
-            srcAbsRe = new RegExp ( `^(${srcAbs.map ( _.escapeRegExp ).join ( '|' )})\/?` );
+      const project = require ( '../project' ), // In order to avoid a cyclic dependency
+            projectU = require ( './project' ), // In order to avoid a cyclic dependency
+            src = projectU.getSrcPaths ( project ),
+            srcRe = new RegExp ( `^(${src.map ( _.escapeRegExp ).join ( '|' )})\/?` );
 
-      file._file2moduleSrcAbsRe = srcAbsRe;
+      file._file2moduleSrcRe = srcRe;
 
     }
 
     const module = filepath.replace ( /[\\|/]+/g, '/' )
-                           .replace ( file._file2moduleSrcAbsRe, '' );
+                           .replace ( file._file2moduleSrcRe, '' );
 
     this.file2moduleCache[filepath] = module;
 
