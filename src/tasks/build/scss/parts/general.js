@@ -14,9 +14,9 @@ const _ = require ( 'lodash' ),
       log = require ( '../../../../utilities/log' ),
       input = require ( '../../../../utilities/paths/input' ),
       output = require ( '../../../../utilities/paths/output' ),
+      components = require ( '../../../../plugins/components' ),
       dependencies = require ( '../../../../plugins/dependencies' ),
       extend = require ( '../../../../plugins/extend' ),
-      filter = require ( '../../../../plugins/filter' ),
       override = require ( '../../../../plugins/override' ),
       substitute = require ( '../../../../plugins/substitute' );
 
@@ -24,11 +24,11 @@ const _ = require ( 'lodash' ),
 
 function general ( name, filterable ) {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'filter', 'override', 'substitute', 'dependencies', 'extend' );
+  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'override', 'substitute', 'dependencies', 'extend' );
 
   return gulp.src ( input.getPath ( `scss.${name}` ) )
              .pipe ( plumber ( log.error ) )
-             .pipe ( gulpif ( filterable && plugins.filter.enabled, filter ( plugins.filter.options ) ) )
+             .pipe ( gulpif ( filterable && plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( `scss.${name}` ) ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )

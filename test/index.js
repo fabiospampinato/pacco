@@ -3,6 +3,7 @@
 //   Merging a specific `test/config/*.json` with `test/config/general.json`
 // Building in `test/dist/*`
 // Diffing `test/dist/*` against `test/check/*`
+// Can pass option to pacco via `npm run test -- --test-flag -- --pacco-flag`
 // Options:
 //   --only testName => run only this test
 //   --check         => diff `dist` and `check` directories
@@ -123,7 +124,7 @@ async function buildTest ( test ) {
 
   const {dist} = getTestPaths ( test ),
         config = getTestConfig ( test ),
-        build = await execa ( PACCO_BIN, ['build', '--config', config, '--no-notification', '--verbose'] );
+        build = await execa ( PACCO_BIN, ['build', '--config', config, '--no-notification', '--verbose', ...argv._] );
 
   mkdirp.sync ( dist ); // In case nothing has been built, but we need the folder for `output.txt` files and for diffing
 

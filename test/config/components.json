@@ -7,7 +7,7 @@
   },
   "paths": {
     "tokens": {
-      "src": ["test/src/component", "test/src/filter"]
+      "src": ["test/src/component", "test/src/components"]
     }
   }
 }

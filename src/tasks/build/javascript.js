@@ -20,23 +20,23 @@ const _ = require ( 'lodash' ),
       input = require ( '../../utilities/paths/input' ),
       log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
+      components = require ( '../../plugins/components' ),
       dependencies = require ( '../../plugins/dependencies' ),
       extend = require ( '../../plugins/extend' ),
-      filter = require ( '../../plugins/filter' ),
       override = require ( '../../plugins/override' ),
       substitute = require ( '../../plugins/substitute' ),
       project = require ( '../../project' ),
-      plugins = project.plugins;
+      {plugins} = project;
 
 /* TASK */
 
 function task () {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'filter', 'override', 'substitute', 'dependencies', 'extend', 'babel', 'babili', 'uglify', 'closure' );
+  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'override', 'substitute', 'dependencies', 'extend', 'babel', 'babili', 'uglify', 'closure' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
              .pipe ( plumber ( log.error ) )
-             .pipe ( gulpif ( plugins.filter.enabled, filter ( plugins.filter.options ) ) )
+             .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )

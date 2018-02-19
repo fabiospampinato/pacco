@@ -14,7 +14,7 @@ const _ = require ( 'lodash' ),
       input = require ( '../../utilities/paths/input' ),
       log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
-      filter = require ( '../../plugins/filter' ),
+      components = require ( '../../plugins/components' ),
       override = require ( '../../plugins/override' ),
       substitute = require ( '../../plugins/substitute' );
       project = require ( '../../project' ),
@@ -28,7 +28,7 @@ function task () {
 
   return gulp.src ( input.getPath ( 'json' ) )
              .pipe ( plumber ( log.error ) )
-             .pipe ( gulpif ( plugins.filter.enabled, filter ( plugins.filter.options ) ) )
+             .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( flatten () )

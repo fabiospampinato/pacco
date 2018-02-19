@@ -55,7 +55,6 @@
     "gulp-bytediff": "^1.0.0",
     "gulp-concat": "^2.6.0",
     "gulp-flatten": "^0.3.1",
-    "gulp-foreach": "^0.1.0",
     "gulp-htmlmin": "^4.0.0",
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^3.3.0",
@@ -77,6 +76,7 @@
     "read-pkg-up": "^3.0.0",
     "require-dot-file": "^0.4.0",
     "sha1": "^1.1.1",
+    "string-matches": "^1.0.1",
     "through2": "^2.0.0",
     "update-notifier": "^2.3.0",
     "yargs": "^6.0.0"

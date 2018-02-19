@@ -62,16 +62,18 @@ const file = {
 
   file2moduleCache: {},
 
-  file2module ({ path: filepath }) {
+  file2module ( f ) {
 
-    if ( file.file2moduleCache[filepath] ) return this.file2moduleCache[filepath];
+    const filepath = _.isString ( f ) ? f : f.path;
+
+    if ( file.file2moduleCache[filepath] ) return file.file2moduleCache[filepath];
 
     if ( !file._file2moduleSrcRe ) {
 
       const project = require ( '../project' ), // In order to avoid a cyclic dependency
             projectU = require ( './project' ), // In order to avoid a cyclic dependency
             src = projectU.getSrcPaths ( project ),
-            srcRe = new RegExp ( `^(${src.map ( _.escapeRegExp ).join ( '|' )})\/?` );
+            srcRe = new RegExp ( `^(${src.map ( _.escapeRegExp ).join ( '|' )})\/` );
 
       file._file2moduleSrcRe = srcRe;
 
@@ -80,7 +82,7 @@ const file = {
     const module = filepath.replace ( /[\\|/]+/g, '/' )
                            .replace ( file._file2moduleSrcRe, '' );
 
-    this.file2moduleCache[filepath] = module;
+    file.file2moduleCache[filepath] = module;
 
     return module;
 

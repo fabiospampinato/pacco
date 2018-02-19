@@ -5,7 +5,8 @@ const _ = require ( 'lodash' ),
      argv = require ( 'yargs' ).argv,
      path = require ( 'path' ),
      cssnano = require ( 'cssnano' ),
-     imagemin = require ( 'gulp-imagemin' );
+     imagemin = require ( 'gulp-imagemin' ),
+     file = require ( '../../utilities/file' );
 
 /* PLUGINS */
 
@@ -46,6 +47,13 @@ const plugins = {
       force: true
     }
   },
+  components: {
+    enabled: true,
+    options: {
+      path2component: file.file2module,
+      log: !!argv.verbose
+    }
+  },
   dependencies: {
     enabled: true,
     options: {
@@ -53,12 +61,6 @@ const plugins = {
     }
   },
   extend: {
-    enabled: true,
-    options: {
-      log: !!argv.verbose
-    }
-  },
-  filter: {
     enabled: true,
     options: {
       log: !!argv.verbose

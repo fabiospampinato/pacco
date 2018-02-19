@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       bytediff = require ( 'gulp-bytediff' ),
       flatten = require ( 'gulp-flatten' ),
       gulpif = require ( 'gulp-if' ),
@@ -14,9 +15,10 @@ const gulp = require ( 'gulp' ),
       input = require ( '../../utilities/paths/input' ),
       log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
-      filter = require ( '../../plugins/filter' ),
+      components = require ( '../../plugins/components' ),
       override = require ( '../../plugins/override' ),
-      plugins = require ( '../../project' ).plugins;
+      project = require ( '../../project' ),
+      {plugins} = project;
 
 /* TASK */
 
@@ -26,7 +28,7 @@ function task () {
 
   return gulp.src ( input.getPath ( 'images' ) )
              .pipe ( plumber ( log.error ) )
-             .pipe ( gulpif ( plugins.filter.enabled, filter ( plugins.filter.options ) ) )
+             .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'images' ) ) ) )

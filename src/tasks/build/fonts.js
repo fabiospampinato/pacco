@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       gulpif = require ( 'gulp-if' ),
       flatten = require ( 'gulp-flatten' ),
       newer = require ( 'gulp-newer' ),
@@ -12,8 +13,9 @@ const gulp = require ( 'gulp' ),
       input = require ( '../../utilities/paths/input' ),
       log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
-      plugins = require ( '../../project' ).plugins,
-      filter = require ( '../../plugins/filter' ),
+      project = require ( '../../project' ),
+      {plugins} = project,
+      components = require ( '../../plugins/components' ),
       override = require ( '../../plugins/override' );
 
 /* TASK */
@@ -24,7 +26,7 @@ function task () {
 
   return gulp.src ( input.getPath ( 'fonts' ) )
              .pipe ( plumber ( log.error ) )
-             .pipe ( gulpif ( plugins.filter.enabled, filter ( plugins.filter.options ) ) )
+             .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'fonts' ) ) ) )
