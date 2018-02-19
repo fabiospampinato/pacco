@@ -4,8 +4,8 @@
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       path = require ( 'path' ),
+      PluginError = require ( 'plugin-error' ),
       through = require ( 'through2' ),
-      gutil = require ( 'gulp-util' ),
       fileU = require ( '../utilities/file' );
 
 /* UTILITIES */
@@ -215,7 +215,7 @@ function resolveGraph ( graph ) {
 
         if ( !root ) {
 
-          return new gutil.PluginError ( 'Dependencies', `"${chalk.yellow ( node.path )}" requires "${chalk.yellow ( dep )}", but it has not been found. Is the path corrent?` );
+          return new PluginError ( 'Dependencies', `"${chalk.yellow ( node.path )}" requires "${chalk.yellow ( dep )}", but it has not been found. Is the path corrent?` );
 
         }
 
@@ -223,7 +223,7 @@ function resolveGraph ( graph ) {
 
     }
 
-    return new gutil.PluginError ( 'Dependencies', `Circular dependencies found. Files involved: \n${nodes.map ( node => `  ${chalk.yellow ( node )}` ).join ( '\n' )}` );
+    return new PluginError ( 'Dependencies', `Circular dependencies found. Files involved: \n${nodes.map ( node => `  ${chalk.yellow ( node )}` ).join ( '\n' )}` );
 
   } else {
 
@@ -314,7 +314,7 @@ function dependencies ( config ) {
 
     let {graph, graphFiles} = worker ( files, config );
 
-    if ( graphFiles instanceof gutil.PluginError ) {
+    if ( graphFiles instanceof PluginError ) {
 
       callback ( graphFiles );
 

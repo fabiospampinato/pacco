@@ -3,7 +3,6 @@
 
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
-      gutil = require ( 'gulp-util' ),
       notification = require ( './notification' );
 
 /* LOG */

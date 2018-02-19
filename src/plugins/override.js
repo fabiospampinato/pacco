@@ -6,8 +6,8 @@
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       path = require ( 'path' ),
+      PluginError = require ( 'plugin-error' ),
       through = require ( 'through2' ),
-      gutil = require ( 'gulp-util' ),
       fileU = require ( '../utilities/file' );
 
 /* UTILITIES */
@@ -143,7 +143,7 @@ function worker ( files, config ) {
 
     const filepaths = partition[1].map ( file => file.path );
 
-    return new gutil.PluginError ( 'Override', `Missing target files for: \n${filepaths.map ( filepath => `  ${chalk.yellow ( filepath )}` ).join ( '\n' )}` );
+    return new PluginError ( 'Override', `Missing target files for: \n${filepaths.map ( filepath => `  ${chalk.yellow ( filepath )}` ).join ( '\n' )}` );
 
   } else {
 
@@ -179,7 +179,7 @@ function override ( config ) {
 
     files = worker ( files, config );
 
-    if ( files instanceof gutil.PluginError ) {
+    if ( files instanceof PluginError ) {
 
       callback ( files );
 

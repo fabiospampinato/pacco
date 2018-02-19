@@ -2,8 +2,8 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
+      PluginError = require ( 'plugin-error' ),
       through = require ( 'through2' ),
-      gutil = require ( 'gulp-util' ),
       project = require ( '../project' ),
       fileU = require ( '../utilities/file' );
 
@@ -146,7 +146,7 @@ function filter ( config ) {
 
     files = worker ( files, config, components );
 
-    if ( files instanceof gutil.PluginError ) {
+    if ( files instanceof PluginError ) {
 
       callback ( files );
 

@@ -3,8 +3,8 @@
 
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
-      through = require ( 'through2' ),
-      gutil = require ( 'gulp-util' );
+      PluginError = require ( 'plugin-error' ),
+      through = require ( 'through2' );
 
 /* UTILITIES */
 
@@ -102,7 +102,7 @@ function substitute ( substitutions, config ) {
 
     files = worker ( files, config );
 
-    if ( files instanceof gutil.PluginError ) {
+    if ( files instanceof PluginError ) {
 
       callback ( files );
 
