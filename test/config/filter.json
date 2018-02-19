@@ -1,0 +1,13 @@
+{
+  "components": {
+    "a/keyframes.scss": false,
+    "b": {
+      "index.js": false
+    }
+  },
+  "paths": {
+    "tokens": {
+      "src": ["test/src/component", "test/src/filter"]
+    }
+  }
+}
