@@ -41,7 +41,7 @@ const paths = {
     json: '[dist]/json',
     fonts: '[dist]/fonts',
     images: '[dist]/images',
-    markdown: '[src]/html',
+    markdown: '[dist]/html',
     javascript: {
       uncompressed: '[dist]/javascript/[bundle].js',
       compressed: '[dist]/javascript/[bundle].min.js',
