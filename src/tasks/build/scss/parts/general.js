@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       gulpif = require ( 'gulp-if' ),
       concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
@@ -32,7 +33,7 @@ function general ( name, filterable ) {
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( gulpif ( plugins.extend.enabled, extend ( plugins.extend.options ) ) )
-             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( concat ( output.getName ( `scss.${name}` ) ) )
              .pipe ( gulp.dest ( output.getDir ( `scss.${name}` ) ) )
              .pipe ( touch () );

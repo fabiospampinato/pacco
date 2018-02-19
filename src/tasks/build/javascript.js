@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       babel = require ( 'gulp-babel' ),
       babili = require ( 'gulp-babili' ),
       closure = require ( 'google-closure-compiler-js' ).gulp (),
@@ -40,7 +41,7 @@ function task () {
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( gulpif ( plugins.extend.enabled, extend ( plugins.extend.options ) ) )
-             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( flatten () )
              .pipe ( concat ( output.getName ( 'javascript.uncompressed' ) ) )
              .pipe ( gulpif ( plugins.babel.enabled, babel ( plugins.babel.options ) ) )

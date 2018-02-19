@@ -1,10 +1,12 @@
 
+//TODO: Publish as `gulp-substitute`
+
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
-      PluginError = require ( 'plugin-error' ),
-      through = require ( 'through2' );
+      stringMatches = require ( 'string-matches' ).default,
+      forAll = require ( './forall' );
 
 /* UTILITIES */
 
@@ -16,112 +18,89 @@ function getSubstitution ( substitutions, path ) {
 
 }
 
-function getMatches ( string, regex ) {
+function getUniqMatches ( str, re ) {
 
-  const matches = [];
+  const matches = stringMatches ( str, re );
 
-  let match;
-
-  do {
-
-    match = regex.exec ( string );
-
-    if ( match ) matches.push ( match );
-
-  } while ( match );
-
-  return matches;
+  return _.uniqBy ( matches, match => match[0] );
 
 }
 
-/* WORKER */
+function getMatchesSubstitutions ( matches, substitutions ) {
 
-function worker ( files, config ) {
+  return matches.map ( match => {
 
-  for ( let i = 0, l = files.length; i < l; i++ ) {
-
-    let contents = files[i].contents.toString ();
-
-    const matches = getMatches ( contents, config.tokenRe );
-
-    if ( !matches.length ) continue;
-
-    if ( config.log ) {
-
-      console.log ( chalk.yellow ( files[i].path ) );
-
-    }
-
-    matches.reverse ().forEach ( match => {
-
-      const val = getSubstitution ( config.substitutions, match[1] );
-
-      contents = contents.replace ( match[0], val );
-
-      if ( config.log ) {
-
-        console.log ( `  "${match[0]}" => "${val}"` );
-
-      }
-
-    });
-
-    files[i].contents = Buffer.from ( contents );
-
-  }
-
-  return files;
-
-}
-
-/* SUBSTITUTE */
-
-function substitute ( substitutions, config ) {
-
-  /* CONFIG */
-
-  config = _.merge ({
-    substitutions,
-    tokenRe: /\[pacco(?:\.((?:[^\[\]\s]+|\[\d+\]){1,}))?\]/g,
-    log: false
-  }, config );
-
-  /* VARIABLES */
-
-  let files = [];
-
-  /* SUBSTITUTE */
-
-  return through.obj ( function ( file, encoding, callback ) {
-
-    files.push ( file );
-
-    callback ();
-
-  }, function ( callback ) {
-
-    files = worker ( files, config );
-
-    if ( files instanceof PluginError ) {
-
-      callback ( files );
-
-    } else {
-
-      for ( let i = 0, l = files.length; i < l; i++ ) {
-
-        this.push ( files[i] );
-
-      }
-
-      callback ();
-
-    }
+    return getSubstitution ( substitutions, match[1] );
 
   });
 
 }
 
+function fileSubstitute ( file, config ) {
+
+  let contents = file.contents.toString ();
+
+  const matches = getUniqMatches ( contents, config.tokenRe );
+
+  if ( !matches.length ) return;
+
+  const values = getMatchesSubstitutions ( matches, config.substitutions );
+
+  matches.forEach ( ( match, i ) => {
+
+    contents = contents.replace ( match[0], values[i] );
+
+  });
+
+  file.contents = Buffer.from ( contents );
+
+  return { file, matches, values };
+
+}
+
+function log ( stats ) {
+
+  if ( !stats.length ) return;
+
+  const matchesNr = _.sum ( stats.map ( ({ matches }) => matches.length ) ),
+        lines = [`Substitutions (${matchesNr}):`];
+
+  stats.forEach ( ({ file, matches, values }) => {
+
+    lines.push ( `${file.path}` );
+
+    matches.forEach ( ( match, i ) => {
+
+      lines.push ( `  '${match[0]}' => '${values[i]}'` );
+
+    });
+
+  });
+
+  console.log ( lines.join ( '\n' ) );
+
+}
+
+/* SUBSTITUTE */
+
+function substitute ( files, config ) {
+
+  /* CONFIG */
+
+  config = _.merge ({
+    substitutions: {},
+    tokenRe: /\[substitute(?:\.((?:[^\[\]\s]+|\[\d+\]){1,}))?\]/g,
+    log: false
+  }, config );
+
+  /* SUBSTITUTE */
+
+  const stats = files.map ( file => fileSubstitute ( file, config ) ).filter ( _.identity );
+
+  if ( config.log ) log ( stats );
+
+}
+
 /* EXPORT */
 
-module.exports = substitute;
+module.exports = forAll ( substitute );

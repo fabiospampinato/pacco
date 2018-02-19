@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       flatten = require ( 'gulp-flatten' ),
       gulpif = require ( 'gulp-if' ),
       jsonminify = require ( 'gulp-jsonminify' ),
@@ -29,7 +30,7 @@ function task () {
              .pipe ( plumber ( log.error ) )
              .pipe ( gulpif ( plugins.filter.enabled, filter ( plugins.filter.options ) ) )
              .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
-             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( project, plugins.substitute.options ) ) )
+             .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'json' ) ) ) )
              .pipe ( gulpif ( plugins.jsonminify.enabled, jsonminify ( plugins.jsonminify.options ) ) )

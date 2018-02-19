@@ -139,6 +139,7 @@ const plugins = {
   substitute: {
     enabled: true,
     options: {
+      tokenRe: /\[pacco(?:\.((?:[^\[\]\s]+|\[\d+\]){1,}))?\]/g,
       log: !!argv.verbose
     }
   },
