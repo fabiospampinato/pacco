@@ -15,7 +15,6 @@ const defaults = {
   components,
   paths,
   plugins,
-  isDevelopment: false, // Setting `isDevelopment: true` will basically make the build process faster, some plugins will be skipped and javascript will get partial compilation so it's much faster to watch and rebuild on changes
 
   /* ENVIRONMENT */
 

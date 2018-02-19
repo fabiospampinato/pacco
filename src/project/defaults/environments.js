@@ -5,8 +5,10 @@
 
 const environments = {
   development: {
-    isDevelopment: true,
     plugins: {
+      autoprefixer: {
+        enabled: false
+      },
       babel: {
         enabled: false
       },
@@ -16,10 +18,10 @@ const environments = {
       jsonminify: {
         enabled: false
       },
-      uglify: {
+      postcss: {
         enabled: false
       },
-      postcss: {
+      uglify: {
         enabled: false
       }
     }
