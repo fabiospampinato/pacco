@@ -129,7 +129,7 @@ async function buildTest ( test ) {
 
   if ( !argv.check ) { // The `output.txt` files will interfere with diffing
 
-    console.log ( `${chalk.underline ( test )} built.` );
+    console.log ( `${chalk.underline ( test )} built` );
 
     ['stdout', 'stderr'].forEach ( output => {
       if ( !build[output] ) return;
@@ -148,7 +148,7 @@ async function checkTest ( test ) {
 
   if ( diff.stdout || diff.stderr ) {
 
-    console.log ( chalk.red ( `${chalk.underline ( test )} failed.` ) );
+    console.log ( chalk.red ( `${chalk.underline ( test )} failed` ) );
 
     ['stdout', 'stderr'].forEach ( output => {
       if ( !diff[output] ) return;
@@ -157,7 +157,7 @@ async function checkTest ( test ) {
 
   } else {
 
-    console.log ( chalk.green ( `${chalk.underline ( test )} passed.` ) );
+    console.log ( chalk.green ( `${chalk.underline ( test )} passed` ) );
 
   }
 
