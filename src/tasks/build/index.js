@@ -6,6 +6,7 @@ const gutil = require ( '../../utilities/gutil' ),
       buildJSON = require ( './json' ),
       buildFonts = require ( './fonts' ),
       buildImages = require ( './images' ),
+      buildMarkdown = require ( './markdown' ),
       buildJavascript = require ( './javascript' ),
       buildStyle = require ( './style' ),
       notify = require ( './notify' ),
@@ -13,7 +14,7 @@ const gutil = require ( '../../utilities/gutil' ),
 
 /* TASK */
 
-const task = gutil.series ( gutil.parallel ( buildHTML, buildJSON, buildFonts, buildImages, buildJavascript, buildStyle ), gutil.parallel ( notify, log ) );
+const task = gutil.series ( gutil.parallel ( buildHTML, buildJSON, buildFonts, buildImages, buildMarkdown, buildJavascript, buildStyle ), gutil.parallel ( notify, log ) );
 
 /* EXPORT */
 

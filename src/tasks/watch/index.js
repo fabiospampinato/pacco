@@ -6,12 +6,13 @@ const gutil = require ( '../../utilities/gutil' ),
       watchJSON = require ( './json' ),
       watchFonts = require ( './fonts' ),
       watchImages = require ( './images' ),
+      watchMarkdown = require ( './markdown' ),
       watchJavascript = require ( './javascript' ),
       watchSCSS = require ( './scss' );
 
 /* TASK */
 
-const task = gutil.parallel ( watchHTML, watchJSON, watchFonts, watchImages, watchJavascript, watchSCSS );
+const task = gutil.parallel ( watchHTML, watchJSON, watchFonts, watchImages, watchMarkdown, watchJavascript, watchSCSS );
 
 /* EXPORT */
 

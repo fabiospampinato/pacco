@@ -21,6 +21,7 @@ const paths = {
     json: '[src]/**/*.json',
     fonts: '[src]/**/*.{eot,ttf,woff,woff2}',
     images: '[src]/**/*.{bmp,gif,ico,jpg,jpeg,png,svg,webp}',
+    markdown: '[src]/**/*.md',
     javascript: {
       all: '[src]/**/*.js',
       temp: '[temp]/javascript/**/*.js'
@@ -40,6 +41,7 @@ const paths = {
     json: '[dist]/json',
     fonts: '[dist]/fonts',
     images: '[dist]/images',
+    markdown: '[src]/html',
     javascript: {
       uncompressed: '[dist]/javascript/[bundle].js',
       compressed: '[dist]/javascript/[bundle].min.js',

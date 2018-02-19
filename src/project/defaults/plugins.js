@@ -104,6 +104,13 @@ const plugins = {
     enabled: true,
     options: {}
   },
+  markdown: {
+    enabled: true,
+    options: {
+      breaks: true,
+      xhtml: true
+    }
+  },
   override: {
     enabled: true,
     options: {
