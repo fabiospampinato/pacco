@@ -57,6 +57,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-flatten": "^0.3.1",
     "gulp-foreach": "^0.1.0",
+    "gulp-htmlmin": "^4.0.0",
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^3.3.0",
     "gulp-jsonminify": "^1.0.0",

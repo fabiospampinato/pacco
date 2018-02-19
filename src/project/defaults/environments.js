@@ -12,6 +12,9 @@ const environments = {
       babel: {
         enabled: false
       },
+      htmlmin: {
+        enabled: false
+      },
       imagemin: {
         enabled: false
       },

@@ -17,6 +17,7 @@ const paths = {
     environment: undefined // Setted dynamically
   },
   input: {
+    html: '[src]/**/*.html',
     json: '[src]/**/*.json',
     fonts: '[src]/**/*.{eot,ttf,woff,woff2}',
     images: '[src]/**/*.{bmp,gif,ico,jpg,jpeg,png,svg,webp}',
@@ -35,6 +36,7 @@ const paths = {
     }
   },
   output: {
+    html: '[dist]/html',
     json: '[dist]/json',
     fonts: '[dist]/fonts',
     images: '[dist]/images',

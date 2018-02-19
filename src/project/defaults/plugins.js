@@ -64,6 +64,18 @@ const plugins = {
       log: !!argv.verbose
     }
   },
+  htmlmin: {
+    enabled: true,
+    options: {
+      collapseWhitespace: true,
+      minifyCSS: true,
+      minifyJS: true,
+      removeComments: true,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true
+    }
+  },
   imagemin: {
     enabled: true,
     plugins: [
