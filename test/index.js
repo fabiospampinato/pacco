@@ -133,6 +133,7 @@ async function buildTest ( test ) {
 
     ['stdout', 'stderr'].forEach ( output => {
       if ( !build[output] ) return;
+      if ( argv.only ) console.log ( build[output] );
       const outputPath = path.join ( dist, `${output}.txt` );
       fs.writeFileSync ( outputPath, build[output] );
     });
