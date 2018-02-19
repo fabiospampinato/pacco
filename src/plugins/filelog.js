@@ -1,71 +1,36 @@
 
+//TODO: Publish as `gulp-filelog`
+
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      through = require ( 'through2' );
+      chalk = require ( 'chalk' ),
+      forAll = require ( './forall' );
 
-/* UTILITIES */
+/* FILE LOG */
 
-function logFiles ( files ) {
+function fileLog ( files, config = {} ) {
 
   if ( files.length ) {
 
-    let list = 'Files:\n';
+    const lines = [`Files (${files.length})${config.title ? ` in '${chalk.cyan ( config.title )}'` : ''}:`];
 
     for ( let i = 0, l = files.length; i < l; i++ ) {
 
-      list += _.padEnd ( i + 1, l.toString ().length ) + ' - ' + files[i].path;
-
-      if ( i + 1 < l ) {
-
-        list += '\n';
-
-      }
+      lines.push ( _.padStart ( i + 1, l.toString ().length ) + ' - ' + files[i].path );
 
     }
 
-    console.log ( list );
+    console.log ( lines.join ( '\n' ) );
 
   } else {
 
-    console.log ( 'No files in the stream' );
+    console.log ( `No files in ${config.title ? `'${chalk.cyan ( config.title )}'` : 'the stream'}` );
 
   }
 
 }
 
-/* FILE LOG */
-
-function filelog () {
-
-  /* VARIABLES */
-
-  let files = [];
-
-  /* FILE LOG */
-
-  return through.obj ( function ( file, encoding, callback ) {
-
-    files.push ( file );
-
-    callback ();
-
-  }, function ( callback ) {
-
-    logFiles ( files );
-
-    for ( let i = 0, l = files.length; i < l; i++ ) {
-
-      this.push ( files[i] );
-
-    }
-
-    callback ();
-
-  });
-
-}
-
 /* EXPORT */
 
-module.exports = filelog;
+module.exports = forAll ( fileLog );
