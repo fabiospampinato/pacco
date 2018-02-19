@@ -64,13 +64,6 @@ const plugins = {
       log: !!argv.verbose
     }
   },
-  github: {
-    enabled: false,
-    auth: {
-      type: 'oauth',
-      token: false
-    }
-  },
   imagemin: {
     enabled: true,
     plugins: [
