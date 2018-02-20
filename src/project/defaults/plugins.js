@@ -57,6 +57,7 @@ const plugins = {
   dependencies: {
     enabled: true,
     options: {
+      path2component: file.file2module,
       log: !!argv.verbose
     }
   },

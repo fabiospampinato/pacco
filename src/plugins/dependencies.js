@@ -1,77 +1,83 @@
 
+//TODO: Publish as `gulp-dependencies`
+
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       path = require ( 'path' ),
       PluginError = require ( 'plugin-error' ),
-      through = require ( 'through2' ),
-      fileU = require ( '../utilities/file' );
+      stringMatches = require ( 'string-matches' ).default,
+      forAll = require ( './forAll' );
 
 /* UTILITIES */
-
-function getMatches ( string, regex ) {
-
-  const matches = [];
-
-  let match;
-
-  do {
-
-    match = regex.exec ( string );
-
-    if ( match ) matches.push ( match[1] );
-
-  } while ( match );
-
-  return matches;
-
-}
 
 function getFilePriority ( file, regex ) {
 
   const content = file.contents.toString ( 'utf8' );
-        matches = getMatches ( content, regex );
+        matches = stringMatches ( content, regex ).map ( match => match[1] ),
+        priority = Number ( _.last ( matches ) ) || 0;
 
-  return Number ( _.last ( matches ) ) || 0;
+  return priority;
 
 }
 
-function getFileTargets ( file, regex ) {
+function getFileTargets ( file, regex, config ) {
 
-  const dirname = path.dirname ( fileU.file2module ( file ) ),
-        content = file.contents.toString ( 'utf8' ),
-        targets = getMatches ( content, regex );
+  const dirname = path.dirname ( config.path2component ( file.path ) ),
+        contents = file.contents.toString ( 'utf8' ),
+        matches = stringMatches ( contents, regex ).map ( match => match[1] ),
+        targets = matches.map ( match => match.startsWith ( '.' ) ? path.resolve ( dirname, match ) : match );
 
-  return targets.map ( function ( target ) {
-
-    return ( target[0] === '.' ) ? path.join ( dirname, target ) : target;
-
-  });
+  return targets;
 
 }
 
 function inheritPriority ( modules, module ) {
 
-  if ( module.dependencies && module.dependencies.length ) {
+  module.dependencies.forEach ( dependency => {
 
-    for ( let di = 0, dl = module.dependencies.length; di < dl; di++ ) {
+    const dep = modules[dependency];
 
-      const dep = modules[module.dependencies[di]];
+    if ( !dep ) return;
 
-      if ( !dep ) continue;
+    const newPriority = Math.max ( dep.priority, module.priority );
 
-      const newPriority = Math.max ( dep.priority, module.priority );
+    if ( dep.priority === newPriority ) return;
 
-      if ( dep.priority === newPriority ) continue;
+    dep.priority = newPriority;
 
-      dep.priority = newPriority;
+    inheritPriority ( modules, dep );
 
-      inheritPriority ( modules, dep );
+  });
+
+}
+
+function getGraphError ( graph, leftovers ) {
+
+  if ( !leftovers.length ) return;
+
+  /* MISSING DEPENDENCIES */
+
+  for ( let leftover of leftovers ) {
+
+    const node = graph[leftover];
+
+    if ( !node ) continue;
+
+    for ( let dependency of node.dependencies ) {
+
+      const root = _.find ( graph, node => node.module === dependency );
+
+      if ( !root ) return new PluginError ( 'Dependencies', `"${chalk.yellow ( node.path )}" requires "${chalk.yellow ( dependency )}", but it has not been found. Is the path corrent?` );
 
     }
 
   }
+
+  /* CIRCULAR DEPENDENCIES */
+
+  return new PluginError ( 'Dependencies', `Circular dependencies found. Files involved: \n${leftovers.map ( leftover => `  ${chalk.yellow ( leftover )}` ).join ( '\n' )}` );
 
 }
 
@@ -82,46 +88,31 @@ function getGraph ( files, config ) {
 
   /* POPULATING */
 
-  for ( let i = 0, l = files.length; i < l; i++ ) {
+  files.forEach ( file => {
 
-    const file = files[i];
     const module = {
-      file: file,
+      file,
       path: file.path,
-      module: fileU.file2module ( file ),
+      module: config.path2component ( file.path ),
       priority: config.priority ? getFilePriority ( file, config.priorityRe ) : 0,
-      befores: getFileTargets ( file, config.beforeRe ),
-      requires: getFileTargets ( file, config.requireRe )
+      befores: config.before ? getFileTargets ( file, config.beforeRe, config ) : [],
+      requires: config.require ? getFileTargets ( file, config.requireRe, config ) : []
     };
 
     graph[file.path] = module;
     modules[module.module] = module;
 
-  }
+  });
 
   /* PARSING */
 
-  for ( let i = 0, l = files.length; i < l; i++ ) {
+  files.forEach ( file => {
 
-    const module = graph[files[i].path];
+    const module = graph[file.path];
 
     /* CHECKING BEFORE EXISTENCE */
 
-    if ( module.befores && module.befores.length ) {
-
-      for ( let bi = 0, bl = module.befores.length; bi < bl; bi++ ) {
-
-        if ( !modules[module.befores[bi]] ) {
-
-          module.befores[bi] = false;
-
-        }
-
-      }
-
-      module.befores = _.compact ( module.befores );
-
-    }
+    module.befores = module.befores.filter ( before => !!modules[before] );
 
     /* DEPENDENCIES */
 
@@ -131,7 +122,7 @@ function getGraph ( files, config ) {
 
     inheritPriority ( modules, module );
 
-  }
+  });
 
   return graph;
 
@@ -139,16 +130,14 @@ function getGraph ( files, config ) {
 
 function resolveGraph ( graph ) {
 
-  const paths = _.sortBy ( _.keys ( graph ), [path => - graph[path].priority, _.identity] ),
-        partition = _.partition ( paths, key => !graph[key].dependencies.length );
+  const paths = sortPaths ( _.keys ( graph ) ),
+        files = []; // Resolved graph
 
-  let files = [],
-      roots = partition[0],
-      nodes = partition[1];
+  let [roots, nodes] = _.partition ( paths, path => !graph[path].dependencies.length );
 
-  function sortRoots ( roots ) {
+  function sortPaths ( paths ) {
 
-    return _.sortBy ( roots, [root => - graph[root].priority, _.identity] );
+    return _.sortBy ( paths, [path => - graph[path].priority, _.identity] );
 
   }
 
@@ -156,190 +145,107 @@ function resolveGraph ( graph ) {
 
     roots.push ( root );
 
-    roots = sortRoots ( roots );
+    roots = sortPaths ( roots ); //TODO: inserting the new root in the right spot would be faster since `roots` is sorted already //TODO: benchmark on Svelto
 
   }
 
   function resolveRoot ( root ) {
 
-    const module = graph[root].module;
-
     files.push ( graph[root].file );
 
-    for ( let ni = 0, nl = nodes.length; ni < nl; ni++ ) {
+    const module = graph[root].module;
 
-      const node = nodes[ni];
+    nodes = nodes.filter ( node => {
 
-      if ( !node ) continue;
+      _.remove ( graph[node].dependencies, dep => dep === module );
 
-      if ( graph[node].dependencies.indexOf ( module ) >= 0 ) {
+      const isRoot = !graph[node].dependencies.length;
 
-        _.remove ( graph[node].dependencies, dep => dep === module );
+      if ( isRoot ) addRoot ( node );
 
-        if ( !graph[node].dependencies.length ) {
+      return !isRoot;
 
-          nodes[ni] = false;
-
-          addRoot ( node );
-
-        }
-
-      }
-
-    }
+    });
 
   };
 
-  while ( roots.length ) { // The length will probably change dynamically
+  function resolveRoots () {
 
-    let root = roots.shift ();
+    while ( roots.length ) { // The length will probably change dynamically, can't use forEach
 
-    resolveRoot ( root );
+      const root = roots.shift ();
 
-  }
-
-  nodes = _.compact ( nodes );
-
-  if ( nodes.length ) {
-
-    for ( let ni = 0, nl = nodes.length; ni < nl; ni++ ) {
-
-      const node = graph[nodes[ni]];
-
-      if ( !node ) continue;
-
-      for ( let di = 0, dl = node.dependencies.length; di < dl; di++ ) {
-
-        const dep = node.dependencies[di],
-              root = _.find ( graph, n => n.module === dep );
-
-        if ( !root ) {
-
-          return new PluginError ( 'Dependencies', `"${chalk.yellow ( node.path )}" requires "${chalk.yellow ( dep )}", but it has not been found. Is the path corrent?` );
-
-        }
-
-      }
+      resolveRoot ( root );
 
     }
 
-    return new PluginError ( 'Dependencies', `Circular dependencies found. Files involved: \n${nodes.map ( node => `  ${chalk.yellow ( node )}` ).join ( '\n' )}` );
-
-  } else {
-
-    return files;
-
   }
+
+  resolveRoots ();
+
+  return getGraphError ( graph, nodes ) || files;
 
 }
 
-function logFiles ( graph, graphFiles ) {
+function log ( graph, files ) {
 
-  if ( graphFiles.length ) {
+  if ( !files.length ) return;
 
-    let nrLength = graphFiles.length.toString ().length,
-        list = 'Dependencies order:\n';
+  const lines = [`Dependencies (${files.length}):`];
 
-    for ( let i = 0, l = graphFiles.length; i < l; i++ ) {
+  files.forEach ( ( file, i ) => {
 
-      let path = graphFiles[i].path,
-          priority = graph[path].priority,
-          line = `${_.padEnd ( i + 1, nrLength )} - ${path}`;
+    const priority = graph[file.path].priority;
 
-      if ( priority ) {
+    let line = `${_.padStart ( i + 1, files.length.toString ().length )} - ${file.path}`;
 
-        let arrow = priority > 0 ? '↑' : '↓',
+    if ( priority ) {
+
+      const arrow = priority > 0 ? '↑' : '↓',
             color = priority > 0 ? 'green' : 'red';
 
-        line += ` (${priority}${arrow})`;
-
-        line = chalk[color]( line );
-
-      }
-
-      if ( i + 1 < l ) {
-
-        line += '\n';
-
-      }
-
-      list += line;
+      line += chalk[color]( ` ${priority}${arrow}` );
 
     }
 
-    console.log ( list );
+    lines.push ( line );
 
-  }
+  });
 
-}
-
-/* WORKER */
-
-function worker ( files, config ) {
-
-  const graph = getGraph ( files, config ),
-        graphFiles = resolveGraph ( graph );
-
-  return {graph, graphFiles};
+  console.log ( lines.join ( '\n' ) );
 
 }
 
 /* DEPENDENCIES */
 
-function dependencies ( config ) {
+function dependencies ( files, config ) {
 
   /* CONFIG */
 
   config = _.merge ({
+    path2component: _.identity,
     priority: true,
     priorityRe: /@priority[\s]+(-?(?:(?:\d+)(?:\.\d*)?|(?:\.\d+)+))[\s]*/g,
+    before: true,
     beforeRe: /@before[\s]+([\S]+\.[\S]+)[\s]*/g,
+    require: true,
     requireRe: /@require[\s]+([\S]+\.[\S]+)[\s]*/g,
     log: false
   }, config );
 
-  /* VARIABLES */
-
-  let files = [];
-
   /* DEPENDENCIES */
 
-  return through.obj ( function ( file, encoding, callback ) {
+  const graph = getGraph ( files, config ),
+        resolvedFiles = resolveGraph ( graph );
 
-    files.push ( file );
+  if ( resolvedFiles instanceof PluginError ) return resolvedFiles;
 
-    callback ();
+  if ( config.log ) log ( graph, resolvedFiles );
 
-  }, function ( callback ) {
-
-    let {graph, graphFiles} = worker ( files, config );
-
-    if ( graphFiles instanceof PluginError ) {
-
-      callback ( graphFiles );
-
-    } else {
-
-      if ( config.log ) {
-
-        logFiles ( graph, graphFiles );
-
-      }
-
-      for ( let i = 0, l = graphFiles.length; i < l; i++ ) {
-
-        this.push ( graphFiles[i] );
-
-      }
-
-      callback ();
-
-    }
-
-  });
+  return resolvedFiles;
 
 }
 
 /* EXPORT */
 
-module.exports = dependencies;
+module.exports = forAll ( dependencies );
