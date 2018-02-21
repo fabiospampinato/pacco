@@ -27,7 +27,7 @@ function task () {
   const needUpdate = changed.plugin ( 'dependencies', 'markdown', 'htmlmin' );
 
   return gulp.src ( input.getPath ( 'markdown' ) )
-             .pipe ( plumber ( log.error ) )
+             .pipe ( plumber ( log.pluginError ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )

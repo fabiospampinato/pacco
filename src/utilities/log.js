@@ -17,7 +17,7 @@ const log = {
 
   },
 
-  error ( error ) {
+  pluginError ( error ) {
 
     /* NOTIFICATION */
 

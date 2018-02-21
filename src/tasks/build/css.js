@@ -23,7 +23,7 @@ function task () {
   const needUpdate = changed.plugins ( 'sass', 'autoprefixer', 'postcss' );
 
   return gulp.src ( output.getPath ( 'scss.all' ), { allowEmpty: true } )
-             .pipe ( plumber ( log.error ) )
+             .pipe ( plumber ( log.pluginError ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.sass.enabled, sass ( plugins.sass.options ) ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, autoprefixer ( plugins.autoprefixer.options ) ) )

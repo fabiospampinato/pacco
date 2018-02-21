@@ -26,7 +26,7 @@ function task () {
   const needUpdate = changed.plugin ( 'dependencies', 'htmlmin' );
 
   return gulp.src ( input.getPath ( 'html' ) )
-             .pipe ( plumber ( log.error ) )
+             .pipe ( plumber ( log.pluginError ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )

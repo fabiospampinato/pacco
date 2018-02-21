@@ -33,7 +33,7 @@ function task () {
   const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
-             .pipe ( plumber ( log.error ) )
+             .pipe ( plumber ( log.pluginError ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )

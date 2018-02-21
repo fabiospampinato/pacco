@@ -27,7 +27,7 @@ function task () {
   const needUpdate = changed.plugins ( 'dependencies', 'substitute', 'jsonminify' );
 
   return gulp.src ( input.getPath ( 'json' ) )
-             .pipe ( plumber ( log.error ) )
+             .pipe ( plumber ( log.pluginError ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
