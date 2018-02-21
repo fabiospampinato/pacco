@@ -21,8 +21,17 @@ const plugins = {
   babel: {
     enabled: true,
     options: {
-      presets: 'babel-preset-es2015',
-      plugins: ['babel-plugin-syntax-async-functions', 'babel-plugin-transform-regenerator', '../../plugins/lodash_template_compile.js'].map ( require.resolve ), //FIXME: Ugly, `require.resolve` shouldn't be needed //FIXME: `lodash_template_compile` should be published on NPM
+      presets: [
+        ['@babel/preset-env', {
+          targets: {
+            browsers: ['ie >= 10', 'ie_mob >= 10', 'edge >= 13', 'ff >= 30', 'chrome >= 34', 'safari >= 7', 'opera >= 23', 'ios >= 7', 'android >= 4.4', 'bb >= 10']
+          },
+          loose: true,
+          modules: 'commonjs',
+          uglify: true //TODO: Test true/false values when compiling Svelto
+        }]
+      ],
+      plugins: [require.resolve ( '../../plugins/lodash_template_compile.js' )], //FIXME: Ugly, `require.resolve` shouldn't be needed //FIXME: `lodash_template_compile` should be published on NPM
       babelrc: false,
       compact: false
     }
