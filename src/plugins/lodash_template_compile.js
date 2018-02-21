@@ -26,9 +26,9 @@ function render ( template, options ) {
 
 }
 
-/* LODASH TEMPLATE */
+/* LODASH TEMPLATE COMPILE */
 
-function lodashTemplate ({ types }) {
+function lodashTemplateCompile ({ types }) {
 
   return {
 
@@ -74,4 +74,4 @@ function lodashTemplate ({ types }) {
 
 /* EXPORT */
 
-module.exports = lodashTemplate;
+module.exports = lodashTemplateCompile;

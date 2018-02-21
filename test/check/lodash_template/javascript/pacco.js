@@ -1,7 +1,4 @@
-'use strict';
-
 // a.js
-
 (function (obj) {
   obj || (obj = {});
 
@@ -13,6 +10,7 @@
   }
   return __p;
 });
+
 (function (obj) {
   obj || (obj = {});
 
