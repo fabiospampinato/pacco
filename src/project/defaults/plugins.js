@@ -21,8 +21,8 @@ const plugins = {
   babel: {
     enabled: true,
     options: {
-      presets: ['babel-preset-es2015'].map ( require.resolve ),
-      plugins: ['babel-plugin-syntax-async-functions', 'babel-plugin-transform-regenerator'].map ( require.resolve ),
+      presets: 'babel-preset-es2015',
+      plugins: ['babel-plugin-syntax-async-functions', 'babel-plugin-transform-regenerator', '../../plugins/lodash_template_compile.js'].map ( require.resolve ), //FIXME: Ugly, `require.resolve` shouldn't be needed //FIXME: `lodash_template_compile` should be published on NPM
       babelrc: false,
       compact: false
     }
