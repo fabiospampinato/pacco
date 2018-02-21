@@ -18,8 +18,8 @@ const _ = require ( 'lodash' ),
       environments = require ( '../../utilities/environments' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
-      log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
+      plumberU = require ( '../../utilities/plumber' ),
       components = require ( '../../plugins/components' ),
       dependencies = require ( '../../plugins/dependencies' ),
       substitute = require ( '../../plugins/substitute' ),
@@ -33,7 +33,7 @@ function task () {
   const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
-             .pipe ( plumber ( log.pluginError ) )
+             .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )

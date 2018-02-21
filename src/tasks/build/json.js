@@ -12,8 +12,8 @@ const _ = require ( 'lodash' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
-      log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
+      plumberU = require ( '../../utilities/plumber' ),
       components = require ( '../../plugins/components' ),
       dependencies = require ( '../../plugins/dependencies' ),
       substitute = require ( '../../plugins/substitute' );
@@ -27,7 +27,7 @@ function task () {
   const needUpdate = changed.plugins ( 'dependencies', 'substitute', 'jsonminify' );
 
   return gulp.src ( input.getPath ( 'json' ) )
-             .pipe ( plumber ( log.pluginError ) )
+             .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )

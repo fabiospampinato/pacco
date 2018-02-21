@@ -11,9 +11,9 @@ const _ = require ( 'lodash' ),
       project = require ( '../../../../project' ),
       {plugins} = project,
       changed = require ( '../../../../utilities/changed' ),
-      log = require ( '../../../../utilities/log' ),
       input = require ( '../../../../utilities/paths/input' ),
       output = require ( '../../../../utilities/paths/output' ),
+      plumberU = require ( '../../../../utilities/plumber' ),
       components = require ( '../../../../plugins/components' ),
       dependencies = require ( '../../../../plugins/dependencies' ),
       substitute = require ( '../../../../plugins/substitute' );
@@ -25,7 +25,7 @@ function general ( name, filterable ) {
   const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies' );
 
   return gulp.src ( input.getPath ( `scss.${name}` ) )
-             .pipe ( plumber ( log.pluginError ) )
+             .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( filterable && plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( `scss.${name}` ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )

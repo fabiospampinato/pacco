@@ -12,8 +12,8 @@ const gulp = require ( 'gulp' ),
       touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
-      log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
+      plumberU = require ( '../../utilities/plumber' ),
       plugins = require ( '../../project' ).plugins;
 
 /* TASK */
@@ -23,7 +23,7 @@ function task () {
   const needUpdate = changed.plugins ( 'sass', 'autoprefixer', 'postcss' );
 
   return gulp.src ( output.getPath ( 'scss.all' ), { allowEmpty: true } )
-             .pipe ( plumber ( log.pluginError ) )
+             .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.sass.enabled, sass ( plugins.sass.options ) ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, autoprefixer ( plugins.autoprefixer.options ) ) )

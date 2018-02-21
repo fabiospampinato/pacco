@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gutil = require ( '../../utilities/gutil' ),
+const buildStatus = require ( '../../utilities/build_status' ),
+      gutil = require ( '../../utilities/gutil' ),
       buildHTML = require ( './html' ),
       buildJSON = require ( './json' ),
       buildFonts = require ( './fonts' ),
@@ -9,13 +10,16 @@ const gutil = require ( '../../utilities/gutil' ),
       buildMarkdown = require ( './markdown' ),
       buildJavascript = require ( './javascript' ),
       buildStyle = require ( './style' ),
-      notify = require ( './notify' ),
-      log = require ( './log' );
+      notification = require ( './notification' ),
+      summary = require ( './summary' );
 
 /* TASK */
 
-const task = gutil.series ( gutil.parallel ( buildHTML, buildJSON, buildFonts, buildImages, buildMarkdown, buildJavascript, buildStyle ), gutil.parallel ( notify, log ) );
+const build = gutil.parallel ( buildHTML, buildJSON, buildFonts, buildImages, buildMarkdown, buildJavascript, buildStyle );
+      buildEnhanced = gutil.task.enhance ( build, 'build', 'Build your project' ),
+      buildLogger = gutil.series ( buildStatus.start, buildEnhanced, buildStatus.finish, gutil.parallel ( notification, summary ) );
+      buildLoggerEnhanced = gutil.task.withMetadata ( buildLogger, 'build', 'Build your project' );
 
 /* EXPORT */
 
-module.exports = gutil.task.enhance ( task, 'build', 'Build your project' );
+module.exports = buildLoggerEnhanced;

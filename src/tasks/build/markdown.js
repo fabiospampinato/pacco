@@ -13,8 +13,8 @@ const _ = require ( 'lodash' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
-      log = require ( '../../utilities/log' ),
       output = require ( '../../utilities/paths/output' ),
+      plumberU = require ( '../../utilities/plumber' ),
       project = require ( '../../project' ),
       {plugins} = project,
       components = require ( '../../plugins/components' ),
@@ -27,7 +27,7 @@ function task () {
   const needUpdate = changed.plugin ( 'dependencies', 'markdown', 'htmlmin' );
 
   return gulp.src ( input.getPath ( 'markdown' ) )
-             .pipe ( plumber ( log.pluginError ) )
+             .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
