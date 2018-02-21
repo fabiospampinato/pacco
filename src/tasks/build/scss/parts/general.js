@@ -28,8 +28,8 @@ function general ( name, filterable ) {
              .pipe ( plumber ( log.error ) )
              .pipe ( gulpif ( filterable && plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( `scss.${name}` ) ) ) )
-             .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
+             .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( concat ( output.getName ( `scss.${name}` ) ) )
              .pipe ( gulp.dest ( output.getDir ( `scss.${name}` ) ) )
              .pipe ( touch () );

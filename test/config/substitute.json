@@ -1,0 +1,11 @@
+{
+  "plugins": {
+    "substitute": {
+      "options": {
+        "substitutions": {
+          "my_requirement": "b.js"
+        }
+      }
+    }
+  }
+}
