@@ -33,6 +33,7 @@ async function CLI () {
   app.option ( '--environment, --env, -e <environment>', 'The environment to use - can be used multiple times' ); // We actually also support "--environments, --envs"
   app.option ( '--fresh', 'Clear the cache before building' );
   app.option ( '--no-notification', 'Disable the notification after building' );
+  app.option ( '--no-summary', 'Disable the summary after building' );
   // app.option ( '--verbose', 'Enable some extra logging' ); // There's a global option called "verbose"
 
   /* TASKS */

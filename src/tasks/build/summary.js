@@ -3,6 +3,7 @@
 
 const _ = require ( 'lodash' ),
       argv = require ( 'yargs' ).argv,
+      bytes = require ( 'pretty-bytes' ),
       chalk = require ( 'chalk' ),
       project = require ( '../../project' ),
       buildStatus = require ( '../../utilities/build_status' ),
@@ -24,7 +25,7 @@ async function task () {
 
   if ( argv.quiet ) return;
 
-  const {error, pluginError, success, paths, times} = buildStatus.stats ();
+  const {error, pluginError, success, paths, times, sizes} = buildStatus.stats ();
 
   if ( error ) {
 
@@ -54,7 +55,7 @@ async function task () {
 
   } else if ( success && argv.summary !== false ) {
 
-    console.log ( `Bundle generated to "${paths.dist}" in ${times.elapsed}` ); //TODO: Output more informations, like the size of the bundle
+    console.log ( `Bundled into "${paths.dist}" (${bytes ( sizes.dist )}) in ${times.elapsed}` );
 
   }
 
