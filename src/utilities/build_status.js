@@ -2,10 +2,10 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      {fsizeSync} = require ( 'nodejs-fs-utils' ),
       PluginError = require ( 'plugin-error' ),
       time = require ( 'pretty-time' ),
       project = require ( '../project' ),
+      file = require ( './file' ),
       projectU = require ( './project' );
 
 /* BUILD STATUS */
@@ -48,7 +48,7 @@ const buildStatus = {
         elapsed: time ( process.hrtime ( buildStatus.status.times.startHRTime ) )
       },
       sizes: {
-        dist: fsizeSync ( buildStatus.status.paths.dist )
+        dist: file.size ( buildStatus.status.paths.dist )
       }
     });
 

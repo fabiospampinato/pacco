@@ -4,6 +4,7 @@
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       fs = require ( 'fs' ),
+      {fsizeSync} = require ( 'nodejs-fs-utils' ),
       gulp = require ( 'gulp' ),
       mkdirp = require ( 'mkdirp' ),
       path = require ( 'path' ),
@@ -26,6 +27,14 @@ const file = {
       return false;
 
     }
+
+  },
+
+  size ( filepath ) {
+
+    if ( !file.exists ( filepath ) ) return 0;
+
+    return fsizeSync ( filepath );
 
   },
 
