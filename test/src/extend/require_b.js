@@ -1,0 +1,2 @@
+
+// require_b.js
