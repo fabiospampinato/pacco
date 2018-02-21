@@ -89,7 +89,7 @@ function bubblePriority ( components, node ) {
 
     const parentNode = components[dependency];
 
-    if ( !parentNode ) return; // It could be optional
+    if ( !parentNode ) return; // It could be an optional dependency
 
     if ( node.priority <= parentNode.priority ) return;
 
@@ -170,7 +170,6 @@ function resolveOverride ( nodes, components, {overrides} ) {
     delete nodes[node.path];
 
     target.file.originalPath = originalPath;
-    target.overridden = true;
 
   }
 
@@ -333,13 +332,13 @@ function getErrorOverride ( node ) {
 
 function getErrorBefore ( nodes, components, groupedNodes ) {
 
-  return getErrorMissingTarget ( node.path, node.before );
+  return getErrorMissingFile ( node.path, node.before );
 
 }
 
 function getErrorAfter ( nodes, components, groupedNodes ) {
 
-  return getErrorMissingTarget ( node.path, node.after );
+  return getErrorMissingFile ( node.path, node.after );
 
 }
 
@@ -392,8 +391,8 @@ function log ( nodes, files ) {
   files.forEach ( ( file, i ) => {
 
     const node = nodes[file.originalPath || file.path],
-          overridden = node.overridden,
-          injected = node.before || node.after,
+          isOverride = !!file.originalPath,
+          isBeforeOrAfter = node.before || node.after,
           priority = node.priority;
 
     let line = file.path;
@@ -407,7 +406,7 @@ function log ( nodes, files ) {
 
     }
 
-    const separator = overridden ? chalk.yellow ( '!' ) : ( injected ? chalk.yellow ( '<' ) : '-' );
+    const separator = isOverride ? chalk.yellow ( '!' ) : ( isBeforeOrAfter ? chalk.yellow ( '<' ) : '-' );
 
     line = `${_.padStart ( i + 1, files.length.toString ().length )} ${separator} ${line}`;
 
