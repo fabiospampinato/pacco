@@ -17,18 +17,18 @@ const _ = require ( 'lodash' ),
       project = require ( '../../project' ),
       {plugins} = project,
       components = require ( '../../plugins/components' ),
-      override = require ( '../../plugins/override' );
+      dependencies = require ( '../../plugins/dependencies' );
 
 /* TASK */
 
 function task () {
 
-  const needUpdate = changed.plugin ( 'override', 'htmlmin' );
+  const needUpdate = changed.plugin ( 'dependencies', 'htmlmin' );
 
   return gulp.src ( input.getPath ( 'html' ) )
              .pipe ( plumber ( log.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
-             .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
+             .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'html' ) ) ) )
              .pipe ( gulpif ( plugins.htmlmin.enabled, htmlmin ( plugins.htmlmin.options ) ) )

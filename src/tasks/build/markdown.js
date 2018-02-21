@@ -18,18 +18,18 @@ const _ = require ( 'lodash' ),
       project = require ( '../../project' ),
       {plugins} = project,
       components = require ( '../../plugins/components' ),
-      override = require ( '../../plugins/override' );
+      dependencies = require ( '../../plugins/dependencies' );
 
 /* TASK */
 
 function task () {
 
-  const needUpdate = changed.plugin ( 'override', 'markdown', 'htmlmin' );
+  const needUpdate = changed.plugin ( 'dependencies', 'markdown', 'htmlmin' );
 
   return gulp.src ( input.getPath ( 'markdown' ) )
              .pipe ( plumber ( log.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
-             .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
+             .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'markdown' ) ) ) )
              .pipe ( gulpif ( plugins.markdown.enabled, markdown ( plugins.markdown.options ) ) )

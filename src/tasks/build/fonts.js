@@ -16,18 +16,18 @@ const _ = require ( 'lodash' ),
       project = require ( '../../project' ),
       {plugins} = project,
       components = require ( '../../plugins/components' ),
-      override = require ( '../../plugins/override' );
+      dependencies = require ( '../../plugins/dependencies' );
 
 /* TASK */
 
 function task () {
 
-  const needUpdate = changed.plugin ( 'override' );
+  const needUpdate = changed.plugin ( 'dependencies' );
 
   return gulp.src ( input.getPath ( 'fonts' ) )
              .pipe ( plumber ( log.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
-             .pipe ( gulpif ( plugins.override.enabled, override ( plugins.override.options ) ) )
+             .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'fonts' ) ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'fonts' ) ) )

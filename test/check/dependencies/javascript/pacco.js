@@ -3,8 +3,8 @@
 
 
 // b.js
-// @before c.js
-// @before undefined.js
+// @optional c.js
+// @optional undefined.js
 
 
 // a.js

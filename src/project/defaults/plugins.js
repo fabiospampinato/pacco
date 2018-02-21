@@ -50,20 +50,14 @@ const plugins = {
   components: {
     enabled: true,
     options: {
-      path2component: file.file2module,
+      path2component: file.file2component,
       log: !!argv.verbose
     }
   },
   dependencies: {
     enabled: true,
     options: {
-      path2component: file.file2module,
-      log: !!argv.verbose
-    }
-  },
-  extend: {
-    enabled: true,
-    options: {
+      path2component: file.file2component,
       log: !!argv.verbose
     }
   },
@@ -112,12 +106,6 @@ const plugins = {
     options: {
       breaks: true,
       xhtml: true
-    }
-  },
-  override: {
-    enabled: true,
-    options: {
-      log: !!argv.verbose
     }
   },
   postcss: {
