@@ -13,7 +13,7 @@ const log = {
 
     type = chalk[style]( type );
 
-    return `[${type}] ${message}\n`;
+    return `[${type}] ${message}`;
 
   },
 
@@ -29,16 +29,16 @@ const log = {
 
     /* LOG */
 
-    let report = '';
+    const lines = [];
 
-    report += log.line ( 'Error', 'red', 'Plugin `' + chalk.underline ( error.plugin ) + '` encountered an error' );
-    if ( error.fileName || error.relativePath || error.file ) report += line ( 'File', 'yellow', error.fileName || error.relativePath || error.file );
-    if ( error.lineNumber || error.line ) report += line ( 'Line', 'yellow', error.lineNumber || error.line );
-    if ( error.columnNumber || error.column ) report += line ( 'Column', 'yellow', error.columnNumber || error.column );
-    report += log.line ( 'Message', 'yellow', error.messageFormatted || error.message );
-    if ( error.codeFrame ) report += line ( 'Code', 'yellow', '\n' + error.codeFrame );
+    lines.push ( log.line ( 'Error', 'red', 'Plugin `' + chalk.underline ( error.plugin ) + '` encountered an error' ) );
+    if ( error.fileName || error.relativePath || error.file ) lines.push ( log.line ( 'File', 'yellow', error.fileName || error.relativePath || error.file ) );
+    if ( error.lineNumber || error.line ) lines.push ( log.line ( 'Line', 'yellow', error.lineNumber || error.line ) );
+    if ( error.columnNumber || error.column ) lines.push ( log.line ( 'Column', 'yellow', error.columnNumber || error.column ) );
+    lines.push ( log.line ( 'Message', 'yellow', error.messageFormatted || error.message ) );
+    if ( error.codeFrame ) lines.push ( log.line ( 'Code', 'yellow', '\n' + error.codeFrame ) );
 
-    console.log ( report );
+    console.log ( lines.join ( '\n' ) );
 
     /* ENDING */
 

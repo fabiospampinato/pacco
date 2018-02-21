@@ -18,9 +18,9 @@ function getSubstitution ( substitutions, path ) {
 
 }
 
-function getUniqMatches ( str, re ) {
+function getUniqMatches ( str, regex ) {
 
-  const matches = stringMatches ( str, re );
+  const matches = stringMatches ( str, regex );
 
   return _.uniqBy ( matches, match => match[0] );
 

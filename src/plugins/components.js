@@ -4,7 +4,6 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      PluginError = require ( 'plugin-error' ),
       through = require ( 'through2' ),
       forAll = require ( './forall' );
 
