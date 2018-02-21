@@ -40,11 +40,23 @@ const config = {
 
   },
 
+  _concatArgs ( ...args ) { // In order to support all different variants of each supported flag
+
+    const values = _.compact ( _.concat ( ...args ) );
+
+    switch ( values.length ) {
+      case 0: return;
+      case 1: return values[0];
+      default: return values;
+    }
+
+  },
+
   getDynamicObj () {
 
-    const src = argv.source || argv.src || argv.s,
-          dist = argv.distribution || argv.destination || argv.dist || argv.dest || argv.dst || argv.d,
-          environment = argv.environments || argv.environment || argv.envs || argv.env || argv.e;
+    const src = config._concatArgs ( argv.source, argv.src, argv.s ),
+          dist = config._concatArgs ( argv.distribution, argv.destination, argv.dist, argv.dest, argv.dst, argv.d ),
+          environment = config._concatArgs ( argv.environments, argv.environment, argv.envs, argv.env, argv.e );
 
     return {
       environment,
