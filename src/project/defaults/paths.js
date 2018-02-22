@@ -34,6 +34,10 @@ const paths = {
       keyframes: '[src]/**/keyframes*.scss',
       style: ['[src]/**/*.scss', '![src]/**/variables*.scss', '![src]/**/functions*.scss', '![src]/**/mixins*.scss', '![src]/**/keyframes*.scss'],
       temp: '[temp]/scss/**/*.scss'
+    },
+    css: {
+      all: '[src]/**/*.css',
+      temp: '[temp]/css/**/*.css'
     }
   },
   output: {
@@ -54,11 +58,14 @@ const paths = {
       mixins: '[dist]/scss/[bundle].mixins.scss',
       keyframes: '[dist]/scss/[bundle].keyframes.scss',
       style: '[dist]/scss/[bundle].style.scss',
-      temp: '[temp]/scss'
+      temp: '[temp]/scss',
+      partial: '[temp]/partials/css/scss.css'
     },
     css: {
       uncompressed: '[dist]/css/[bundle].css',
-      compressed: '[dist]/css/[bundle].min.css'
+      compressed: '[dist]/css/[bundle].min.css',
+      temp: '[temp]/css',
+      partial: '[temp]/partials/css/css.css'
     }
   },
   clean: ['[dist]', '[temp]']
