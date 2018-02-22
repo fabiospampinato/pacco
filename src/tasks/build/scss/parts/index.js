@@ -10,7 +10,7 @@ const gutil = require ( '../../../../utilities/gutil' ),
 
 /* TASK */
 
-const task = gutil.series ( buildFunctions, buildMixins, buildVariables, buildKeyframes, buildStyle );
+const task = gutil.parallel ( buildFunctions, buildMixins, buildVariables, buildKeyframes, buildStyle );
 
 /* EXPORT */
 
