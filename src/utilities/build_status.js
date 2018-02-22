@@ -44,7 +44,18 @@ const buildStatus = {
       pluginError,
       times: {
         finishTime: Date.now (),
-        finishHRTime: process.hrtime (),
+        finishHRTime: process.hrtime ()
+      }
+    });
+
+    if ( !buildStatus.status.started ) { // We won't have the necessary data to proceed further if `buildStatus.start` wasn't called
+
+      return;
+
+    }
+
+    _.merge ( buildStatus.status, {
+      times: {
         elapsed: time ( process.hrtime ( buildStatus.status.times.startHRTime ) )
       },
       sizes: {
