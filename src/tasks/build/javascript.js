@@ -7,7 +7,6 @@ const _ = require ( 'lodash' ),
       babili = require ( 'gulp-babili' ),
       closure = require ( 'google-closure-compiler-js' ).gulp (),
       concat = require ( 'gulp-concat' ),
-      flatten = require ( 'gulp-flatten' ),
       gulpif = require ( 'gulp-if' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
@@ -38,7 +37,6 @@ function task () {
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( flatten () )
              .pipe ( concat ( output.getName ( 'javascript.uncompressed' ) ) )
              .pipe ( gulpif ( plugins.babel.enabled, babel ( plugins.babel.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.uncompressed' ) ) )

@@ -26,8 +26,9 @@ const plugins = {
           targets: {
             browsers: ['ie >= 10', 'ie_mob >= 10', 'edge >= 13', 'ff >= 30', 'chrome >= 34', 'safari >= 7', 'opera >= 23', 'ios >= 7', 'android >= 4.4', 'bb >= 10']
           },
-          loose: true,
           modules: 'commonjs',
+          loose: true,
+          useBuiltIns: false,
           uglify: true //TODO: Test true/false values when compiling Svelto
         }]
       ],
