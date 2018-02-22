@@ -35,7 +35,7 @@ const buildStatus = {
 
     if ( buildStatus.status.finished ) return;
 
-    pluginError = pluginError instanceof PluginError ? pluginError : undefined;
+    pluginError = pluginError instanceof Error ? pluginError : undefined;
 
     _.merge ( buildStatus.status, {
       finished: true,
@@ -49,6 +49,8 @@ const buildStatus = {
     });
 
     if ( !buildStatus.status.started ) { // We won't have the necessary data to proceed further if `buildStatus.start` wasn't called
+
+      if ( pluginError ) require ( '../tasks/build/summary' )(); //FIXME: HACKY, UGLY
 
       return;
 

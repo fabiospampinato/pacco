@@ -31,7 +31,9 @@ async function task () {
 
     const lines = [];
 
-    lines.push ( line ( 'Error', 'red', 'Plugin `' + chalk.underline ( pluginError.plugin ) + '` encountered an error' ) );
+    if ( pluginError.plugin ) {
+      lines.push ( line ( 'Error', 'red', 'Plugin `' + chalk.underline ( pluginError.plugin ) + '` encountered an error' ) );
+    }
 
     if ( pluginError.fileName || pluginError.relativePath || pluginError.file ) {
       lines.push ( line ( 'File', 'yellow', pluginError.fileName || pluginError.relativePath || pluginError.file ) );
@@ -49,6 +51,10 @@ async function task () {
 
     if ( pluginError.codeFrame ) {
       lines.push ( line ( 'Code', 'yellow', `\n${pluginError.codeFrame}` ) );
+    }
+
+    if ( pluginError.stack ) {
+      lines.push ( line ( 'Stack', 'yellow', pluginError.stack ) );
     }
 
     console.log ( lines.join ( '\n' ) );
