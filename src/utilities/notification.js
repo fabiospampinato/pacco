@@ -16,12 +16,12 @@ const notification = {
   },
 
   defaultSuccessOptions: {
-    icon: path.join ( process.cwd (), 'resources', 'icon', 'icon.png' ),
+    icon: argv.icon || path.join ( process.cwd (), 'resources', 'icon', 'icon.png' ),
     sound: 'Glass'
   },
 
   defaultErrorOptions: {
-    icon: path.join ( process.cwd (), 'resources', 'icon', 'icon_red.png' ),
+    icon: argv.iconError || path.join ( process.cwd (), 'resources', 'icon', 'icon_error.png' ),
     sound: 'Basso'
   },
 

@@ -36,6 +36,8 @@ async function CLI () {
   app.option ( '--no-notification', 'Disable the notification after building' );
   app.option ( '--no-summary', 'Disable the summary after building' );
   // app.option ( '--verbose', 'Enable some extra logging' ); // There's a global option called "verbose"
+  app.option ( '--icon', 'Icon used for success notifications' );
+  app.option ( '--icon-error', 'Icon used for error notifications' );
 
   /* TASKS */
 
