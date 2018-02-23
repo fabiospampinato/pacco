@@ -1,6 +1,4 @@
 
-//TODO: Add support for `pacco.js` and `.pacco.js` configuration file
-
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
@@ -12,34 +10,34 @@ const _ = require ( 'lodash' ),
       projectU = require ( '../utilities/project' ),
       targetU = require ( '../utilities/target' ),
       file = require ( '../utilities/file' ),
-      custom = file.loadRecursive ( 'pacco.json', {} ),
-      dot = file.loadRecursive ( '.pacco.json', {} ),
+      customJSON = file.loadRecursive ( 'pacco.json', {} ),
+      customJS = file.loadRecursive ( 'pacco.js', {} ),
       arg = config.getObj () || {},
       dynamic = config.getDynamicObj ();
 
 /* TARGET */
 
-const target = dynamic.target || arg.target || dot.target || custom.target || defaults.target,
+const target = dynamic.target || arg.target || customJS.target || customJSON.target || defaults.target,
       defaultsTarget = targetU.get ( defaults, target ),
-      customTarget = targetU.get ( custom, target ),
-      dotTarget = targetU.get ( dot, target ),
+      customJSONTarget = targetU.get ( customJSON, target ),
+      customJSTarget = targetU.get ( customJS, target ),
       argTarget = targetU.get ( arg, target ),
       dynamicTarget = targetU.get ( dynamic, target );
 
 /* ENVIRONMENT */
 
-const envsRaw = dynamic.environment || arg.environment || dot.environment || custom.environment || defaults.environment,
+const envsRaw = dynamic.environment || arg.environment || customJS.environment || customJSON.environment || defaults.environment,
       envs = environments.parse ( envsRaw ),
       prettyEnvs = environments.pretty ( envs ),
       defaultsEnvs = environments.get ( defaults, envs ),
-      customEnvs = environments.get ( custom, envs ),
-      dotEnvs = environments.get ( dot, envs ),
+      customJSONEnvs = environments.get ( customJSON, envs ),
+      customJSEnvs = environments.get ( customJS, envs ),
       argEnvs = environments.get ( arg, envs ),
       dynamicEnvs = environments.get ( dynamic, envs );
 
 /* PROJECT */
 
-const project = _.merge ( {}, defaults, defaultsTarget, ...defaultsEnvs, custom, customTarget, ...customEnvs, dot, dotTarget, ...dotEnvs, arg, argTarget, ...argEnvs, dynamic, dynamicTarget, ...dynamicEnvs );
+const project = _.merge ( {}, defaults, defaultsTarget, ...defaultsEnvs, customJSON, customJSONTarget, ...customJSONEnvs, customJS, customJSTarget, ...customJSEnvs, arg, argTarget, ...argEnvs, dynamic, dynamicTarget, ...dynamicEnvs );
 
 projectU.checkSrcPaths ( project );
 
