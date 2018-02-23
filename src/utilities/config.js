@@ -10,23 +10,33 @@ const _ = require ( 'lodash' ),
 
 const config = {
 
+  getArg () {
+
+    return argv.config || argv.c;
+
+  },
+
   getPath () {
 
-    if ( !argv.config ) return;
+    const arg = config.getArg ();
+
+    if ( !arg ) return;
 
     const obj = config.getObjJSON ();
 
     if ( _.isPlainObject ( obj ) ) return;
 
-    return path.isAbsolute ( argv.config ) ? argv.config : path.resolve ( process.cwd (), argv.config );
+    return path.isAbsolute ( arg ) ? arg : path.resolve ( process.cwd (), arg );
 
   },
 
   getObjJSON () {
 
-    if ( !argv.config ) return;
+    const arg = config.getArg ();
 
-    const obj = _.attempt ( JSON.parse, argv.config );
+    if ( !arg ) return;
+
+    const obj = _.attempt ( JSON.parse, arg );
 
     return _.isError ( obj ) ? undefined : obj;
 
@@ -34,7 +44,9 @@ const config = {
 
   getObj () {
 
-    if ( !argv.config ) return;
+    const arg = config.getArg ();
+
+    if ( !arg ) return;
 
     return config.getObjJSON () || file.load ( config.getPath () );
 
