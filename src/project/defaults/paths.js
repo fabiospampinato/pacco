@@ -48,8 +48,8 @@ const paths = {
     images: '[dist]/images',
     markdown: '[dist]/html',
     javascript: {
-      uncompressed: '[dist]/javascript/[bundle].js',
-      compressed: '[dist]/javascript/[bundle].min.js',
+      unminified: '[dist]/javascript/[bundle].js',
+      minified: '[dist]/javascript/[bundle].min.js',
       temp: '[temp]/javascript',
       partial: '[temp]/partials/javascript/concat.js'
     },
@@ -64,8 +64,8 @@ const paths = {
       partial: '[temp]/partials/css/scss.css'
     },
     css: {
-      uncompressed: '[dist]/css/[bundle].css',
-      compressed: '[dist]/css/[bundle].min.css',
+      unminified: '[dist]/css/[bundle].css',
+      minified: '[dist]/css/[bundle].min.css',
       temp: '[temp]/css',
       partial: '[temp]/partials/css/css.css'
     }

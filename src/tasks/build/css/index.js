@@ -24,13 +24,13 @@ function task () {
 
   return gulp.src ( [output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' )], { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.uncompressed' ) ) ) )
-             .pipe ( concat ( output.getName ( 'css.uncompressed' ) ) )
+             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.unminified' ) ) ) )
+             .pipe ( concat ( output.getName ( 'css.unminified' ) ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, autoprefixer ( plugins.autoprefixer.options ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'css.uncompressed' ) ) )
+             .pipe ( gulp.dest ( output.getDir ( 'css.unminified' ) ) )
              .pipe ( gulpif ( plugins.postcss.enabled, postcss ( plugins.postcss.plugins, plugins.postcss.options ) ) )
-             .pipe ( rename ( output.getName ( 'css.compressed' ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'css.compressed' ) ) )
+             .pipe ( rename ( output.getName ( 'css.minified' ) ) )
+             .pipe ( gulp.dest ( output.getDir ( 'css.minified' ) ) )
              .pipe ( touch () );
 
 }
