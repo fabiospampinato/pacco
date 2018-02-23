@@ -55,7 +55,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-flatten": "^0.4.0",
     "gulp-htmlmin": "^4.0.0",
-    "gulp-if": "git://github.com/fabiospampinato/gulp-if#0d8e64f703f58c04efa90f38e1e40ed00761550a",
+    "gulp-if": "git://github.com/fabiospampinato/gulp-if#17413d9bacd6c7891d93894b0b4a76c4df5177d6",
     "gulp-imagemin": "^4.1.0",
     "gulp-jsonminify": "^1.0.0",
     "gulp-markdown": "^2.0.1",
