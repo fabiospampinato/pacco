@@ -58,7 +58,7 @@ const file = {
 
   loadRecursive ( name, defaultValue ) {
 
-    return rdf ( name ) || defaultValue;
+    return rdf ( name, process.cwd () ) || defaultValue;
 
   },
 
