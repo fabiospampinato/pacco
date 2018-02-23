@@ -48,13 +48,7 @@ const buildStatus = {
       }
     });
 
-    if ( !buildStatus.status.started ) { // We won't have the necessary data to proceed further if `buildStatus.start` wasn't called
-
-      if ( pluginError ) require ( '../tasks/build/summary' )(); //FIXME: HACKY, UGLY
-
-      return;
-
-    }
+    if ( !buildStatus.status.started ) return; // We won't have the necessary data to proceed further if `buildStatus.start` wasn't called
 
     _.merge ( buildStatus.status, {
       times: {
