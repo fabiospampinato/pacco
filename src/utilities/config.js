@@ -26,7 +26,7 @@ const config = {
 
   _getRawConfigs () {
 
-    return _.castArray ( config._concatArgs ( argv.config, argv.c ) );
+    return _.compact ( _.concat ( argv.config, argv.c ) );
 
   },
 
