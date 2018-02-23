@@ -4,6 +4,7 @@
 /* ENVIRONMENTS */
 
 const environments = {
+  production: {},
   development: {
     plugins: {
       autoprefixer: {

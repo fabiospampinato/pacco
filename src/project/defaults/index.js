@@ -25,7 +25,7 @@ const defaults = {
   /* ENVIRONMENT */
 
   environments,
-  environment: 'default' // Supports 'env', `[env1[, env2]]` and `env1[,env2[,..]]`
+  environment: 'production' // Supports 'env', `[env1[, env2]]` and `env1[,env2[,..]]`
 
 };
 
