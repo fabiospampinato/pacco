@@ -1,4 +1,6 @@
-require('hard-rejection')()
+
+//TODO: Add an option to caporal for hiding an option from the help text (--icon, --icon-error)
+
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),

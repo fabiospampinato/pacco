@@ -1,4 +1,6 @@
 
+//TODO: Add support for `pacco.js` and `.pacco.js` configuration file
+
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
