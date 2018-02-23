@@ -24,6 +24,8 @@ const target = dynamic.target || arg.target || customJS.target || customJSON.tar
       argTarget = targetU.get ( arg, target ),
       dynamicTarget = targetU.get ( dynamic, target );
 
+targetU.checkExistence ( target, defaultsTarget, customJSONTarget, customJSTarget, argTarget, dynamicTarget );
+
 /* ENVIRONMENT */
 
 const envsRaw = dynamic.environment || arg.environment || customJS.environment || customJSON.environment || defaults.environment,
@@ -34,6 +36,8 @@ const envsRaw = dynamic.environment || arg.environment || customJS.environment |
       customJSEnvs = environments.get ( customJS, envs ),
       argEnvs = environments.get ( arg, envs ),
       dynamicEnvs = environments.get ( dynamic, envs );
+
+environments.checkExistence ( envs, defaultsEnvs, customJSONEnvs, customJSEnvs, argEnvs, dynamicEnvs );
 
 /* PROJECT */
 

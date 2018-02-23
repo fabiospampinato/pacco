@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const _ = require ( 'lodash' );
+const _ = require ( 'lodash' ),
+      chalk = require ( 'chalk' );
 
 /* ENVIRONMENTS */
 
@@ -32,6 +33,16 @@ const environments = {
   get ( config, paths ) {
 
     return paths.map ( path => _.get ( config, `environments.${path}` ) ).filter ( env => env );
+
+  },
+
+  checkExistence ( environments, ...objs ) {
+
+    if ( !objs.every ( _.isEmpty ) ) return;
+
+    console.error ( chalk.red ( `Unknown environment(s) "${environments.map ( env => chalk.underline ( env ) ).join ( ', ' )}", did you forget to define it?` ) );
+
+    process.exit ( 1 );
 
   }
 
