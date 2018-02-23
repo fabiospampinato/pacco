@@ -68,10 +68,9 @@ function getNodesBySuffix ( nodes, suffix ) {
 
 }
 
-function groupNodesBySuffixes ( nodes ) {
+function groupNodesBySuffixes ( nodes, suffixes ) { // Passing `suffixes` in order to allow non-special suffixes
 
-  const suffixes = _.uniq ( nodes.map ( node => node.suffix ) ),
-        nodesBySuffixes = suffixes.map ( suffix => getNodesBySuffix ( nodes, suffix ) );
+  const nodesBySuffixes = suffixes.map ( suffix => getNodesBySuffix ( nodes, suffix ) );
 
   return _.zipObject ( suffixes, nodesBySuffixes );
 
@@ -303,11 +302,11 @@ function resolveNodes ( nodes, components, config ) {
 
   /* VARIABLES */
 
-  const groupedNodes = groupNodesBySuffixes ( Object.values ( nodes ) ),
-        normals = groupedNodes[''] || [],
-        befores = groupedNodes[config.beforeSuffix] || [],
-        afters = groupedNodes[config.afterSuffix] || [],
-        overrides = groupedNodes[config.overrideSuffix] || [],
+  const groupedNodes = groupNodesBySuffixes ( Object.values ( nodes ), ['', config.beforeSuffix, config.afterSuffix, config.overrideSuffix] ),
+        normals = groupedNodes[''],
+        befores = groupedNodes[config.beforeSuffix],
+        afters = groupedNodes[config.afterSuffix],
+        overrides = groupedNodes[config.overrideSuffix],
         resolvers = [resolveOverride, resolveBefore, resolveAfter, resolvePriority, resolveDependencies];
 
   /* RESOLVE */
@@ -435,7 +434,7 @@ function dependencies ( files, config ) {
     require: true,
     requireRe: /@require[\s]+([\S]+\.[\S]+)[\s]*/g,
     /* SUFFIX DIRECTIVES */
-    suffixRe: /\.([^.]+)\.\S+$/g,
+    suffixRe: /\.(before|after|override)\.\S+$/g,
     before: true,
     beforeSuffix: 'before',
     after: true,
