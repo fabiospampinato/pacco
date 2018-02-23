@@ -6,7 +6,6 @@ const _ = require ( 'lodash' ),
       bytediff = require ( 'gulp-bytediff' ),
       flatten = require ( 'gulp-flatten' ),
       gulpif = require ( 'gulp-if' ),
-      imagemin = require ( 'gulp-imagemin' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       touch = require ( 'gulp-touch-cmd' ),
@@ -33,7 +32,7 @@ function task () {
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'images' ) ) ) )
              .pipe ( gulpif ( plugins.imagemin.enabled, bytediff.start () ) )
-             .pipe ( gulpif ( plugins.imagemin.enabled, imagemin ( plugins.imagemin.plugins, plugins.imagemin.options ) ) )
+             .pipe ( gulpif ( plugins.imagemin.enabled, () => require ( 'gulp-imagemin' )( plugins.imagemin.plugins (), plugins.imagemin.options ) ) )
              .pipe ( gulpif ( plugins.imagemin.enabled, bytediff.stop () ) )
              .pipe ( gulp.dest ( output.getDir ( 'images' ) ) )
              .pipe ( touch () );

@@ -5,7 +5,6 @@ const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
       flatten = require ( 'gulp-flatten' ),
       gulpif = require ( 'gulp-if' ),
-      jsonminify = require ( 'gulp-jsonminify' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       touch = require ( 'gulp-touch-cmd' ),
@@ -33,7 +32,7 @@ function task () {
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'json' ) ) ) )
-             .pipe ( gulpif ( plugins.jsonminify.enabled, jsonminify ( plugins.jsonminify.options ) ) )
+             .pipe ( gulpif ( plugins.jsonminify.enabled, () => require ( 'gulp-jsonminify' )( plugins.jsonminify.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'json' ) ) )
              .pipe ( touch () );
 

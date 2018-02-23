@@ -2,12 +2,10 @@
 /* REQUIRE */
 
 const gulp = require ( 'gulp' ),
-      autoprefixer = require ( 'gulp-autoprefixer' ),
       gulpif = require ( 'gulp-if' ),
       concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
-      postcss = require ( 'gulp-postcss' ),
       rename = require ( 'gulp-rename' ),
       touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../../utilities/changed' ),
@@ -26,9 +24,9 @@ function task () {
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.minified' ) ) ) )
              .pipe ( concat ( output.getName ( 'css.unminified' ) ) )
-             .pipe ( gulpif ( plugins.autoprefixer.enabled, autoprefixer ( plugins.autoprefixer.options ) ) )
+             .pipe ( gulpif ( plugins.autoprefixer.enabled, () => require ( 'gulp-autoprefixer' )( plugins.autoprefixer.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'css.unminified' ) ) )
-             .pipe ( gulpif ( plugins.postcss.enabled, postcss ( plugins.postcss.plugins, plugins.postcss.options ) ) )
+             .pipe ( gulpif ( plugins.postcss.enabled, () => require ( 'gulp-postcss' )( plugins.postcss.plugins (), plugins.postcss.options ) ) )
              .pipe ( rename ( output.getName ( 'css.minified' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'css.minified' ) ) )
              .pipe ( touch () );

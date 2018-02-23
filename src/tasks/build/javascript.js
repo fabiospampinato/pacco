@@ -3,17 +3,12 @@
 
 const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
-      babel = require ( 'gulp-babel' ),
-      babili = require ( 'gulp-babili' ),
-      closure = require ( 'google-closure-compiler-js' ).gulp (),
       concat = require ( 'gulp-concat' ),
       gulpif = require ( 'gulp-if' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
       touch = require ( 'gulp-touch-cmd' ),
-      uglify = require ( 'gulp-uglify' ),
-      webpack = require ( 'webpack-stream' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
@@ -39,13 +34,13 @@ function task () {
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( concat ( output.getName ( 'javascript.partial' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.partial' ) ) )
-             .pipe ( gulpif ( plugins.webpack.enabled, webpack ( plugins.webpack.options ) ) )
-             .pipe ( gulpif ( plugins.babel.enabled, babel ( plugins.babel.options ) ) )
+             .pipe ( gulpif ( plugins.webpack.enabled, () => require ( 'webpack-stream' )( plugins.webpack.options ) ) )
+             .pipe ( gulpif ( plugins.babel.enabled, () => require ( 'gulp-babel' )( plugins.babel.options ) ) )
              .pipe ( rename ( output.getName ( 'javascript.unminified' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.unminified' ) ) )
-             .pipe ( gulpif ( plugins.babili.enabled, babili ( plugins.babili.options ) ) )
-             .pipe ( gulpif ( plugins.uglify.enabled, uglify ( plugins.uglify.options ) ) )
-             .pipe ( gulpif ( plugins.closure.enabled, closure ( plugins.closure.options ) ) )
+             .pipe ( gulpif ( plugins.babili.enabled, () => require ( 'gulp-babili' )( plugins.babili.options ) ) )
+             .pipe ( gulpif ( plugins.uglify.enabled, () => require ( 'gulp-uglify' )( plugins.uglify.options ) ) )
+             .pipe ( gulpif ( plugins.closure.enabled, () => require ( 'google-closure-compiler-js' ).gulp ()( plugins.closure.options ) ) )
              .pipe ( rename ( output.getName ( 'javascript.minified' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.minified' ) ) )
              .pipe ( touch () );

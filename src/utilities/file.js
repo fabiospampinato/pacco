@@ -4,7 +4,7 @@
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
       fs = require ( 'fs' ),
-      {fsizeSync} = require ( 'nodejs-fs-utils' ),
+      {sync: fsizeSync} = require ( 'nodejs-fs-utils/fs/fsize' ),
       gulp = require ( 'gulp' ),
       mkdirp = require ( 'mkdirp' ),
       path = require ( 'path' ),

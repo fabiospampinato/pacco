@@ -4,8 +4,6 @@
 const _ = require ( 'lodash' ),
      argv = require ( 'yargs' ).argv,
      path = require ( 'path' ),
-     cssnano = require ( 'cssnano' ),
-     imagemin = require ( 'gulp-imagemin' ),
      file = require ( '../../utilities/file' );
 
 /* PLUGINS */
@@ -85,26 +83,32 @@ const plugins = {
   },
   imagemin: {
     enabled: true,
-    plugins: [
-      imagemin.gifsicle ({
-        interlaced: true,
-        optimizationLevel: 3
-      }),
-      imagemin.jpegtran ({
-        progressive: true
-      }),
-      imagemin.optipng ({
-        optimizationLevel: 7
-      }),
-      imagemin.svgo ({
-        multipass: true,
-        plugins: [{
-          cleanupIDs: false,
-        }, {
-          removeViewBox: false
-        }]
-      })
-    ],
+    plugins () {
+
+      const imagemin = require ( 'gulp-imagemin' );
+
+      return [
+        imagemin.gifsicle ({
+          interlaced: true,
+          optimizationLevel: 3
+        }),
+        imagemin.jpegtran ({
+          progressive: true
+        }),
+        imagemin.optipng ({
+          optimizationLevel: 7
+        }),
+        imagemin.svgo ({
+          multipass: true,
+          plugins: [{
+            cleanupIDs: false,
+          }, {
+            removeViewBox: false
+          }]
+        })
+      ];
+
+    },
     options: {}
   },
   jsonminify: {
@@ -120,14 +124,20 @@ const plugins = {
   },
   postcss: {
     enabled: true,
-    plugins: [
-      cssnano ({
-        autoprefixer: false,
-        normalizeUrl: false,
-        svgo: false,
-        zindex: false
-      })
-    ],
+    plugins () {
+
+      const cssnano = require ( 'cssnano' );
+
+      return [
+        cssnano ({
+          autoprefixer: false,
+          normalizeUrl: false,
+          svgo: false,
+          zindex: false
+        })
+      ];
+
+    },
     options: {}
   },
   sass: {

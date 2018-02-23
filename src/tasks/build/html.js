@@ -5,7 +5,6 @@ const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
       gulpif = require ( 'gulp-if' ),
       flatten = require ( 'gulp-flatten' ),
-      htmlmin = require ( 'gulp-htmlmin' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' )
       touch = require ( 'gulp-touch-cmd' ),
@@ -31,7 +30,7 @@ function task () {
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
              .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'html' ) ) ) )
-             .pipe ( gulpif ( plugins.htmlmin.enabled, htmlmin ( plugins.htmlmin.options ) ) )
+             .pipe ( gulpif ( plugins.htmlmin.enabled, () => require ( 'gulp-htmlmin' )( plugins.htmlmin.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'html' ) ) )
              .pipe ( touch () );
 
