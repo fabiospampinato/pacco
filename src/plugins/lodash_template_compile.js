@@ -38,7 +38,7 @@ function lodashTemplateCompile ({ types }) {
 
         const {node} = path;
 
-        if ( node.callee.property.name !== 'template' ) return;
+        if ( !node.callee.property || node.callee.property.name !== 'template' ) return;
         if ( !['lodash', '_'].includes ( node.callee.object.name ) ) return;
         if ( node.arguments.length !== 1 ) return;
 
