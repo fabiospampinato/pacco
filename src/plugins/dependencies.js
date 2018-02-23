@@ -42,7 +42,7 @@ function getFilePaths ( file, regex, config ) {
         targets = matches.map ( match => match[1] ),
         dirname = path.dirname ( config.path2component ( file.path ) );
 
-  return targets.map ( target => target.startsWith ( '.' ) ? path.resolve ( dirname, target ) : target );
+  return targets.map ( target => target.startsWith ( '.' ) ? path.join ( dirname, target ) : target );
 
 }
 
