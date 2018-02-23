@@ -68,9 +68,11 @@ const config = {
 
     const src = config._concatArgs ( argv.source, argv.src, argv.s ),
           dist = config._concatArgs ( argv.distribution, argv.destination, argv.dist, argv.dest, argv.dst, argv.d ),
+          target = config._concatArgs ( argv.target, argv.t ),
           environment = config._concatArgs ( argv.environments, argv.environment, argv.envs, argv.env, argv.e );
 
     return {
+      target,
       environment,
       paths: {
         tokens: { src, dist }

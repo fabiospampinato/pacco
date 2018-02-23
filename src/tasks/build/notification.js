@@ -18,7 +18,7 @@ function task () {
 
   } else if ( success ) {
 
-    return notification.send ( `Built [${project.paths.tokens.environment}]`, `Bundle generated in ${times.elapsed}` );
+    return notification.send ( `Built [${project.paths.tokens.target}] [${project.paths.tokens.environment}]`, `Bundle generated in ${times.elapsed}` );
 
   }
 

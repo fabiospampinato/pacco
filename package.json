@@ -81,6 +81,7 @@
     "strip-ansi": "^4.0.0",
     "through2": "^2.0.0",
     "update-notifier": "^2.3.0",
+    "webpack-node-externals": "^1.6.0",
     "webpack-stream": "^4.0.2",
     "yargs": "^6.0.0"
   },

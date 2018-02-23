@@ -3,6 +3,7 @@
 
 const components = require ( './components' ),
       environments = require ( './environments' ),
+      targets = require ( './targets' ),
       paths = require ( './paths' ),
       plugins = require ( './plugins' );
 
@@ -15,6 +16,11 @@ const defaults = {
   components,
   paths,
   plugins,
+
+  /* TARGET */
+
+  targets,
+  target: 'web',
 
   /* ENVIRONMENT */
 

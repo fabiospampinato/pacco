@@ -39,17 +39,17 @@ const project = {
 
   },
 
-  getTempPath ( config ) { // In order to allow for multiple simultaneous compilations
+  getTempPath ( config ) { // In order to allow for multiple simultaneous compilations //FIXME: Maybe we should put this somewhere else, or module resulution migth not work properly
 
     return path.resolve ( __dirname, '..', '..', '.temp', project.getHash ( config ) );
 
   },
 
-  getHash ( config ) { // Uniquely identifies a `paths.tokens.src` and `environment` combination
+  getHash ( config ) { // Uniquely identifies a `paths.tokens.src`, `target` and`environment` combination
 
     const src = project.getSrcPaths ( config ),
-          environment = _.castArray ( config.environment ),
-          id = `${src.join ( '|' )}|${environment.join ( '|' )}`,
+          environments = _.castArray ( config.environment ),
+          id = `${config.target}|${src.join ( '|' )}|${environments.join ( '|' )}`,
           hash = sha1 ( id );
 
     return hash;

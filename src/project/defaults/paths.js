@@ -13,6 +13,7 @@ const paths = {
     dist: 'dist',
     temp: undefined, // Setted dynamically, only if left undefined
     bundle: 'pacco',
+    target: undefined, // Setted dynamically
     env: undefined, // Setted dynamically
     environment: undefined // Setted dynamically
   },
