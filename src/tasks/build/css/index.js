@@ -24,7 +24,7 @@ function task () {
 
   return gulp.src ( [output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' )], { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.unminified' ) ) ) )
+             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.minified' ) ) ) )
              .pipe ( concat ( output.getName ( 'css.unminified' ) ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, autoprefixer ( plugins.autoprefixer.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'css.unminified' ) ) )
