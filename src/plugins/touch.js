@@ -3,7 +3,7 @@
 
 /* REQUIRE */
 
-const fs = require ( 'graceful-fs' ), //FIXME: Isn't `fs` good enough?
+const fs = require ( 'fs' ),
       forAll = require ( './forall' );
 
 /* TOUCH */
