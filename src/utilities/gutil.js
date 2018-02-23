@@ -19,11 +19,11 @@ const gutil = {
 
   cwd () {
 
-    const configPath = config.getPath ();
+    const configCwd = config.getCwd ();
 
-    if ( !configPath ) return process.cwd ();
+    if ( !configCwd ) return process.cwd ();
 
-    return path.dirname ( configPath );
+    return path.dirname ( configCwd );
 
   },
 

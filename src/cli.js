@@ -31,7 +31,7 @@ async function CLI () {
 
   app.option ( '--source, --src, -s <path>', 'Path to the source directory - can be used multiple times' );
   app.option ( '--dist, --dest, --dst, -d <path>', 'Path to the distribution directory' ); // We actually also support "--distribution, --destination"
-  app.option ( '--config, -c <path|object>', `Your project\'s configuration path or JSON object` );
+  app.option ( '--config, -c <path|object>', `Your project\'s configuration path or JSON object - can be used multiple times` );
   app.option ( '--target, -t <target>', 'The compilation target to use' );
   app.option ( '--environment, --env, -e <environment>', 'The environment to use - can be used multiple times' ); // We actually also support "--environments, --envs"
   app.option ( '--fresh', 'Clear the cache before building' );

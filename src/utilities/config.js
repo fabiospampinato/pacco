@@ -10,49 +10,9 @@ const _ = require ( 'lodash' ),
 
 const config = {
 
-  getArg () {
+  /* UTILITIES */
 
-    return argv.config || argv.c;
-
-  },
-
-  getPath () {
-
-    const arg = config.getArg ();
-
-    if ( !arg ) return;
-
-    const obj = config.getObjJSON ();
-
-    if ( _.isPlainObject ( obj ) ) return;
-
-    return path.isAbsolute ( arg ) ? arg : path.resolve ( process.cwd (), arg );
-
-  },
-
-  getObjJSON () {
-
-    const arg = config.getArg ();
-
-    if ( !arg ) return;
-
-    const obj = _.attempt ( JSON.parse, arg );
-
-    return _.isError ( obj ) ? undefined : obj;
-
-  },
-
-  getObj () {
-
-    const arg = config.getArg ();
-
-    if ( !arg ) return;
-
-    return config.getObjJSON () || file.load ( config.getPath () );
-
-  },
-
-  _concatArgs ( ...args ) { // In order to support all different variants of each supported flag
+  _concatArgs ( ...args ) {
 
     const values = _.compact ( _.concat ( ...args ) );
 
@@ -64,11 +24,60 @@ const config = {
 
   },
 
+  _getRawConfigs () {
+
+    return _.castArray ( config._concatArgs ( argv.config, argv.c ) );
+
+  },
+
+  _isJSON ( str ) {
+
+    const obj = _.attempt ( JSON.parse, str );
+
+    return !_.isError ( obj );
+
+  },
+
+  _absPath ( filepath ) {
+
+    return path.isAbsolute ( filepath ) ? filepath : path.resolve ( process.cwd (), filepath );
+
+  },
+
+  /* API */
+
+  getCwd () {
+
+    const configs = config._getRawConfigs (),
+          lastPath = configs.find ( _.negate ( config._isJSON ) );
+
+    if ( !lastPath ) return;
+
+    return config._absPath ( lastPath );
+
+  },
+
+  getObj () {
+
+    const configs = config._getRawConfigs ();
+
+    const objs = configs.map ( c => {
+
+      const obj = _.attempt ( JSON.parse, c );
+
+      return _.isError ( obj ) ? file.load ( config._absPath ( c ) ) : obj;
+
+    });
+
+    return _.merge ( ...objs );
+
+  },
+
   getDynamicObj () {
 
     const src = config._concatArgs ( argv.source, argv.src, argv.s ),
-          dist = config._concatArgs ( argv.distribution, argv.destination, argv.dist, argv.dest, argv.dst, argv.d ),
-          target = config._concatArgs ( argv.target, argv.t ),
+          dist = argv.distribution || argv.destination || argv.dist || argv.dest || argv.dst || argv.d,
+          target = argv.target || argv.t,
           environment = config._concatArgs ( argv.environments, argv.environment, argv.envs, argv.env, argv.e );
 
     return {
