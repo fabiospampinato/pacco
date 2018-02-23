@@ -49,7 +49,8 @@ const paths = {
     javascript: {
       uncompressed: '[dist]/javascript/[bundle].js',
       compressed: '[dist]/javascript/[bundle].min.js',
-      temp: '[temp]/javascript'
+      temp: '[temp]/javascript',
+      partial: '[temp]/partials/javascript/concat.js'
     },
     scss: {
       all: '[dist]/scss/[bundle].scss',

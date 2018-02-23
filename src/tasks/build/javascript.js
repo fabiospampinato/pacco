@@ -13,6 +13,7 @@ const _ = require ( 'lodash' ),
       rename = require ( 'gulp-rename' ),
       touch = require ( 'gulp-touch-cmd' ),
       uglify = require ( 'gulp-uglify' ),
+      webpack = require ( 'webpack-stream' ),
       changed = require ( '../../utilities/changed' ),
       environments = require ( '../../utilities/environments' ),
       gutil = require ( '../../utilities/gutil' ),
@@ -29,7 +30,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure' );
+  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
              .pipe ( plumber ( plumberU.error ) )
@@ -37,8 +38,11 @@ function task () {
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.uncompressed' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( concat ( output.getName ( 'javascript.uncompressed' ) ) )
+             .pipe ( concat ( output.getName ( 'javascript.partial' ) ) )
+             .pipe ( gulp.dest ( output.getDir ( 'javascript.partial' ) ) )
+             .pipe ( gulpif ( plugins.webpack.enabled, webpack ( plugins.webpack.options ) ) )
              .pipe ( gulpif ( plugins.babel.enabled, babel ( plugins.babel.options ) ) )
+             .pipe ( rename ( output.getName ( 'javascript.uncompressed' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.uncompressed' ) ) )
              .pipe ( gulpif ( plugins.babili.enabled, babili ( plugins.babili.options ) ) )
              .pipe ( gulpif ( plugins.uglify.enabled, uglify ( plugins.uglify.options ) ) )

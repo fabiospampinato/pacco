@@ -147,6 +147,10 @@ const plugins = {
   uglify: {
     enabled: true,
     options: {}
+  },
+  webpack: {
+    enabled: false,
+    options: {}
   }
 };
 
