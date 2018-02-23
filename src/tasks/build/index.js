@@ -1,4 +1,6 @@
 
+//TODO: Ensure the `dist` directory always gets created
+
 /* REQUIRE */
 
 const buildStatus = require ( '../../utilities/build_status' ),

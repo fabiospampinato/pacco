@@ -30,7 +30,7 @@ const plugins = {
           uglify: true //TODO: Test true/false values when compiling Svelto
         }]
       ],
-      plugins: [require.resolve ( '../../plugins/lodash_template_compile.js' )], //FIXME: Ugly, `require.resolve` shouldn't be needed //FIXME: `lodash_template_compile` should be published on NPM
+      plugins: [require.resolve ( '../../plugins/lodash_template_compile.js' )], //FIXME: Ugly, `require.resolve` shouldn't be needed, `lodash_template_compile` should be published on NPM
       babelrc: false,
       compact: false
     }

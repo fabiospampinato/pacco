@@ -39,7 +39,7 @@ const project = {
 
   },
 
-  getTempPath ( config ) { // In order to allow for multiple simultaneous compilations //FIXME: Maybe we should put this somewhere else, or module resulution migth not work properly
+  getTempPath ( config ) { // In order to allow for multiple simultaneous compilations
 
     return path.resolve ( __dirname, '..', '..', '.temp', project.getHash ( config ) );
 

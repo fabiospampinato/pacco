@@ -1,6 +1,6 @@
 
 //TODO: Publish as `babel-plugin-lodash-template-compile`
-//TODO: Maybe add support for things like 'lodash`my template`'
+//TODO: Maybe add support for things like 'lodash.template`my template`'
 
 /* REQUIRE */
 
