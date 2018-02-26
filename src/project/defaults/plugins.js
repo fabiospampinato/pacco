@@ -20,14 +20,14 @@ const plugins = {
     enabled: true,
     options: {
       presets: [
-        ['@babel/preset-env', {
+        [require.resolve ( '../../../node_modules/@babel/preset-env' ), { //FIXME: Ugly
           targets: {
             browsers: ['ie >= 10', 'ie_mob >= 10', 'edge >= 13', 'ff >= 30', 'chrome >= 34', 'safari >= 7', 'opera >= 23', 'ios >= 7', 'android >= 4.4', 'bb >= 10']
           },
           modules: 'commonjs',
           loose: true,
           useBuiltIns: false,
-          uglify: true //TODO: Test true/false values when compiling Svelto
+          uglify: true
         }]
       ],
       plugins: [require.resolve ( '../../plugins/lodash_template_compile.js' )], //FIXME: Ugly, `require.resolve` shouldn't be needed, `lodash_template_compile` should be published on NPM
