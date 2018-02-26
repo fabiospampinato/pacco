@@ -3,7 +3,8 @@
 
 /* REQUIRE */
 
-const PluginError = require ( 'plugin-error' ),
+const _ = require ( 'lodash' ),
+      PluginError = require ( 'plugin-error' ),
       through = require ( 'through2' );
 
 /* FOR ALL */
@@ -30,7 +31,7 @@ function forAll ( plugin ) {
 
       } else {
 
-        files.forEach ( this.push.bind ( this ) );
+        if ( files ) _.castArray ( files ).forEach ( this.push.bind ( this ) );
 
         callback ();
 
