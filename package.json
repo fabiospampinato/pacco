@@ -40,6 +40,7 @@
     "caniuse-db": "^1.0.30000810",
     "caporal": "git://github.com/fabiospampinato/Caporal.js#cf0f5eeefb2e04cc07798bf4a45d6bda5e2a2f63",
     "chalk": "^2.3.1",
+    "core-js": "^2.5.3",
     "cssnano": "^3.10.0",
     "del": "^3.0.0",
     "execa": "^0.9.0",
