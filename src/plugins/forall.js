@@ -20,9 +20,9 @@ function forAll ( plugin ) {
 
       callback ();
 
-    }, function ( callback ) {
+    }, async function ( callback ) {
 
-      files = plugin ( files, ...args ) || files;
+      files = await plugin ( files, ...args ) || files;
 
       if ( files instanceof PluginError ) {
 
