@@ -251,7 +251,7 @@ function resolveDependencies ( nodes, components, {normals, befores, afters} ) {
 
     roots.push ( root );
 
-    roots = sortNodes ( nodes, roots ); //TODO: inserting the new root in the right spot would be faster since `roots` is sorted already //TODO: benchmark on Svelto
+    roots = sortNodes ( nodes, roots ); // This could be optimized, but the speed gain is not significant
 
   }
 
