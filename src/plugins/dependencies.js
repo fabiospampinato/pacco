@@ -5,9 +5,14 @@
 
 const _ = require ( 'lodash' ),
       chalk = require ( 'chalk' ),
+      execa = require ( 'execa' ),
+      fs = require ( 'fs' ),
+      open = require ( 'open' ),
       path = require ( 'path' ),
+      pify = require ( 'pify' ),
       PluginError = require ( 'plugin-error' ),
       stringMatches = require ( 'string-matches' ).default,
+      temp = require ( 'temp' ),
       forAll = require ( './forAll' );
 
 /* UTILITIES */
@@ -97,6 +102,89 @@ function bubblePriority ( components, node ) {
     bubblePriority ( components, parentNode );
 
   });
+
+}
+
+/* GRAPH */
+
+async function dotCheck () {
+
+  try {
+
+    await execa ( 'dot', ['-?'] ); // Help command
+
+    return true;
+
+  } catch ( e ) {
+
+    console.error ( chalk.red ( `"${chalk.underline ( 'dot' )}" must be installed in order to render the graph` ) );
+
+    return false;
+
+  }
+
+}
+
+function dotGetGraph ( nodes ) {
+
+  const lines = [];
+
+  lines.push ( 'digraph {' );
+  lines.push ( 'nodesep=.5' );
+  lines.push ( 'node [style="filled",color="gray89"]' );
+  lines.push ( 'edge [color="gray43"]' );
+
+  _.forOwn ( nodes, ( node ) => {
+
+    const {component, dependencies, priority} = node;
+
+    if ( dependencies.length ) {
+
+      dependencies.forEach ( dependency => {
+
+        if ( priority ) lines.push ( `"${dependency}" [color="${priority > 0 ? 'palegreen1' : 'indianred1'}"]` );
+
+        lines.push ( `"${dependency}" -> "${component}"` );
+
+      });
+
+    } else {
+
+      lines.push ( `"${component}" [color="khaki1"]` );
+
+    }
+
+  });
+
+  lines.push ( '}' );
+
+  return lines.length > 5 ? lines.join ( '\n' ) : false;
+
+}
+
+async function dotRenderGraph ( src, dst ) {
+
+  return execa ( 'dot', [src, '-Tsvg', '-o', dst] );
+
+}
+
+async function graphNodes ( nodes ) {
+
+  if ( !await dotCheck () ) return;
+
+  const graph = dotGetGraph ( nodes );
+
+  if ( !graph ) return console.error ( chalk.red ( 'The dependencies graph can\'t be rendered, there are no nodes to draw' ) );
+
+  const fileTXT = await pify ( temp.open )({ prefix: 'pacco-dependencies', suffix: '.txt' });
+
+  fs.writeSync ( fileTXT.fd, graph );
+
+  const fileSVG = await pify ( temp.open )({ prefix: 'pacco-dependencies', suffix: '.svg' });
+
+  await dotRenderGraph ( fileTXT.path, fileSVG.path );
+
+  open ( fileSVG.path );
 
 }
 
@@ -419,13 +507,14 @@ function log ( nodes, files ) {
 
 /* DEPENDENCIES */
 
-function dependencies ( files, config ) {
+async function dependencies ( files, config ) {
 
   /* CONFIG */
 
   config = _.merge ({
     path2component: _.identity,
     log: false,
+    graph: false,
     /* TAG DIRECTIVES */
     priority: true,
     priorityRe: /@priority[\s]+(-?(?:(?:\d+)(?:\.\d*)?|(?:\.\d+)+))[\s]*/g,
@@ -445,8 +534,11 @@ function dependencies ( files, config ) {
 
   /* DEPENDENCIES */
 
-  const { nodes, components } = getNodes ( files, config ),
-        result = resolveNodes ( nodes, components, config );
+  const { nodes, components } = getNodes ( files, config );
+
+  if ( config.graph ) await graphNodes ( nodes );
+
+  const result = resolveNodes ( nodes, components, config );
 
   if ( result instanceof PluginError ) return result;
 

@@ -66,7 +66,8 @@ const plugins = {
     enabled: true,
     options: {
       path2component: file.file2component,
-      log: !!argv.verbose
+      log: !!argv.verbose,
+      graph: !!argv.dependenciesGraph
     }
   },
   htmlmin: {
