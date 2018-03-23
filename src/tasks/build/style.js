@@ -9,7 +9,7 @@ const gutil = require ( '../../utilities/gutil' ),
 
 /* TASK */
 
-const task = gutil.series (  buildSCSSParts, buildSCSS, buildCSSParts, buildCSS );
+const task = gutil.series ( buildSCSSParts, buildSCSS, buildCSSParts, buildCSS );
 
 /* EXPORT */
 
