@@ -47,7 +47,7 @@ async function CLI () {
   const taskNames = [
     'config',
     'clean/html', 'clean/json', 'clean/fonts', 'clean/images', 'clean/javascript', 'clean/scss', 'clean/css', 'clean/style', 'clean',
-    'watch/html', 'watch/json', 'watch/fonts', 'watch/images', 'watch/markdown', 'watch/javascript', 'watch/scss', 'watch',
+    'watch/html', 'watch/json', 'watch/fonts', 'watch/images', 'watch/markdown', 'watch/javascript', 'watch/scss/parts/functions', 'watch/scss/parts/keyframes', 'watch/scss/parts/mixins', 'watch/scss/parts/style', 'watch/scss/parts/variables', 'watch/scss/parts', 'watch/scss', 'watch/css/parts/css', 'watch/css/parts/scss', 'watch/css/parts', 'watch/css', 'watch/style', 'watch',
     'build/html', 'build/json', 'build/fonts', 'build/images', 'build/markdown', 'build/javascript', 'build/scss/parts/functions', 'build/scss/parts/keyframes', 'build/scss/parts/mixins', 'build/scss/parts/style', 'build/scss/parts/variables', 'build/scss/parts', 'build/scss', 'build/css/parts/css', 'build/css/parts/scss', 'build/css/parts', 'build/css', 'build/style', 'build'
   ];
   const tasks = taskNames.map ( name => require ( `./tasks/${name}` ) );

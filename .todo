@@ -1,8 +1,4 @@
 
-Now:
-  ☐ benchmark Svelto compilation
-    ☐ faster SCSS compilation using temp files
-
 Next:
   ☐ Test on Windows
     ☐ bump version and publish
