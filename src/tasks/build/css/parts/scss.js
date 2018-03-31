@@ -17,7 +17,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.plugins ( 'sass' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'sass' );
 
   return gulp.src ( output.getPath ( 'scss.all' ), { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )

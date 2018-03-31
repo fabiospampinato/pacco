@@ -22,7 +22,7 @@ const _ = require ( 'lodash' ),
 
 function general ( name, filterable ) {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies' );
 
   return gulp.src ( input.getPath ( `scss.${name}` ) )
              .pipe ( plumber ( plumberU.error ) )

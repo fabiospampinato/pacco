@@ -22,7 +22,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.plugin ( 'dependencies', 'markdown', 'htmlmin' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies', 'markdown', 'htmlmin' );
 
   return gulp.src ( input.getPath ( 'markdown' ) )
              .pipe ( plumber ( plumberU.error ) )

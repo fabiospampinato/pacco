@@ -21,7 +21,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies' );
 
   return gulp.src ( input.getPath ( 'css.all' ) )
              .pipe ( plumber ( plumberU.error ) )

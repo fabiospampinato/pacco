@@ -22,7 +22,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.plugin ( 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies' );
 
   return gulp.src ( input.getPath ( 'fonts' ) )
              .pipe ( plumber ( plumberU.error ) )

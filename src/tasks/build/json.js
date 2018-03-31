@@ -23,7 +23,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.plugins ( 'dependencies', 'substitute', 'jsonminify' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'dependencies', 'substitute', 'jsonminify' );
 
   return gulp.src ( input.getPath ( 'json' ) )
              .pipe ( plumber ( plumberU.error ) )

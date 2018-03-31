@@ -23,7 +23,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.plugins ( 'dependencies', 'imagemin' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'dependencies', 'imagemin' );
 
   return gulp.src ( input.getPath ( 'images' ) )
              .pipe ( plumber ( plumberU.error ) )

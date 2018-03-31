@@ -29,7 +29,19 @@ const changed = {
 
   plugins ( ...names ) {
 
-    return names.length ? !!_.compact ( names.map ( changed.plugin ) ).length : changed.project ( 'plugins' );
+    return names.length ? names.every ( changed.plugin ) : changed.project ( 'plugins' );
+
+  },
+
+  environment () {
+
+    return changed.project ( 'environment' );
+
+  },
+
+  target () {
+
+    return changed.project ( 'target' );
 
   }
 

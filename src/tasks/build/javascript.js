@@ -24,7 +24,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
              .pipe ( plumber ( plumberU.error ) )

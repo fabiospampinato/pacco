@@ -18,7 +18,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  const needUpdate = changed.plugins ( 'autoprefixer', 'postcss' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'autoprefixer', 'postcss' );
 
   return gulp.src ( [output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' )], { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )

@@ -45,11 +45,11 @@ const project = {
 
   },
 
-  getHash ( config ) { // Uniquely identifies a `paths.tokens.src`, `target` and`environment` combination
+  getHash ( config ) { // Uniquely identifies a `paths.tokens.src`, and `paths.tokens.dist` combination
 
     const src = project.getSrcPaths ( config ),
-          environments = _.castArray ( config.environment ),
-          id = `${config.target}|${src.join ( '|' )}|${environments.join ( '|' )}`,
+          dist = project.getDistPath ( config ),
+          id = `${src.join ( '|' )}|${dist}`,
           hash = sha1 ( id );
 
     return hash;
