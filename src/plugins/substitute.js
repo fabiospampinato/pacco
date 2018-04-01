@@ -18,6 +18,12 @@ function getSubstitution ( substitutions, path ) {
 
 }
 
+function replaceAll ( string, pattern, replacement ) {
+
+  return string.replace ( new RegExp ( _.escapeRegExp ( pattern ), 'g' ), replacement );
+
+}
+
 function getUniqMatches ( str, regex ) {
 
   const matches = stringMatches ( str, regex );
@@ -48,7 +54,7 @@ function fileSubstitute ( file, config ) {
 
   matches.forEach ( ( match, i ) => {
 
-    contents = contents.replace ( match[0], values[i] );
+    contents = replaceAll ( contents, match[0], values[i] );
 
   });
 
