@@ -7,10 +7,10 @@ const _ = require ( 'lodash' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
-      touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../../../utilities/changed' ),
       output = require ( '../../../../utilities/paths/output' ),
       plumberU = require ( '../../../../utilities/plumber' ),
+      touch = require ( '../../../../plugins/touch' ),
       plugins = require ( '../../../../project' ).plugins;
 
 /* TASK */

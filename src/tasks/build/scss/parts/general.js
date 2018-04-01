@@ -7,7 +7,6 @@ const _ = require ( 'lodash' ),
       concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
-      touch = require ( 'gulp-touch-cmd' ),
       project = require ( '../../../../project' ),
       {plugins} = project,
       changed = require ( '../../../../utilities/changed' ),
@@ -16,7 +15,8 @@ const _ = require ( 'lodash' ),
       plumberU = require ( '../../../../utilities/plumber' ),
       components = require ( '../../../../plugins/components' ),
       dependencies = require ( '../../../../plugins/dependencies' ),
-      substitute = require ( '../../../../plugins/substitute' );
+      substitute = require ( '../../../../plugins/substitute' ),
+      touch = require ( '../../../../plugins/touch' );
 
 /* GENERAL */
 

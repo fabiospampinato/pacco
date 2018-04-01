@@ -8,7 +8,6 @@ const _ = require ( 'lodash' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
-      touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
@@ -17,6 +16,7 @@ const _ = require ( 'lodash' ),
       components = require ( '../../plugins/components' ),
       dependencies = require ( '../../plugins/dependencies' ),
       substitute = require ( '../../plugins/substitute' ),
+      touch = require ( '../../plugins/touch' ),
       project = require ( '../../project' ),
       {plugins} = project;
 
@@ -34,10 +34,12 @@ function task () {
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( concat ( output.getName ( 'javascript.partial' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.partial' ) ) )
+             .pipe ( touch () )
              .pipe ( gulpif ( plugins.webpack.enabled, () => require ( 'webpack-stream' )( plugins.webpack.options ) ) )
              .pipe ( gulpif ( plugins.babel.enabled, () => require ( 'gulp-babel' )( plugins.babel.options ) ) )
              .pipe ( rename ( output.getName ( 'javascript.unminified' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.unminified' ) ) )
+             .pipe ( touch () )
              .pipe ( gulpif ( plugins.babili.enabled, () => require ( 'gulp-babili' )( plugins.babili.options ) ) )
              .pipe ( gulpif ( plugins.uglify.enabled, () => require ( 'gulp-uglify' )( plugins.uglify.options ) ) )
              .pipe ( gulpif ( plugins.closure.enabled, () => require ( 'google-closure-compiler-js' ).gulp ()( plugins.closure.options ) ) )

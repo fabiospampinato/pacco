@@ -7,11 +7,11 @@ const gulp = require ( 'gulp' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
-      touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../../utilities/changed' ),
       gutil = require ( '../../../utilities/gutil' ),
       output = require ( '../../../utilities/paths/output' ),
       plumberU = require ( '../../../utilities/plumber' ),
+      touch = require ( '../../../plugins/touch' ),
       plugins = require ( '../../../project' ).plugins;
 
 /* TASK */
@@ -26,6 +26,7 @@ function task () {
              .pipe ( concat ( output.getName ( 'css.unminified' ) ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, () => require ( 'gulp-autoprefixer' )( plugins.autoprefixer.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'css.unminified' ) ) )
+             .pipe ( touch () )
              .pipe ( gulpif ( plugins.postcss.enabled, () => require ( 'gulp-postcss' )( plugins.postcss.plugins (), plugins.postcss.options ) ) )
              .pipe ( rename ( output.getName ( 'css.minified' ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'css.minified' ) ) )

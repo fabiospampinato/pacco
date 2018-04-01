@@ -7,7 +7,6 @@ const _ = require ( 'lodash' ),
       flatten = require ( 'gulp-flatten' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' )
-      touch = require ( 'gulp-touch-cmd' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
@@ -16,7 +15,8 @@ const _ = require ( 'lodash' ),
       project = require ( '../../project' ),
       {plugins} = project,
       components = require ( '../../plugins/components' ),
-      dependencies = require ( '../../plugins/dependencies' );
+      dependencies = require ( '../../plugins/dependencies' ),
+      touch = require ( '../../plugins/touch' );
 
 /* TASK */
 
