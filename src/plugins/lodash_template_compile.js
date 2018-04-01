@@ -16,7 +16,7 @@ function escapeBackticks ( str ) {
 
 function minify ( template ) {
 
-  return template.trim ().replace ( />\s+</gm, '><' );
+  return template.trim ().replace ( />\n\s*</gm, '><' );
 
 }
 
