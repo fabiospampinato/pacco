@@ -32,7 +32,10 @@ const plugins = {
       ],
       plugins: [
         [require.resolve ( '../../plugins/lodash_template_compile.js' ), { //FIXME: Ugly, `require.resolve` shouldn't be needed, `lodash_template_compile` should be published on NPM
-          variable: 'o'
+          minify: true,
+          templateOptions: {
+            variable: 'o'
+          }
         }]
       ],
       babelrc: false,

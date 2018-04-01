@@ -14,15 +14,25 @@ function escapeBackticks ( str ) {
 
 }
 
+function minify ( template ) {
+
+  return template.trim ().replace ( />\s+</gm, '><' );
+
+}
+
 function render ( template, options ) {
 
-  const templateFn = _.template ( template, options );
+  const {templateOptions} = options;
+
+  template = options.minify ? minify ( template ) : template;
+
+  const templateFn = _.template ( template, templateOptions );
 
   if ( !options.data ) return templateFn;
 
-  const templateStr = escapeBackticks ( templateFn ( options.data ) );
+  const html = escapeBackticks ( templateFn ( options.data ) );
 
-  return `\`${templateStr}\``;
+  return `\`${html}\``;
 
 }
 
