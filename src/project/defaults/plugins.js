@@ -30,7 +30,11 @@ const plugins = {
           uglify: true
         }]
       ],
-      plugins: [require.resolve ( '../../plugins/lodash_template_compile.js' )], //FIXME: Ugly, `require.resolve` shouldn't be needed, `lodash_template_compile` should be published on NPM
+      plugins: [
+        [require.resolve ( '../../plugins/lodash_template_compile.js' ), { //FIXME: Ugly, `require.resolve` shouldn't be needed, `lodash_template_compile` should be published on NPM
+          variable: 'o'
+        }]
+      ],
       babelrc: false,
       compact: false
     }
