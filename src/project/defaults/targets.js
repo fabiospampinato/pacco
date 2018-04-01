@@ -3,13 +3,7 @@
 
 /* REQUIRE */
 
-const fs = require ( 'fs' ),
-      path = require ( 'path' ),
-      nodeExternals = require ( 'webpack-node-externals' );
-
-/* EXTERNALS */
-
-const externals = fs.existsSync ( path.join ( process.cwd (), 'node_modules' ) ) ? nodeExternals () : []; //FIXME: Ugly https://github.com/liady/webpack-node-externals/issues/44
+const nodeExternals = require ( 'webpack-node-externals' );
 
 /* TARGETS */
 
@@ -28,7 +22,7 @@ const targets = {
       webpack: {
         options: {
           target: 'node',
-          externals
+          externals: nodeExternals ()
         }
       }
     }
