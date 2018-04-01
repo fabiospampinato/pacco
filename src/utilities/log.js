@@ -7,7 +7,7 @@ const chalk = require ( 'chalk' );
 
 const log = {
 
- line ( type, style, message ) {
+ line ( type, style, message = '' ) {
 
     type = chalk[style]( type );
 
@@ -46,6 +46,14 @@ const log = {
     }
 
     console.log ( lines.join ( '\n' ) );
+
+    if ( error.cause ) {
+
+      console.log ( log.line ( 'Cause', 'red' ) );
+
+      log.error ( error.cause );
+
+    }
 
   }
 
