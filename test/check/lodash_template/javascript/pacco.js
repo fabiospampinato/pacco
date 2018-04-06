@@ -1,9 +1,11 @@
+"use strict";
+
 // a.js
 (function (o) {
   var __t,
       __p = '';
 
-  __p += '<h1>Hello ' + ((__t = name) == null ? '' : __t) + '</h1>';
+  __p += '<h1>Hello ' + ((__t = o.name) == null ? '' : __t) + '</h1>';
   return __p;
 });
 
@@ -11,7 +13,7 @@
   var __t,
       __p = '';
 
-  __p += '<h1>This is just a ' + ((__t = what) == null ? '' : __t) + '</h1>';
+  __p += '<h1>This is just a ' + ((__t = o.what) == null ? '' : __t) + '</h1>';
   return __p;
 });
 
