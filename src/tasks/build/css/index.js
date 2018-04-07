@@ -3,7 +3,6 @@
 
 const gulp = require ( 'gulp' ),
       gulpif = require ( 'gulp-if' ),
-      concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
@@ -11,6 +10,7 @@ const gulp = require ( 'gulp' ),
       gutil = require ( '../../../utilities/gutil' ),
       output = require ( '../../../utilities/paths/output' ),
       plumberU = require ( '../../../utilities/plumber' ),
+      concat = require ( '../../../plugins/concat' ),
       touch = require ( '../../../plugins/touch' ),
       plugins = require ( '../../../project' ).plugins;
 
@@ -18,12 +18,12 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'autoprefixer', 'postcss' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'autoprefixer', 'concat', 'postcss' );
 
   return gulp.src ( [output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' )], { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.minified' ) ) ) )
-             .pipe ( concat ( output.getName ( 'css.unminified' ) ) )
+             .pipe ( concat ( output.getName ( 'css.unminified' ), plugins.concat.options ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, () => require ( 'gulp-autoprefixer' )( plugins.autoprefixer.options ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'css.unminified' ) ) )
              .pipe ( touch () )

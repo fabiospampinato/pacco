@@ -4,7 +4,6 @@
 const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
       gulpif = require ( 'gulp-if' ),
-      concat = require ( 'gulp-concat' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       project = require ( '../../../../project' ),
@@ -14,6 +13,7 @@ const _ = require ( 'lodash' ),
       output = require ( '../../../../utilities/paths/output' ),
       plumberU = require ( '../../../../utilities/plumber' ),
       components = require ( '../../../../plugins/components' ),
+      concat = require ( '../../../../plugins/concat' ),
       dependencies = require ( '../../../../plugins/dependencies' ),
       substitute = require ( '../../../../plugins/substitute' ),
       touch = require ( '../../../../plugins/touch' );
@@ -22,7 +22,7 @@ const _ = require ( 'lodash' ),
 
 function general ( name, filterable ) {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies' );
 
   return gulp.src ( input.getPath ( `scss.${name}` ) )
              .pipe ( plumber ( plumberU.error ) )
@@ -30,7 +30,7 @@ function general ( name, filterable ) {
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( `scss.${name}` ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( concat ( output.getName ( `scss.${name}` ) ) )
+             .pipe ( concat ( output.getName ( `scss.${name}` ), plugins.concat.options ) )
              .pipe ( gulp.dest ( output.getDir ( `scss.${name}` ) ) )
              .pipe ( touch () );
 

@@ -57,6 +57,9 @@ const plugins = {
       warningLevel: 'QUIET'
     }
   },
+  concat: {
+    options: {}
+  },
   del: {
     options: {
       force: true

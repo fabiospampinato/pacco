@@ -3,7 +3,6 @@
 
 const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
-      concat = require ( 'gulp-concat' ),
       gulpif = require ( 'gulp-if' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
@@ -14,6 +13,7 @@ const _ = require ( 'lodash' ),
       output = require ( '../../utilities/paths/output' ),
       plumberU = require ( '../../utilities/plumber' ),
       components = require ( '../../plugins/components' ),
+      concat = require ( '../../plugins/concat' ),
       dependencies = require ( '../../plugins/dependencies' ),
       substitute = require ( '../../plugins/substitute' ),
       touch = require ( '../../plugins/touch' ),
@@ -24,7 +24,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
              .pipe ( plumber ( plumberU.error ) )
@@ -32,7 +32,7 @@ function task () {
              .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.minified' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( concat ( output.getName ( 'javascript.partial' ) ) )
+             .pipe ( concat ( output.getName ( 'javascript.partial' ), plugins.concat.options ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.partial' ) ) )
              .pipe ( touch () )
              .pipe ( gulpif ( plugins.webpack.enabled, () => require ( 'webpack-stream' )( plugins.webpack.options ) ) )

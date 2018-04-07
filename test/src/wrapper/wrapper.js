@@ -1,0 +1,6 @@
+
+function wrapper () {
+
+  // @concat-content
+
+}
