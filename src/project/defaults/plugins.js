@@ -53,7 +53,7 @@ const plugins = {
       compilationLevel: 'SIMPLE',
       languageIn: 'ECMASCRIPT5_STRICT',
       languageOut: 'ECMASCRIPT5_STRICT',
-      outputWrapper: '(function(){\n%output%\n}).call(this)',
+      outputWrapper: '(function(){%output%})();',
       warningLevel: 'QUIET'
     }
   },
