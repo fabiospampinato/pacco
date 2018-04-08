@@ -54,6 +54,8 @@ project.paths.tokens.env = prettyEnvs;
 project.paths.tokens.environment = prettyEnvs
 project.paths.tokens.temp = project.paths.tokens.temp || projectU.getTempPath ( project );
 
+projectU.initEngines ( project );
+
 /* EXPORT */
 
 module.exports = project;

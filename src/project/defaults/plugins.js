@@ -12,7 +12,6 @@ const plugins = {
   autoprefixer: {
     enabled: true,
     options: {
-      browsers: ['ie >= 10', 'ie_mob >= 10', 'edge >= 13', 'ff >= 30', 'chrome >= 34', 'safari >= 7', 'opera >= 23', 'ios >= 7', 'android >= 4.4', 'bb >= 10'],
       cascade: true
     }
   },
@@ -21,9 +20,6 @@ const plugins = {
     options: {
       presets: [
         [require.resolve ( '../../../node_modules/@babel/preset-env' ), { //FIXME: Ugly
-          targets: {
-            browsers: ['ie >= 10', 'ie_mob >= 10', 'edge >= 13', 'ff >= 30', 'chrome >= 34', 'safari >= 7', 'opera >= 23', 'ios >= 7', 'android >= 4.4', 'bb >= 10']
-          },
           modules: 'commonjs',
           loose: true,
           useBuiltIns: false,

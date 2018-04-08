@@ -54,6 +54,29 @@ const project = {
 
     return hash;
 
+  },
+
+  initEngines ( project ) {
+
+    _.set ( project, 'plugins.autoprefixer.options.browsers', project.browsers );
+
+    const babelPreset = _.get ( project, 'plugins.babel.options.presets[0][0]' ),
+          isPresetEnv = babelPreset && babelPreset.match ( /preset-env/g );
+
+    if ( isPresetEnv ) {
+
+      if ( project.target === 'web' ) {
+
+        _.set ( project, 'plugins.babel.options.presets[0][1].targets.browsers', project.browsers );
+
+      } else if ( project.target === 'node' ) {
+
+        _.set ( project, 'plugins.babel.options.presets[0][1].targets.node', project.node );
+
+      }
+
+    }
+
   }
 
 };

@@ -11,6 +11,11 @@ const components = require ( './components' ),
 
 const defaults = {
 
+  /* ENGINES */ // Target these engine(s) when compiling
+
+  browsers: ['ie >= 9'],
+  node: 'current',
+
   /* GENERAL */
 
   components,
