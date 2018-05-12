@@ -1,0 +1,12 @@
+{
+  "plugins": {
+    "wrapper": {
+      "options": {
+        "templates": {
+          "unminified": "/* UNMINIFIED - START */\n[content]\n/* UNMINIFIED - END */",
+          "minified": "/* MINIFIED - START */\n[content]\n/* MINIFIED - END */"
+        }
+      }
+    }
+  }
+}

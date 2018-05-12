@@ -168,6 +168,10 @@ const plugins = {
   webpack: {
     enabled: false,
     options: {}
+  },
+  wrapper: {
+    enabled: true,
+    options: {}
   }
 };
 

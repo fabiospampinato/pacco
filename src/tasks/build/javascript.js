@@ -17,6 +17,7 @@ const _ = require ( 'lodash' ),
       dependencies = require ( '../../plugins/dependencies' ),
       substitute = require ( '../../plugins/substitute' ),
       touch = require ( '../../plugins/touch' ),
+      wrapper = require ( '../../plugins/wrapper' ),
       project = require ( '../../project' ),
       {plugins} = project;
 
@@ -38,13 +39,17 @@ function task () {
              .pipe ( gulpif ( plugins.webpack.enabled, () => require ( 'webpack-stream' )( plugins.webpack.options ) ) )
              .pipe ( gulpif ( plugins.babel.enabled, () => require ( 'gulp-babel' )( plugins.babel.options ) ) )
              .pipe ( rename ( output.getName ( 'javascript.unminified' ) ) )
+             .pipe ( wrapper.wrap ( _.merge ( {}, plugins.wrapper.options, { template: 'unminified' } ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.unminified' ) ) )
+             .pipe ( wrapper.unwrap ( plugins.wrapper.options ) )
              .pipe ( touch () )
              .pipe ( gulpif ( plugins.babili.enabled, () => require ( 'gulp-babili' )( plugins.babili.options ) ) )
              .pipe ( gulpif ( plugins.uglify.enabled, () => require ( 'gulp-uglify/composer' )( require ( 'uglify-js'), console )( plugins.uglify.options ) ) )
              .pipe ( gulpif ( plugins.closure.enabled, () => require ( 'google-closure-compiler-js' ).gulp ()( plugins.closure.options ) ) )
              .pipe ( rename ( output.getName ( 'javascript.minified' ) ) )
+             .pipe ( wrapper.wrap ( _.merge ( {}, plugins.wrapper.options, { template: 'minified' } ) ) )
              .pipe ( gulp.dest ( output.getDir ( 'javascript.minified' ) ) )
+             .pipe ( wrapper.unwrap ( plugins.wrapper.options ) )
              .pipe ( touch () );
 
 }
