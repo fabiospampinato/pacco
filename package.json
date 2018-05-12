@@ -80,6 +80,7 @@
     "strip-ansi": "^4.0.0",
     "temp": "^0.8.3",
     "through2": "^2.0.3",
+    "uglify-js": "^3.3.24",
     "update-notifier": "^2.3.0",
     "vinyl": "^2.1.0",
     "webpack-node-externals": "^1.7.2",
