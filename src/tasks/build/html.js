@@ -22,17 +22,18 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies', 'htmlmin' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies', 'htmlmin' ),
+        needOutput = output.isEnabled ( 'html' );
 
   return gulp.src ( input.getPath ( 'html' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'html' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getDir ( 'html' ) ) ) )
              .pipe ( gulpif ( plugins.htmlmin.enabled, () => require ( 'gulp-htmlmin' )( plugins.htmlmin.options ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'html' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'html' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

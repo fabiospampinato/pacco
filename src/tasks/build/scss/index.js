@@ -1,8 +1,10 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       newer = require ( 'gulp-newer' ),
+      rename = require ( 'gulp-rename' ),
       plugins = require ( '../../../project' ).plugins,
       gutil = require ( '../../../utilities/gutil' ),
       output = require ( '../../../utilities/paths/output' ),
@@ -13,13 +15,15 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  const parts = ['functions', 'mixins', 'variables', 'keyframes', 'style'];
+  const parts = ['functions', 'mixins', 'variables', 'keyframes', 'style'],
+        needOutput = output.isEnabled ( 'scss.all' );
 
-  return gulp.src ( parts.map ( part => output.getPath ( `scss.${part}` ) ), { allowEmpty: true } )
-             .pipe ( newer ( output.getPath ( 'scss.all' ) ) )
-             .pipe ( concat ( output.getName ( 'scss.all' ), plugins.concat.options ) )
-             .pipe ( gulp.dest ( output.getDir ( 'scss.all' ) ) )
-             .pipe ( touch () );
+  return gulp.src ( _.filter ( parts.map ( part => output.getPath ( `scss.${part}` ) ) ), { allowEmpty: true } )
+             .pipe ( gulpif ( needOutput, () => newer ( output.getPath ( 'scss.all' ) ) ) )
+             .pipe ( concat ( 'all.scss', plugins.concat.options ) )
+             .pipe ( gulpif ( needOutput, rename ( output.getName ( 'scss.all' ) ) ) )
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'scss.all' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

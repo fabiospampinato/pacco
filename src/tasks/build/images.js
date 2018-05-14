@@ -23,19 +23,20 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'dependencies', 'imagemin' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'dependencies', 'imagemin' ),
+        needOutput = output.isEnabled ( 'images' );
 
   return gulp.src ( input.getPath ( 'images' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'images' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getDir ( 'images' ) ) ) )
              .pipe ( gulpif ( plugins.imagemin.enabled, bytediff.start () ) )
              .pipe ( gulpif ( plugins.imagemin.enabled, () => require ( 'gulp-imagemin' )( plugins.imagemin.plugins (), plugins.imagemin.options ) ) )
              .pipe ( gulpif ( plugins.imagemin.enabled, bytediff.stop () ) )
-             .pipe ( gulp.dest ( output.getDir ( 'images' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'images' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

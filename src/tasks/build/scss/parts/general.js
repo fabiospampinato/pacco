@@ -6,6 +6,7 @@ const _ = require ( 'lodash' ),
       gulpif = require ( 'gulp-if' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
+      rename = require ( 'gulp-rename' ),
       project = require ( '../../../../project' ),
       {plugins} = project,
       changed = require ( '../../../../utilities/changed' ),
@@ -22,17 +23,19 @@ const _ = require ( 'lodash' ),
 
 function general ( name, filterable ) {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies' ),
+        needOutput = output.isEnabled ( `scss.${name}` );
 
   return gulp.src ( input.getPath ( `scss.${name}` ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( filterable && plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( `scss.${name}` ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getPath ( `scss.${name}` ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( concat ( output.getName ( `scss.${name}` ), plugins.concat.options ) )
-             .pipe ( gulp.dest ( output.getDir ( `scss.${name}` ) ) )
-             .pipe ( touch () );
+             .pipe ( concat ( `${name}.scss`, plugins.concat.options ) )
+             .pipe ( gulpif ( needOutput, rename ( output.getName ( `scss.${name}` ) ) ) )
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( `scss.${name}` ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

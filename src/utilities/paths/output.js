@@ -7,6 +7,12 @@ const paths = require ( './paths' );
 
 const output = {
 
+  isEnabled ( key ) {
+
+    return !!output.getPath ( key );
+
+  },
+
   getDir ( key ) {
 
     return paths.getDir ( `output.${key}` );

@@ -23,7 +23,8 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'dependencies', 'substitute', 'jsonminify' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'dependencies', 'substitute', 'jsonminify' ),
+        needOutput = output.isEnabled ( 'json' );
 
   return gulp.src ( input.getPath ( 'json' ) )
              .pipe ( plumber ( plumberU.error ) )
@@ -31,10 +32,10 @@ function task () {
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'json' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getDir ( 'json' ) ) ) )
              .pipe ( gulpif ( plugins.jsonminify.enabled, () => require ( 'gulp-jsonminify' )( plugins.jsonminify.options ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'json' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'json' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

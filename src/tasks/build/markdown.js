@@ -22,18 +22,19 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies', 'markdown', 'htmlmin' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies', 'markdown', 'htmlmin' ),
+        needOutput = output.isEnabled ( 'markdown' );
 
   return gulp.src ( input.getPath ( 'markdown' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'markdown' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getDir ( 'markdown' ) ) ) )
              .pipe ( gulpif ( plugins.markdown.enabled, () => require ( 'gulp-markdown' )( plugins.markdown.options ) ) )
              .pipe ( gulpif ( plugins.htmlmin.enabled, () => require ( 'gulp-htmlmin' )( plugins.htmlmin.options ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'markdown' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'markdown' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

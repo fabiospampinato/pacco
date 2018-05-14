@@ -22,16 +22,17 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugin ( 'dependencies' ),
+        needOutput = output.isEnabled ( 'fonts' );
 
   return gulp.src ( input.getPath ( 'fonts' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( flatten () )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getDir ( 'fonts' ) ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'fonts' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getDir ( 'fonts' ) ) ) )
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'fonts' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

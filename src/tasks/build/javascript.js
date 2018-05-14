@@ -25,32 +25,36 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' ),
+        needOutputPartial = output.isEnabled ( 'javascript.partial' ),
+        needOutputUnminified = output.isEnabled ( 'javascript.unminified' ),
+        needOutputMinified = output.isEnabled ( 'javascript.minified' );
 
   return gulp.src ( input.getPath ( 'javascript.all' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'javascript.minified' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutputMinified, () => newer ( output.getPath ( 'javascript.minified' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( concat ( output.getName ( 'javascript.partial' ), plugins.concat.options ) )
-             .pipe ( gulp.dest ( output.getDir ( 'javascript.partial' ) ) )
-             .pipe ( touch () )
+             .pipe ( concat ( 'partial.js', plugins.concat.options ) )
+             .pipe ( gulpif ( needOutputPartial, rename ( output.getName ( 'javascript.partial' ) ) ) )
+             .pipe ( gulpif ( needOutputPartial, () => gulp.dest ( output.getDir ( 'javascript.partial' ) ) ) )
+             .pipe ( gulpif ( needOutputPartial, touch () ) )
              .pipe ( gulpif ( plugins.webpack.enabled, () => require ( 'webpack-stream' )( plugins.webpack.options ) ) )
              .pipe ( gulpif ( plugins.babel.enabled, () => require ( 'gulp-babel' )( plugins.babel.options ) ) )
-             .pipe ( rename ( output.getName ( 'javascript.unminified' ) ) )
+             .pipe ( gulpif ( needOutputUnminified, rename ( output.getName ( 'javascript.unminified' ) ) ) )
              .pipe ( wrapper.wrap ( _.merge ( {}, plugins.wrapper.options, { template: 'unminified' } ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'javascript.unminified' ) ) )
+             .pipe ( gulpif ( needOutputUnminified, () => gulp.dest ( output.getDir ( 'javascript.unminified' ) ) ) )
              .pipe ( wrapper.unwrap ( plugins.wrapper.options ) )
-             .pipe ( touch () )
+             .pipe ( gulpif ( needOutputUnminified, touch () ) )
              .pipe ( gulpif ( plugins.babili.enabled, () => require ( 'gulp-babili' )( plugins.babili.options ) ) )
              .pipe ( gulpif ( plugins.uglify.enabled, () => require ( 'gulp-uglify/composer' )( require ( 'uglify-js'), console )( plugins.uglify.options ) ) )
              .pipe ( gulpif ( plugins.closure.enabled, () => require ( 'google-closure-compiler-js' ).gulp ()( plugins.closure.options ) ) )
-             .pipe ( rename ( output.getName ( 'javascript.minified' ) ) )
+             .pipe ( gulpif ( needOutputMinified, rename ( output.getName ( 'javascript.minified' ) ) ) )
              .pipe ( wrapper.wrap ( _.merge ( {}, plugins.wrapper.options, { template: 'minified' } ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'javascript.minified' ) ) )
+             .pipe ( gulpif ( needOutputMinified, () => gulp.dest ( output.getDir ( 'javascript.minified' ) ) ) )
              .pipe ( wrapper.unwrap ( plugins.wrapper.options ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutputMinified, touch () ) );
 
 }
 

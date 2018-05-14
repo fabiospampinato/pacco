@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       gulpif = require ( 'gulp-if' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
@@ -18,19 +19,22 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'autoprefixer', 'concat', 'postcss' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'autoprefixer', 'concat', 'postcss' ),
+        needOutputUnminified = output.isEnabled ( 'css.unminified' ),
+        needOutputMinified = output.isEnabled ( 'css.minified' );
 
-  return gulp.src ( [output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' )], { allowEmpty: true } )
+  return gulp.src ( _.filter ([ output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' ) ]), { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.minified' ) ) ) )
-             .pipe ( concat ( output.getName ( 'css.unminified' ), plugins.concat.options ) )
+             .pipe ( gulpif ( !needUpdate && needOutputMinified, () => newer ( output.getPath ( 'css.minified' ) ) ) )
+             .pipe ( concat ( 'unminified.css', plugins.concat.options ) )
+             .pipe ( gulpif ( needOutputUnminified, rename ( output.getName ( 'css.unminified' ) ) ) )
              .pipe ( gulpif ( plugins.autoprefixer.enabled, () => require ( 'gulp-autoprefixer' )( plugins.autoprefixer.options ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'css.unminified' ) ) )
-             .pipe ( touch () )
+             .pipe ( gulpif ( needOutputUnminified, () => gulp.dest ( output.getDir ( 'css.unminified' ) ) ) )
+             .pipe ( gulpif ( needOutputUnminified, touch () ) )
              .pipe ( gulpif ( plugins.postcss.enabled, () => require ( 'gulp-postcss' )( plugins.postcss.plugins (), plugins.postcss.options ) ) )
-             .pipe ( rename ( output.getName ( 'css.minified' ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'css.minified' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutputMinified, rename ( output.getName ( 'css.minified' ) ) ) )
+             .pipe ( gulpif ( needOutputMinified, () => gulp.dest ( output.getDir ( 'css.minified' ) ) ) )
+             .pipe ( gulpif ( needOutputMinified, touch () ) );
 
 }
 

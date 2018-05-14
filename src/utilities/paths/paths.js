@@ -12,8 +12,11 @@ const paths = {
 
   getDir ( key ) {
 
-    const p = paths.getPath ( key ),
-          name = path.parse ( p ).base;
+    const p = paths.getPath ( key );
+
+    if ( !p ) return p;
+
+    const name = path.parse ( p ).base;
 
     return name.includes ( '.' ) ? path.parse ( p ).dir : p;
 
@@ -23,7 +26,7 @@ const paths = {
 
     const p = paths.getPath ( key );
 
-    if ( !_.isPlainObject ( p ) ) return p;
+    if ( !p || !_.isPlainObject ( p ) ) return p;
 
     const subkeys = Object.keys ( p ),
           dirs = subkeys.map ( subkey => paths.getDir ( `${key}.${subkey}` ) );
@@ -35,6 +38,8 @@ const paths = {
   getName ( key ) {
 
     const p = paths.getPath ( key );
+
+    if ( !p ) return p;
 
     return path.parse ( p ).base;
 

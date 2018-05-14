@@ -17,15 +17,16 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'sass' );
+  const needUpdate = changed.environment () || changed.target () || changed.plugins ( 'sass' ),
+        needOutput = output.isEnabled ( 'scss.partial' );
 
   return gulp.src ( output.getPath ( 'scss.all' ), { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'scss.partial' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getPath ( 'scss.partial' ) ) ) )
              .pipe ( gulpif ( plugins.sass.enabled, () => require ( 'gulp-sass' )( plugins.sass.options ) ) )
-             .pipe ( rename ( output.getName ( 'scss.partial' ) ) )
-             .pipe ( gulp.dest ( output.getDir ( 'scss.partial' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutput, rename ( output.getName ( 'scss.partial' ) ) ) )
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'scss.partial' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 

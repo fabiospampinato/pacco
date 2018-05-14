@@ -21,17 +21,18 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies' );
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies' ),
+        needOutput = output.isEnabled ( 'css.partial' );
 
   return gulp.src ( input.getPath ( 'css.all' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
-             .pipe ( gulpif ( !needUpdate, newer ( output.getPath ( 'css.partial' ) ) ) )
+             .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getPath ( 'css.partial' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
              .pipe ( concat ( output.getName ( 'css.partial' ), plugins.concat.options ) )
-             .pipe ( gulp.dest ( output.getDir ( 'css.partial' ) ) )
-             .pipe ( touch () );
+             .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'css.partial' ) ) ) )
+             .pipe ( gulpif ( needOutput, touch () ) );
 
 }
 
