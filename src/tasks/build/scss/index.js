@@ -3,6 +3,7 @@
 
 const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
+      gulpif = require ( 'gulp-if' ),
       newer = require ( 'gulp-newer' ),
       rename = require ( 'gulp-rename' ),
       plugins = require ( '../../../project' ).plugins,
