@@ -45,12 +45,12 @@ const plugins = {
   closure: {
     enabled: false,
     options: {
-      assumeFunctionWrapper: true,
-      compilationLevel: 'SIMPLE',
-      languageIn: 'ECMASCRIPT5_STRICT',
-      languageOut: 'ECMASCRIPT5_STRICT',
-      outputWrapper: '(function(){%output%})();',
-      warningLevel: 'QUIET'
+      assume_function_wrapper: true,
+      compilation_level: 'SIMPLE',
+      language_in: 'ECMASCRIPT5_STRICT',
+      language_out: 'ECMASCRIPT5_STRICT',
+      output_wrapper: '(function(){%output%})();',
+      warning_level: 'QUIET'
     }
   },
   concat: {
