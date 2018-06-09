@@ -29,7 +29,7 @@ const changed = {
 
   plugins ( ...names ) {
 
-    return names.length ? names.every ( changed.plugin ) : changed.project ( 'plugins' );
+    return names.length ? names.some ( changed.plugin ) : changed.project ( 'plugins' );
 
   },
 
