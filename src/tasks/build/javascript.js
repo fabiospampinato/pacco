@@ -25,7 +25,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack' ),
+  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack', 'wrapper' ),
         needOutputPartial = output.isEnabled ( 'javascript.partial' ),
         needOutputUnminified = output.isEnabled ( 'javascript.unminified' ),
         needOutputMinified = output.isEnabled ( 'javascript.minified' );
