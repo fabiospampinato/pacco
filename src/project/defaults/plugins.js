@@ -19,7 +19,7 @@ const plugins = {
     enabled: true,
     options: {
       presets: [
-        [require.resolve ( '../../../node_modules/@babel/preset-env' ), { //FIXME: Ugly
+        [require.resolve ( '@babel/preset-env' ), { //FIXME: Ugly
           modules: 'commonjs',
           loose: true,
           useBuiltIns: false,
