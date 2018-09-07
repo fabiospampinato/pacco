@@ -22,8 +22,7 @@ const plugins = {
         [require.resolve ( '@babel/preset-env' ), { //FIXME: Ugly
           modules: 'commonjs',
           loose: true,
-          useBuiltIns: false,
-          uglify: true
+          useBuiltIns: false
         }]
       ],
       plugins: [
