@@ -124,10 +124,11 @@ async function cleanTest ( test ) {
 
 async function buildTest ( test ) {
 
-  const {dist} = getTestPaths ( test ),
+  const {dist, check} = getTestPaths ( test ),
         config = getTestConfig ( test ),
         build = await execa ( PACCO_BIN, ['build', '--config', config, '--no-notification', '--verbose', '--fresh', ...argv._], { reject: false } );
 
+  mkdirp.sync ( check ); // In case we are checking that nothing gets built
   mkdirp.sync ( dist ); // In case nothing has been built, but we need the folder for `output.txt` files and for diffing
 
   if ( !argv.check ) { // The `output.txt` files will interfere with diffing
