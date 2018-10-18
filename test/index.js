@@ -60,12 +60,12 @@ function getTestPaths ( test ) {
 
 function getTestConfigGeneral ( test ) {
 
-  const escapeWindowsPath = filePath => filePath.replace ( /\\/g, '\\\\' );
+  const escapeBackslash = filePath => filePath.replace ( /\\/g, '\\\\' ); // Required for properly handling Windows paths
 
   const {src, dist} = getTestPaths ( test ),
         configPath = path.join ( __dirname, 'config', 'general.json' ),
         configStr = fs.readFileSync ( configPath, { encoding: 'utf-8' } ),
-        configStrReplaced = configStr.replace ( '[src]', escapeWindowsPath ( src ) ).replace ( '[dist]', escapeWindowsPath ( dist ) ),
+        configStrReplaced = configStr.replace ( '[src]', escapeBackslash ( src ) ).replace ( '[dist]', escapeBackslash ( dist ) ),
         config = JSON.parse ( configStrReplaced );
 
   return config;

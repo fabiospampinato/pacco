@@ -45,9 +45,15 @@ function getFilePaths ( file, regex, config ) {
 
   const matches = getFileMatches ( file, regex ),
         targets = matches.map ( match => match[1] ),
-        dirname = path.dirname ( config.path2component ( file.path ) );
+        dirname = path.dirname ( config.path2component ( file.pathNormalized ) );
 
-  return targets.map ( target => target.startsWith ( '.' ) ? path.join ( dirname, target ) : target );
+  return targets.map ( target => target.startsWith ( '.' ) ? getPathNormalized ( path.join ( dirname, target ) ) : target );
+
+}
+
+function getPathNormalized ( filepath ) { // Normalizing those stupid Windows paths
+
+  return filepath.replace ( /(\\|\/)+/g, '/' );
 
 }
 
@@ -197,17 +203,25 @@ function getNodes ( files, config ) {
   const nodes = {},
         components = {};
 
+  /* NORMALIZING PATHS */
+
+  files.forEach ( file => {
+
+    file.pathNormalized = getPathNormalized ( file.path );
+
+  });
+
   /* POPULATING */
 
   files.forEach ( file => {
 
-    const suffix = getPathSuffix ( file.path, config.suffixRe ),
-          component = config.path2component ( file.path ),
+    const suffix = getPathSuffix ( file.pathNormalized, config.suffixRe ),
+          component = config.path2component ( file.pathNormalized ),
           componentWithoutSuffix = getPathWithoutSuffix ( component, config.suffixRe );
 
     const node = {
       file,
-      path: file.path,
+      path: file.pathNormalized,
       component,
       suffix,
       priority: config.priority ? getFilePriority ( file, config.priorityRe ) : 0,
@@ -222,7 +236,7 @@ function getNodes ( files, config ) {
     if ( !config.after && node.after ) return;
     if ( !config.override && node.override ) return;
 
-    nodes[file.path] = node;
+    nodes[file.pathNormalized] = node;
     components[component] = node;
 
   });
@@ -231,7 +245,7 @@ function getNodes ( files, config ) {
 
   files.forEach ( file => {
 
-    const node = nodes[file.path],
+    const node = nodes[file.pathNormalized],
           validOptionals = node.optionals.filter ( optional => components[optional] );
 
     node.dependencies = validOptionals.concat ( node.requires );
@@ -250,9 +264,9 @@ function resolveOverride ( nodes, components, {overrides} ) {
 
     if ( !target ) return getErrorOverride ( node );
 
-    const originalPath = target.file.path;
+    const originalPath = target.file.pathNormalized;
 
-    _.extend ( target, _.omit ( node, ['path', 'component'] ) );
+    _.extend ( target, _.omit ( node, ['path', 'pathNormalized', 'component'] ) );
 
     delete nodes[node.path];
 
@@ -284,7 +298,7 @@ function injectBefores ( nodes, components, files, befores ) {
 
   befores.forEach ( before => {
 
-    const index = files.findIndex ( file => nodes[file.originalPath || file.path].component === before.before );
+    const index = files.findIndex ( file => nodes[file.originalPath || file.pathNormalized].component === before.before );
 
     files.splice ( index, 0, before.file );
 
@@ -310,7 +324,7 @@ function injectAfters ( nodes, components, files, afters ) {
 
   afters.forEach ( after => {
 
-    const index = files.findIndex ( file => nodes[file.originalPath || file.path].component === after.after );
+    const index = files.findIndex ( file => nodes[file.originalPath || file.pathNormalized].component === after.after );
 
     files.splice ( index + 1, 0, after.file );
 
@@ -477,12 +491,12 @@ function log ( nodes, files ) {
 
   files.forEach ( ( file, i ) => {
 
-    const node = nodes[file.originalPath || file.path],
+    const node = nodes[file.originalPath || file.pathNormalized],
           isOverride = !!file.originalPath,
           isBeforeOrAfter = node.before || node.after,
           priority = node.priority;
 
-    let line = file.path;
+    let line = file.pathNormalized;
 
     if ( priority ) {
 

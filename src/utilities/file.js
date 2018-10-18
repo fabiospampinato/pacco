@@ -8,7 +8,8 @@ const _ = require ( 'lodash' ),
       gulp = require ( 'gulp' ),
       mkdirp = require ( 'mkdirp' ),
       path = require ( 'path' ),
-      rdf = require ( 'require-dot-file' );
+      rdf = require ( 'require-dot-file' ),
+      Upath = require ( './path' );
 
 /* FILE */
 
@@ -81,15 +82,14 @@ const file = {
 
       const project = require ( '../project' ), // In order to avoid a cyclic dependency
             projectU = require ( './project' ), // In order to avoid a cyclic dependency
-            src = projectU.getSrcPaths ( project ).map ( src => src.replace ( /[\\|/]+/g, '/' ) ),
+            src = projectU.getSrcPaths ( project ).map ( Upath.normalize ),
             srcRe = new RegExp ( `^(${src.map ( _.escapeRegExp ).join ( '|' )})\/` );
 
       file._file2componentSrcRe = srcRe;
 
     }
 
-    const commponent = filepath.replace ( /[\\|/]+/g, '/' )
-                               .replace ( file._file2componentSrcRe, '' );
+    const commponent = Upath.normalize ( filepath ).replace ( file._file2componentSrcRe, '' );
 
     file.file2componentCache[filepath] = commponent;
 
