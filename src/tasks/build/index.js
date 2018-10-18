@@ -17,7 +17,7 @@ const buildStatus = require ( '../../utilities/build_status' ),
 
 /* TASK */
 
-const build = gutil.parallel ( buildHTML, buildJSON, buildFonts, buildImages, buildMarkdown, buildJavascript, buildStyle );
+const build = gutil.parallel ( buildHTML, buildJSON, buildFonts, buildImages, buildMarkdown, buildJavascript, buildStyle ),
       buildEnhanced = gutil.task.enhance ( build, 'build', 'Build your project' ),
       buildLogger = gutil.series ( buildStatus.start, buildEnhanced, buildStatus.finish, gutil.parallel ( notification, summary ) );
       buildLoggerEnhanced = gutil.task.withMetadata ( buildLogger, 'build', 'Build your project' );

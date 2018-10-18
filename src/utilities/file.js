@@ -81,7 +81,7 @@ const file = {
 
       const project = require ( '../project' ), // In order to avoid a cyclic dependency
             projectU = require ( './project' ), // In order to avoid a cyclic dependency
-            src = projectU.getSrcPaths ( project ),
+            src = projectU.getSrcPaths ( project ).map ( src => src.replace ( /[\\|/]+/g, '/' ) ),
             srcRe = new RegExp ( `^(${src.map ( _.escapeRegExp ).join ( '|' )})\/` );
 
       file._file2componentSrcRe = srcRe;
