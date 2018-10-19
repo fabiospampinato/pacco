@@ -5,7 +5,7 @@
 
 const _ = require ( 'lodash' ),
       path = require ( 'path' ),
-      forAll = require ( './forAll' );
+      forAll = require ( './forall' );
 
 /* ORDER PINNER */
 

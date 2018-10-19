@@ -13,7 +13,7 @@ const _ = require ( 'lodash' ),
       PluginError = require ( 'plugin-error' ),
       stringMatches = require ( 'string-matches' ).default,
       temp = require ( 'temp' ),
-      forAll = require ( './forAll' );
+      forAll = require ( './forall' );
 
 /* UTILITIES */
 
