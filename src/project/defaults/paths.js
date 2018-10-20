@@ -11,9 +11,9 @@ const paths = {
   tokens: {
     src: 'src',
     dist: 'dist',
-    temp: undefined, // Setted dynamically, only if left undefined
     bundle: 'pacco',
     target: undefined, // Setted dynamically
+    temp: undefined, // Setted dynamically
     env: undefined, // Setted dynamically
     environment: undefined // Setted dynamically
   },
@@ -24,8 +24,7 @@ const paths = {
     images: '[src]/**/*.{bmp,gif,ico,jpg,jpeg,png,svg,webp}',
     markdown: '[src]/**/*.md',
     javascript: {
-      all: '[src]/**/*.js',
-      temp: '[temp]/javascript/**/*.js'
+      all: '[src]/**/*.js'
     },
     scss: {
       all: '[src]/**/*.scss',
@@ -33,12 +32,10 @@ const paths = {
       functions: '[src]/**/functions*.scss',
       mixins: '[src]/**/mixins*.scss',
       keyframes: '[src]/**/keyframes*.scss',
-      style: ['[src]/**/*.scss', '![src]/**/variables*.scss', '![src]/**/functions*.scss', '![src]/**/mixins*.scss', '![src]/**/keyframes*.scss'],
-      temp: '[temp]/scss/**/*.scss'
+      style: ['[src]/**/*.scss', '![src]/**/variables*.scss', '![src]/**/functions*.scss', '![src]/**/mixins*.scss', '![src]/**/keyframes*.scss']
     },
     css: {
-      all: '[src]/**/*.css',
-      temp: '[temp]/css/**/*.css'
+      all: '[src]/**/*.css'
     }
   },
   output: {
@@ -50,7 +47,6 @@ const paths = {
     javascript: {
       unminified: '[dist]/javascript/[bundle].js',
       minified: '[dist]/javascript/[bundle].min.js',
-      temp: '[temp]/javascript',
       partial: '[temp]/partials/javascript/concat.js'
     },
     scss: {
@@ -60,13 +56,11 @@ const paths = {
       mixins: '[dist]/scss/[bundle].mixins.scss',
       keyframes: '[dist]/scss/[bundle].keyframes.scss',
       style: '[dist]/scss/[bundle].style.scss',
-      temp: '[temp]/scss',
       partial: '[temp]/partials/css/scss.css'
     },
     css: {
       unminified: '[dist]/css/[bundle].css',
       minified: '[dist]/css/[bundle].min.css',
-      temp: '[temp]/css',
       partial: '[temp]/partials/css/css.css'
     }
   },

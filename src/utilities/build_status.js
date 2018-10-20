@@ -19,7 +19,6 @@ const buildStatus = {
     buildStatus.status = {
       started: true,
       paths: {
-        temp: projectU.getTempPath ( project ),
         src: projectU.getSrcPaths ( project ),
         dist: projectU.getDistPath ( project )
       },
