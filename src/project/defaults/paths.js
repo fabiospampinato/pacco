@@ -53,7 +53,7 @@ const paths = {
       partial: '[temp]/partials/javascript/concat.js'
     },
     typescript: {
-      types: '[dist]/typescript/[bundle].d.ts'
+      declaration: '[dist]/typescript/[bundle].d.ts'
     },
     scss: {
       all: '[dist]/scss/[bundle].scss',
