@@ -42,7 +42,7 @@ function getFileContents ( config, normals, wrapper ) {
 function getFile ( name, contents ) {
 
   return new Vinyl ({
-    path: name,
+    path: _.isFunction ( name ) ? name () : name,
     contents: new Buffer ( contents )
   });
 

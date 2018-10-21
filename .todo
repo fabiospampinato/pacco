@@ -1,8 +1,6 @@
 
 Future:
   ☐ Migrate code to TypeScript
-  Support file formats:
-    ☐ Typescript (https://github.com/ivogabe/gulp-typescript)
 
 Maybe:
   ☐ Switch to https://github.com/MatAtBread/fast-async (it's supposed to be faster)

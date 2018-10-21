@@ -7,6 +7,7 @@ const _ = require ( 'lodash' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
+      typescript = require ( 'gulp-typescript' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
@@ -15,7 +16,9 @@ const _ = require ( 'lodash' ),
       components = require ( '../../plugins/components' ),
       concat = require ( '../../plugins/concat' ),
       dependencies = require ( '../../plugins/dependencies' ),
+      pickerFactory = require ( '../../plugins/picker' ),
       substitute = require ( '../../plugins/substitute' ),
+      tap = require ( '../../plugins/tap' ),
       touch = require ( '../../plugins/touch' ),
       wrapper = require ( '../../plugins/wrapper' ),
       project = require ( '../../project' ),
@@ -25,18 +28,31 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  const needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'webpack', 'wrapper' ),
+  const picker = pickerFactory (),
+        needUpdate = changed.environment () || changed.target () || changed.project ( 'components' ) || changed.plugins ( 'components', 'concat', 'substitute', 'dependencies', 'babel', 'babili', 'uglify', 'closure', 'typescript', 'webpack', 'wrapper' ),
         needOutputPartial = output.isEnabled ( 'javascript.partial' ),
         needOutputUnminified = output.isEnabled ( 'javascript.unminified' ),
-        needOutputMinified = output.isEnabled ( 'javascript.minified' );
+        needOutputMinified = output.isEnabled ( 'javascript.minified' ),
+        needOutputTypes = output.isEnabled ( 'typescript.types' );
 
-  return gulp.src ( input.getPath ( 'javascript.all' ) )
+  let isTypeScript = false;
+
+  return gulp.src ( _.flatten ( _.filter ( [input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' )] ) ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
              .pipe ( gulpif ( !needUpdate && needOutputMinified, () => newer ( output.getPath ( 'javascript.minified' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )
-             .pipe ( concat ( 'partial.js', plugins.concat.options ) )
+             .pipe ( tap ( file => isTypeScript = isTypeScript || /\.ts$/.test ( file.path ) ) )
+             .pipe ( concat ( () => `partial.${isTypeScript ? 'ts' : 'js'}`, plugins.concat.options ) )
+             .pipe ( picker.pick ( () => isTypeScript ) )
+             .pipe ( gulpif ( plugins.typescript.enabled, typescript ( _.merge ( _.isPlainObject ( plugins.typescript.options ) ? plugins.typescript.options : plugins.typescript.options (), { declaration: true, outFile: 'partial.js' } ) ) ) )
+             .pipe ( picker.replace ( ( cached, compiled ) => compiled.length ? compiled : cached ) )
+             .pipe ( picker.pick ( '**/*.d.ts' ) )
+             .pipe ( gulpif ( needOutputTypes, rename ( output.getName ( 'typescript.types' ) ) ) )
+             .pipe ( gulpif ( needOutputTypes, () => gulp.dest ( output.getDir ( 'typescript.types' ) ) ) )
+             .pipe ( gulpif ( needOutputTypes, touch () ) )
+             .pipe ( picker.pick ( '**/*.js' ) )
              .pipe ( gulpif ( needOutputPartial, rename ( output.getName ( 'javascript.partial' ) ) ) )
              .pipe ( gulpif ( needOutputPartial, () => gulp.dest ( output.getDir ( 'javascript.partial' ) ) ) )
              .pipe ( gulpif ( needOutputPartial, touch () ) )

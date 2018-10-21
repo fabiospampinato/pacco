@@ -4,7 +4,8 @@
 const _ = require ( 'lodash' ),
      argv = require ( 'yargs' ).argv,
      path = require ( 'path' ),
-     file = require ( '../../utilities/file' );
+     file = require ( '../../utilities/file' ),
+     project = require ( '../../utilities/project' );
 
 /* PLUGINS */
 
@@ -158,6 +159,33 @@ const plugins = {
     options: {
       tokenRe: /\[pacco(?:\.((?:[^\[\]\s]+|\[\d+\]){1,}))?\]/g,
       log: !!argv.verbose
+    }
+  },
+  typescript: {
+    enabled: true,
+    options () {
+
+      const config = require ( '..' ),
+            srcs = project.getSrcPaths ( config );
+
+      for ( let src of srcs ) {
+
+        const tsconfigPath = path.join ( src, 'tsconfig.json' ),
+              tsconfig = file.load ( tsconfigPath, false );
+
+        if ( tsconfig ) return tsconfig.compilerOptions || {};
+
+      }
+
+      return {
+        experimentalDecorators: true,
+        forceConsistentCasingInFileNames: true,
+        jsx: 'react',
+        noUnusedParameters: false,
+        strictNullChecks: true,
+        target: 'ES5'
+      };
+
     }
   },
   uglify: {

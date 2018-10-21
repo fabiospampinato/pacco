@@ -26,6 +26,9 @@ const paths = {
     javascript: {
       all: '[src]/**/*.js'
     },
+    typescript: {
+      all: '[src]/**/*.ts'
+    },
     scss: {
       all: '[src]/**/*.scss',
       variables: '[src]/**/variables*.scss',
@@ -48,6 +51,9 @@ const paths = {
       unminified: '[dist]/javascript/[bundle].js',
       minified: '[dist]/javascript/[bundle].min.js',
       partial: '[temp]/partials/javascript/concat.js'
+    },
+    typescript: {
+      types: '[dist]/typescript/[bundle].d.ts'
     },
     scss: {
       all: '[dist]/scss/[bundle].scss',
