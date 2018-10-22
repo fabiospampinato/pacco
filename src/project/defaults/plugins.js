@@ -3,6 +3,7 @@
 
 const _ = require ( 'lodash' ),
      argv = require ( 'yargs' ).argv,
+     findUp = require ( 'find-up' ),
      path = require ( 'path' ),
      file = require ( '../../utilities/file' ),
      project = require ( '../../utilities/project' );
@@ -170,10 +171,15 @@ const plugins = {
 
       for ( let src of srcs ) {
 
-        const tsconfigPath = path.join ( src, 'tsconfig.json' ),
-              tsconfig = file.load ( tsconfigPath, false );
+        const tsconfigPath = findUp.sync ( 'tsconfig.json', { cwd: src } );
 
-        if ( tsconfig ) return tsconfig.compilerOptions || {};
+        if ( !tsconfigPath ) continue;
+
+        const tsconfig = file.load ( tsconfigPath, false );
+
+        if ( !tsconfig || !tsconfig.compilerOptions ) continue;
+
+        return tsconfig.compilerOptions;
 
       }
 
