@@ -15,7 +15,7 @@ function fileWrap ( file, template, token ) {
 
     file.contentsUnwrapped = file.contents;
 
-    file.contents = Buffer.from ( template.replace ( token, file.contents.toString ( 'utf8' ) ) );
+    file.contents = Buffer.from ( template.replace ( token, () => file.contents.toString ( 'utf8' ) ) );
 
   }
 
