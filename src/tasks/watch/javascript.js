@@ -10,10 +10,10 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( input.getPath ( 'javascript.all' ), buildJavascript );
+  return gulp.watch ( [input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' )], buildJavascript );
 
 }
 
 /* EXPORT */
 
-module.exports = gutil.task.enhance ( task, 'watch-javascript', 'Watch JavaScript', 'more' );
+module.exports = gutil.task.enhance ( task, 'watch-javascript', 'Watch JavaScript and TypeScript', 'more' );
