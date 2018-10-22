@@ -33,7 +33,7 @@ function task () {
         needOutputPartial = output.isEnabled ( 'javascript.partial' ),
         needOutputUnminified = output.isEnabled ( 'javascript.unminified' ),
         needOutputMinified = output.isEnabled ( 'javascript.minified' ),
-        needOutputTypes = output.isEnabled ( 'typescript.declaration' );
+        needOutputDeclaration = output.isEnabled ( 'typescript.declaration' );
 
   let isTypeScript = false;
 
@@ -49,9 +49,9 @@ function task () {
              .pipe ( gulpif ( plugins.typescript.enabled, typescript ( _.merge ( _.isPlainObject ( plugins.typescript.options ) ? plugins.typescript.options : plugins.typescript.options (), { declaration: true, outFile: 'partial.js' } ) ) ) )
              .pipe ( picker.replace ( ( cached, compiled ) => compiled.length ? compiled : cached ) )
              .pipe ( picker.pick ( '**/*.d.ts' ) )
-             .pipe ( gulpif ( needOutputTypes, rename ( output.getName ( 'typescript.declaration' ) ) ) )
-             .pipe ( gulpif ( needOutputTypes, () => gulp.dest ( output.getDir ( 'typescript.declaration' ) ) ) )
-             .pipe ( gulpif ( needOutputTypes, touch () ) )
+             .pipe ( gulpif ( needOutputDeclaration, rename ( output.getName ( 'typescript.declaration' ) ) ) )
+             .pipe ( gulpif ( needOutputDeclaration, () => gulp.dest ( output.getDir ( 'typescript.declaration' ) ) ) )
+             .pipe ( gulpif ( needOutputDeclaration, touch () ) )
              .pipe ( picker.pick ( '**/*.js' ) )
              .pipe ( gulpif ( needOutputPartial, rename ( output.getName ( 'javascript.partial' ) ) ) )
              .pipe ( gulpif ( needOutputPartial, () => gulp.dest ( output.getDir ( 'javascript.partial' ) ) ) )
