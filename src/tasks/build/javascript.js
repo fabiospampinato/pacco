@@ -76,4 +76,4 @@ function task () {
 
 /* EXPORT */
 
-module.exports = gutil.task.enhance ( task, 'build-javascript', 'Build JavaScript', 'more' );
+module.exports = gutil.task.enhance ( task, 'build-javascript', 'Build JavaScript and TypeScript', 'more' );
