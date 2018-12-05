@@ -57,9 +57,17 @@ function getPathNormalized ( filepath ) { // Normalizing those stupid Windows pa
 
 }
 
+function getPathName ( filepath, regex ) {
+
+  const matches = getUniqMatches ( path.basename ( filepath ), regex );
+
+  return matches.length ? matches[0][1] : '';
+
+}
+
 function getPathSuffix ( filepath, regex ) {
 
-  const matches = getUniqMatches ( filepath, regex );
+  const matches = getUniqMatches ( path.basename ( filepath ), regex );
 
   return matches.length ? matches[0][1] : '';
 
@@ -70,6 +78,20 @@ function getPathWithoutSuffix ( filepath, regex ) {
   const matches = getUniqMatches ( filepath, regex );
 
   return matches.length ? `${filepath.substring ( 0, matches[0].index )}${filepath.substring ( matches[0].index + matches[0][1].length + 1 )}` : filepath;
+
+}
+
+function getNodesByName ( nodes, name ) {
+
+  return nodes.filter ( node => node.name === name );
+
+}
+
+function groupNodesByNames ( nodes, names ) { // Passing `names` in order to allow non-special names
+
+  const nodesByNames = names.map ( name => getNodesByName ( nodes, name ) );
+
+  return _.zipObject ( names, nodesByNames );
 
 }
 
@@ -215,7 +237,8 @@ function getNodes ( files, config ) {
 
   files.forEach ( file => {
 
-    const suffix = getPathSuffix ( file.pathNormalized, config.suffixRe ),
+    const name = getPathName ( file.pathNormalized, config.nameRe ),
+          suffix = getPathSuffix ( file.pathNormalized, config.suffixRe ),
           component = config.path2component ( file.pathNormalized ),
           componentWithoutSuffix = getPathWithoutSuffix ( component, config.suffixRe );
 
@@ -223,17 +246,20 @@ function getNodes ( files, config ) {
       file,
       path: file.pathNormalized,
       component,
+      name,
       suffix,
       priority: config.priority ? getFilePriority ( file, config.priorityRe ) : 0,
       optionals: config.optional ? getFilePaths ( file, config.optionalRe, config ) : [],
       requires: config.require ? getFilePaths ( file, config.requireRe, config ) : [],
       before: ( suffix === config.beforeSuffix ) ? componentWithoutSuffix : false,
+      beforeAll: ( name === config.beforeSuffix ),
       after: ( suffix === config.afterSuffix ) ? componentWithoutSuffix : false,
+      afterAll: ( name === config.afterSuffix ),
       override: ( suffix === config.overrideSuffix ) ? componentWithoutSuffix : false
     };
 
-    if ( !config.before && node.before ) return;
-    if ( !config.after && node.after ) return;
+    if ( !config.before && ( node.before || node.beforeAll ) ) return;
+    if ( !config.after && ( node.after || node.afterAll ) ) return;
     if ( !config.override && node.override ) return;
 
     nodes[file.pathNormalized] = node;
@@ -306,6 +332,16 @@ function injectBefores ( nodes, components, files, befores ) {
 
 }
 
+function injectBeforesAll ( nodes, components, files, beforesAll ) {
+
+  beforesAll.forEach ( beforeAll => {
+
+    files.splice ( 0, 0, beforeAll.file );
+
+  });
+
+}
+
 function resolveAfter ( nodes, components, {afters} ) {
 
   for ( let node of afters ) {
@@ -332,6 +368,16 @@ function injectAfters ( nodes, components, files, afters ) {
 
 }
 
+function injectAftersAll ( nodes, components, files, aftersAll ) {
+
+  aftersAll.forEach ( afterAll => {
+
+    files.splice ( files.length, 0, afterAll.file );
+
+  });
+
+}
+
 function resolvePriority ( nodes, components, {normals} ) {
 
   for ( let node of normals ) {
@@ -342,7 +388,7 @@ function resolvePriority ( nodes, components, {normals} ) {
 
 }
 
-function resolveDependencies ( nodes, components, {normals, befores, afters} ) {
+function resolveDependencies ( nodes, components, {normals, befores, beforesAll, afters, aftersAll} ) {
 
   const paths = sortNodes ( nodes, normals.map ( node => node.path ) ),
         files = []; // Resolved files
@@ -395,6 +441,8 @@ function resolveDependencies ( nodes, components, {normals, befores, afters} ) {
   resolveRoots ();
   injectBefores ( nodes, components, files, befores );
   injectAfters ( nodes, components, files, afters );
+  injectBeforesAll ( nodes, components, files, beforesAll );
+  injectAftersAll ( nodes, components, files, aftersAll );
 
   return getErrorDependencies ( nodes, others ) || files;
 
@@ -404,18 +452,22 @@ function resolveNodes ( nodes, components, config ) {
 
   /* VARIABLES */
 
-  const groupedNodes = groupNodesBySuffixes ( Object.values ( nodes ), ['', config.beforeSuffix, config.afterSuffix, config.overrideSuffix] ),
-        normals = groupedNodes[''],
-        befores = groupedNodes[config.beforeSuffix],
-        afters = groupedNodes[config.afterSuffix],
-        overrides = groupedNodes[config.overrideSuffix],
+  const nodesByNames = groupNodesByNames ( Object.values ( nodes ), ['', config.beforeSuffix, config.afterSuffix] ),
+        normalsName = nodesByNames[''],
+        beforesAll = nodesByNames[config.beforeSuffix],
+        aftersAll = nodesByNames[config.afterSuffix],
+        nodesBySuffixes = groupNodesBySuffixes ( normalsName, ['', config.beforeSuffix, config.afterSuffix, config.overrideSuffix] ),
+        normals = nodesBySuffixes[''],
+        befores = nodesBySuffixes[config.beforeSuffix],
+        afters = nodesBySuffixes[config.afterSuffix],
+        overrides = nodesBySuffixes[config.overrideSuffix],
         resolvers = [resolveOverride, resolveBefore, resolveAfter, resolvePriority, resolveDependencies];
 
   /* RESOLVE */
 
   for ( let resolver of resolvers ) {
 
-    const result = resolver ( nodes, components, { normals, befores, afters, overrides } );
+    const result = resolver ( nodes, components, { normals, befores, beforesAll, afters, aftersAll, overrides } );
 
     if ( result ) return result;
 
@@ -536,11 +588,14 @@ async function dependencies ( files, config ) {
     optionalRe: /@optional[\s]+([\S]+\.[\S]+)[\s]*/g,
     require: true,
     requireRe: /@require[\s]+([\S]+\.[\S]+)[\s]*/g,
-    /* SUFFIX DIRECTIVES */
+    /* NAME/SUFFIX DIRECTIVES */
+    nameRe: /^(before|after)\.\S+$/g,
     suffixRe: /\.(before|after|override)\.\S+$/g,
     before: true,
+    beforeName: 'before',
     beforeSuffix: 'before',
     after: true,
+    afterName: 'after',
     afterSuffix: 'after',
     override: true,
     overrideSuffix: 'override'
