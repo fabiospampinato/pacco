@@ -1,4 +1,7 @@
 
+// before.js
+
+
 // require_a.js
 
 
@@ -15,3 +18,12 @@
 
 // a/index.after.js
 // @require require_a.js
+
+
+// a.js
+
+
+// z.js
+
+
+// after.js
