@@ -2,6 +2,7 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
+      isBase64 = require ( 'is-base64' ),
       argv = require ( 'yargs' ).argv,
       path = require ( 'path' ),
       file = require ( './file' );
@@ -26,15 +27,21 @@ const config = {
 
   _getRawConfigs () {
 
-    return _.compact ( _.concat ( argv.config, argv.c ) );
+    return _.compact ( _.concat ( argv.config, argv.c ) ).map ( config => {
 
-  },
+      if ( isBase64 ( config ) ) {
 
-  _isJSON ( str ) {
+        return JSON.parse ( Buffer.from ( config, 'base64' ).toString () );
 
-    const obj = _.attempt ( JSON.parse, str );
+      } else {
 
-    return !_.isError ( obj );
+        const obj = _.attempt ( JSON.parse, config );
+
+        return _.isError ( obj ) ? config : obj;
+
+      }
+
+    });
 
   },
 
@@ -49,7 +56,7 @@ const config = {
   getCwd () {
 
     const configs = config._getRawConfigs (),
-          lastPath = configs.find ( _.negate ( config._isJSON ) );
+          lastPath = configs.find ( _.isString );
 
     if ( !lastPath ) return;
 
@@ -61,11 +68,9 @@ const config = {
 
     const configs = config._getRawConfigs ();
 
-    const objs = configs.map ( c => {
+    const objs = configs.map ( config => {
 
-      const obj = _.attempt ( JSON.parse, c );
-
-      return _.isError ( obj ) ? file.load ( config._absPath ( c ) ) : obj;
+      return _.isString ( config ) ? file.load ( config._absPath ( config ) ) : config;
 
     });
 
