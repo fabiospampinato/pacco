@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
       buildJavascript = require ( '../build/javascript' );
@@ -10,7 +11,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( [input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' )], buildJavascript );
+  return gulp.watch ( _.flatten ( _.filter ([ input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' ) ]) ), buildJavascript );
 
 }
 

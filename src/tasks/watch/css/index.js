@@ -1,7 +1,8 @@
 
 /* REQUIRE */
 
-const gulp = require ( 'gulp' ),
+const _ = require ( 'lodash' ),
+      gulp = require ( 'gulp' ),
       gutil = require ( '../../../utilities/gutil' ),
       output = require ( '../../../utilities/paths/output' ),
       buildCSS = require ( '../../build/css' );
@@ -10,7 +11,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( [output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' )], buildCSS );
+  return gulp.watch ( _.filter ([ output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' ) ]), buildCSS );
 
 }
 
