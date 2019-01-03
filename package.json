@@ -31,7 +31,8 @@
     "clean": "npm run clean:temp && npm run clean:test",
     "test:build": "node test/index.js",
     "test:build:check": "npm run test:build -- --check",
-    "test": "npm run clean && npm run test:build:check"
+    "test": "npm run clean && npm run test:build:check",
+    "prepublishOnly": "npm run test"
   },
   "dependencies": {
     "@babel/core": "^7.2.0",
