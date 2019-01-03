@@ -4,6 +4,7 @@
 const _ = require ( 'lodash' ),
       path = require ( 'path' ),
       tokens = require ( './tokens' ),
+      pathU = require ( '../path' ),
       project = require ( '../../project' );
 
 /* PATHS */
@@ -51,7 +52,13 @@ const paths = {
 
     if ( !_.isString ( p ) && !_.isArray ( p ) ) return p;
 
-    return tokens.parse ( p );
+    const pt = tokens.parse ( p );
+
+    if ( _.isString ( pt ) ) return pathU.normalize ( pt );
+
+    if ( _.isArray ( pt ) ) return pt.map ( pathU.normalize );
+
+    return pt;
 
   }
 
