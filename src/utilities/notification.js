@@ -31,7 +31,15 @@ const notification = {
 
     const options = _.merge ( {}, notification.defaultOptions, success ? notification.defaultSuccessOptions : notification.defaultErrorOptions, { title, message } );
 
-    return await pify ( notifier.notify.bind ( notifier ) )( options );
+    try {
+
+      await pify ( notifier.notify.bind ( notifier ) )( options );
+
+    } catch ( e ) {
+
+      console.log ( `[${success ? 'SUCCESS' : 'ERROR'}] ${title} - ${message}` );
+
+    }
 
   }
 
