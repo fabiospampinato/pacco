@@ -2,6 +2,12 @@
 // before.js
 
 
+// a/after.js
+
+
+// a/before.js
+
+
 // require_a.js
 
 
@@ -14,6 +20,8 @@
 
 // a/index.override.js
 // @priority 10
+// @require ./before.js
+// @require ./after.js
 
 
 // a/index.after.js

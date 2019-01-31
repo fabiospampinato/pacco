@@ -57,9 +57,9 @@ function getPathNormalized ( filepath ) { // Normalizing those stupid Windows pa
 
 }
 
-function getPathName ( filepath, regex ) {
+function getComponentName ( component, regex ) {
 
-  const matches = getUniqMatches ( path.basename ( filepath ), regex );
+  const matches = getUniqMatches ( component, regex );
 
   return matches.length ? matches[0][1] : '';
 
@@ -237,10 +237,10 @@ function getNodes ( files, config ) {
 
   files.forEach ( file => {
 
-    const name = getPathName ( file.pathNormalized, config.nameRe ),
-          suffix = getPathSuffix ( file.pathNormalized, config.suffixRe ),
+    const suffix = getPathSuffix ( file.pathNormalized, config.suffixRe ),
           component = config.path2component ( file.pathNormalized ),
-          componentWithoutSuffix = getPathWithoutSuffix ( component, config.suffixRe );
+          componentWithoutSuffix = getPathWithoutSuffix ( component, config.suffixRe ),
+          name = getComponentName ( component, config.nameRe );
 
     const node = {
       file,
