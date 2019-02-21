@@ -483,13 +483,13 @@ function getErrorOverride ( node ) {
 
 }
 
-function getErrorBefore ( nodes, components, groupedNodes ) {
+function getErrorBefore ( node ) {
 
   return getErrorMissingFile ( node.path, node.before );
 
 }
 
-function getErrorAfter ( nodes, components, groupedNodes ) {
+function getErrorAfter ( node ) {
 
   return getErrorMissingFile ( node.path, node.after );
 
