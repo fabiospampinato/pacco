@@ -9,6 +9,20 @@ const fs = require ( 'fs' ),
       Vinyl = require ( 'vinyl' ),
       forAll = require ( './forall' );
 
+/* HELPERS */
+
+function getStats () {
+
+  const now = new Date (),
+        stats = new fs.Stats ();
+
+  stats.atimeMs = stats.mtimeMs = stats.ctimeMs = stats.birthtimeMs = now.getTime ();
+  stats.atime = stats.mtime = stats.ctime = stats.birthtime = now;
+
+  return stats;
+
+}
+
 /* UNEMPTY */
 
 function unempty ( files, filePath ) {
@@ -18,8 +32,9 @@ function unempty ( files, filePath ) {
   if ( filePath && !fs.existsSync ( filePath ) ) return; // Unempty only if this file is present
 
   return new Vinyl ({
+    contents: Buffer.from ( '' ),
     path: `/tmp/unempty_${Math.random ()}`,
-    contents: Buffer.from ( '' )
+    stat: getStats ()
   });
 
 }
