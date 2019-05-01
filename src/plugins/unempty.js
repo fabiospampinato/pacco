@@ -29,7 +29,7 @@ function unempty ( files, filePath ) {
 
   if ( files.length ) return files;
 
-  if ( filePath && !fs.existsSync ( filePath ) ) return; // Unempty only if this file is present
+  if ( filePath && ( !fs.existsSync ( filePath ) || !fs.readFileSync ( filePath, { encoding: 'utf8' } ) ) ) return; // Unempty only if this file is present and is not already empty
 
   return new Vinyl ({
     contents: Buffer.from ( '' ),
