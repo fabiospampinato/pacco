@@ -14,6 +14,7 @@ const _ = require ( 'lodash' ),
       dependencies = require ( '../../../../plugins/dependencies' ),
       substitute = require ( '../../../../plugins/substitute' ),
       touch = require ( '../../../../plugins/touch' ),
+      unempty = require ( '../../../../plugins/unempty' ),
       project = require ( '../../../../project' ),
       {plugins} = project;
 
@@ -27,6 +28,7 @@ function task () {
   return gulp.src ( input.getPath ( 'css.all' ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
+             .pipe ( unempty ( output.getPath ( 'css.partial' ) ) )
              .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getPath ( 'css.partial' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )

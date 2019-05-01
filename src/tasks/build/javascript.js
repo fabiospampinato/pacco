@@ -20,6 +20,7 @@ const _ = require ( 'lodash' ),
       substitute = require ( '../../plugins/substitute' ),
       tap = require ( '../../plugins/tap' ),
       touch = require ( '../../plugins/touch' ),
+      unempty = require ( '../../plugins/unempty' ),
       wrapper = require ( '../../plugins/wrapper' ),
       project = require ( '../../project' ),
       {plugins} = project;
@@ -41,6 +42,7 @@ function task () {
   return gulp.src ( _.flatten ( _.filter ( [input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' )] ) ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
+            //  .pipe ( unempty () ) //TODO
              .pipe ( gulpif ( !needUpdate && needOutputJSMinified, () => newer ( output.getPath ( 'javascript.minified' ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )

@@ -17,7 +17,8 @@ const _ = require ( 'lodash' ),
       concat = require ( '../../../../plugins/concat' ),
       dependencies = require ( '../../../../plugins/dependencies' ),
       substitute = require ( '../../../../plugins/substitute' ),
-      touch = require ( '../../../../plugins/touch' );
+      touch = require ( '../../../../plugins/touch' ),
+      unempty = require ( '../../../../plugins/unempty' );
 
 /* GENERAL */
 
@@ -29,6 +30,7 @@ function general ( name, filterable ) {
   return gulp.src ( input.getPath ( `scss.${name}` ) )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( filterable && plugins.components.enabled, components ( _.merge ( { components: project.components }, plugins.components.options ) ) ) )
+             .pipe ( unempty ( output.getPath ( `scss.${name}` ) ) )
              .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getPath ( `scss.${name}` ) ) ) )
              .pipe ( gulpif ( plugins.substitute.enabled, substitute ( _.merge ( { substitutions: project }, plugins.substitute.options ) ) ) )
              .pipe ( gulpif ( plugins.dependencies.enabled, dependencies ( plugins.dependencies.options ) ) )

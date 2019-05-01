@@ -48,20 +48,11 @@ function getFile ( name, contents ) {
 
 }
 
-function getEmptyFile () {
-
-  return new Vinyl ({
-    path: '/tmp/concat',
-    contents: Buffer.from ( '' )
-  });
-
-}
-
 /* CONCAT */
 
 function concat ( files, fileName, config = {} ) {
 
-  if ( !files.length ) return getEmptyFile ();
+  if ( !files.length ) return;
 
   /* CONFIG */
 
