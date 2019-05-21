@@ -6,7 +6,7 @@ const object = {
   getter ( obj, key, getter ) {
 
     const prev = obj[key];
-debugger;
+
     Object.defineProperty ( obj, key, {
       enumerable: true,
       get () {
