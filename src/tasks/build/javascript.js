@@ -7,7 +7,6 @@ const _ = require ( 'lodash' ),
       newer = require ( 'gulp-newer' ),
       plumber = require ( 'gulp-plumber' ),
       rename = require ( 'gulp-rename' ),
-      typescript = require ( 'gulp-typescript' ),
       changed = require ( '../../utilities/changed' ),
       gutil = require ( '../../utilities/gutil' ),
       input = require ( '../../utilities/paths/input' ),
@@ -52,7 +51,7 @@ function task () {
              .pipe ( gulpif ( needOutputTSPartial, rename ( output.getName ( 'typescript.partial' ) ) ) )
              .pipe ( gulpif ( needOutputTSPartial, () => gulp.dest ( output.getDir ( 'typescript.partial' ) ) ) )
              .pipe ( gulpif ( needOutputTSPartial, touch () ) )
-             .pipe ( gulpif ( plugins.typescript.enabled, typescript ( _.merge ( _.isPlainObject ( plugins.typescript.options ) ? plugins.typescript.options : plugins.typescript.options (), { declaration: true } ) ) ) )
+             .pipe ( gulpif ( plugins.typescript.enabled, () => require ( 'gulp-typescript' )( _.merge ( _.isPlainObject ( plugins.typescript.options ) ? plugins.typescript.options : plugins.typescript.options (), { declaration: true } ) ) ) )
              .pipe ( picker.replace ( ( cached, compiled ) => compiled.length ? compiled : cached ) )
              .pipe ( picker.pick ( '**/*.d.ts' ) )
              .pipe ( gulpif ( needOutputTSDeclaration, rename ( output.getName ( 'typescript.declaration' ) ) ) )
