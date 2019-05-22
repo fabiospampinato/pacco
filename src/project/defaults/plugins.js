@@ -28,7 +28,7 @@ const plugins = {
         }]
       ],
       plugins: [
-        [require.resolve ( '../../plugins/lodash_template_compile.js' ), { //FIXME: Ugly, `require.resolve` shouldn't be needed, `lodash_template_compile` should be published on NPM
+        [require.resolve ( 'babel-plugin-lodash-template-compile' ), { //FIXME: Ugly
           minify: true,
           templateOptions: {
             variable: 'o'
