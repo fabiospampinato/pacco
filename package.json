@@ -1,7 +1,7 @@
 {
   "name": "pacco",
   "description": "A bundler for modular and extensible web projects.",
-  "version": "2.1.10",
+  "version": "2.1.11",
   "bin": "bin/index.js",
   "keywords": [
     "bundler",
