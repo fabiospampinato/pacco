@@ -58,7 +58,7 @@ const project = {
 
   initEngines ( project ) {
 
-    _.set ( project, 'plugins.autoprefixer.options.browsers', project.browsers );
+    _.set ( project, 'plugins.autoprefixer.options.overrideBrowserslist', project.browsers );
 
     const babelPreset = _.get ( project, 'plugins.babel.options.presets[0][0]' ),
           isPresetEnv = babelPreset && babelPreset.match ( /preset-env/g );
