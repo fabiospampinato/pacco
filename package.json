@@ -26,12 +26,8 @@
     "url": "https://github.com/svelto/pacco.git"
   },
   "scripts": {
-    "clean:temp": "rimraf .temp",
-    "clean:test": "rimraf test/dist",
-    "clean": "npm run clean:temp && npm run clean:test",
-    "test:build": "node test/index.js",
-    "test:build:check": "npm run test:build -- --check",
-    "test": "npm run clean && npm run test:build:check",
+    "clean": "rimraf .temp",
+    "test": "node test/index.js",
     "prepublishOnly": "npm run test"
   },
   "dependencies": {
@@ -94,9 +90,9 @@
     "yargs": "^6.0.0"
   },
   "devDependencies": {
-    "globby": "^8.0.2",
     "hard-rejection": "^1.0.0",
     "rimraf": "^2.6.3",
+    "test-diff": "^1.0.0",
     "yoctodelay": "^1.1.0"
   },
   "optionalDependencies": {
