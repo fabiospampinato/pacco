@@ -68,9 +68,9 @@ const config = {
 
     const configs = config._getRawConfigs ();
 
-    const objs = configs.map ( config => {
+    const objs = configs.map ( conf => {
 
-      return _.isString ( config ) ? file.load ( config._absPath ( config ) ) : config;
+      return _.isString ( conf ) ? file.load ( config._absPath ( conf ) ) : conf;
 
     });
 
