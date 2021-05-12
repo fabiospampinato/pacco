@@ -2,7 +2,7 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' );
+      {color} = require ( 'specialist' );
 
 /* ENVIRONMENTS */
 
@@ -40,7 +40,7 @@ const environments = {
 
     if ( !objs.every ( _.isEmpty ) ) return;
 
-    console.error ( chalk.red ( `Unknown environment(s) "${environments.map ( env => chalk.underline ( env ) ).join ( ', ' )}", did you forget to define it?` ) );
+    console.error ( color.red ( `Unknown environment(s) "${environments.map ( env => color.underline ( env ) ).join ( ', ' )}", did you forget to define it?` ) );
 
     process.exit ( 1 );
 

@@ -2,13 +2,13 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' ),
+      findUp = require ( 'find-up-json' ),
       fs = require ( 'fs' ),
       {sync: fsizeSync} = require ( 'nodejs-fs-utils/fs/fsize' ),
       gulp = require ( 'gulp' ),
       mkdirp = require ( 'mkdirp' ),
       path = require ( 'path' ),
-      rdf = require ( 'require-dot-file' ),
+      {color} = require ( 'specialist' ),
       Upath = require ( './path' );
 
 /* FILE */
@@ -47,7 +47,7 @@ const file = {
 
       if ( !_.isUndefined ( defaultValue ) ) return defaultValue;
 
-      console.error ( chalk.red ( `Failed to load "${chalk.underline ( filepath )}"` ) );
+      console.error ( color.red ( `Failed to load "${color.underline ( filepath )}"` ) );
 
       process.exit ( 1 );
 
@@ -59,7 +59,9 @@ const file = {
 
   loadRecursive ( name, defaultValue ) {
 
-    return rdf ( name, process.cwd () ) || defaultValue;
+    const dotfile = findUp ( name, process.cwd () );
+
+    return dotfile ? dotfile.content : defaultValue;
 
   },
 

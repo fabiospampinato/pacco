@@ -3,12 +3,10 @@
 
 /* REQUIRE */
 
-const _ = require ( 'lodash' ),
-      argv = require ( 'yargs' ).argv,
+const argv = require ( 'yargs' ).argv,
       caporal = require ( 'caporal' ),
-      chalk = require ( 'chalk' ),
-      readPkg = require ( 'read-pkg-up' ),
-      updateNotifier = require ( 'update-notifier' ),
+      {color, updater} = require ( 'specialist' ),
+      {name, version} = require ( '../package.json' ),
       gutil = require ( './utilities/gutil' );
 
 /* CLI */
@@ -21,11 +19,9 @@ async function CLI () {
 
   /* APP */
 
-  const {pkg} = await readPkg ({ cwd: __dirname });
+  updater ({ name, version });
 
-  updateNotifier ({ pkg }).notify ();
-
-  const app = caporal.version ( pkg.version );
+  const app = caporal.version ( version );
 
   /* OPTIONS */
 
@@ -78,11 +74,11 @@ async function CLI () {
 
   const command = app._defaultCommand;
   const helpLines = [
-    `pacco ${chalk.green ( '--src' )} ${chalk.blue ( './source' )} ${chalk.green ( '--dist' )} ${chalk.blue ( './bundle' )}`,
-    `pacco ${chalk.green ( '--config' )} ${chalk.blue ( '/path/to/pacco.json' )}`,
-    `pacco ${chalk.magenta ( 'help' )} ${chalk.green ( '--all' )}`,
-    `pacco ${chalk.magenta ( 'config' )} ${chalk.yellow ( 'paths.tokens' )}`,
-    `pacco ${chalk.magenta ( 'build' )} ${chalk.green ( '--config' )} ${chalk.blue ( '/path/to/pacco.json' )} ${chalk.green ( '--env' )} ${chalk.blue ( 'development' )}`
+    `pacco ${color.green ( '--src' )} ${color.blue ( './source' )} ${color.green ( '--dist' )} ${color.blue ( './bundle' )}`,
+    `pacco ${color.green ( '--config' )} ${color.blue ( '/path/to/pacco.json' )}`,
+    `pacco ${color.magenta ( 'help' )} ${color.green ( '--all' )}`,
+    `pacco ${color.magenta ( 'config' )} ${color.yellow ( 'paths.tokens' )}`,
+    `pacco ${color.magenta ( 'build' )} ${color.green ( '--config' )} ${color.blue ( '/path/to/pacco.json' )} ${color.green ( '--env' )} ${color.blue ( 'development' )}`
   ];
 
   command.help ( helpLines.join ( '\n' ), { name: 'USAGE - ADVANCED' } );

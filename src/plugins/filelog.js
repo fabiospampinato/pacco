@@ -4,7 +4,7 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' ),
+      {color} = require ( 'specialist' ),
       forAll = require ( './forall' );
 
 /* FILE LOG */
@@ -13,7 +13,7 @@ function fileLog ( files, config = {} ) {
 
   if ( files.length ) {
 
-    const lines = [`Files (${files.length})${config.title ? ` in '${chalk.cyan ( config.title )}'` : ''}:`];
+    const lines = [`Files (${files.length})${config.title ? ` in '${color.cyan ( config.title )}'` : ''}:`];
 
     for ( let i = 0, l = files.length; i < l; i++ ) {
 
@@ -25,7 +25,7 @@ function fileLog ( files, config = {} ) {
 
   } else {
 
-    console.log ( `No files in ${config.title ? `'${chalk.cyan ( config.title )}'` : 'the stream'}` );
+    console.log ( `No files in ${config.title ? `'${color.cyan ( config.title )}'` : 'the stream'}` );
 
   }
 

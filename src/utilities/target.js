@@ -2,7 +2,7 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' );
+      {color} = require ( 'specialist' );
 
 /* TARGET */
 
@@ -18,7 +18,7 @@ const target = {
 
     if ( !objs.every ( _.isEmpty ) ) return;
 
-    console.error ( chalk.red ( `Unknown target "${chalk.underline ( target )}", did you forget to define it?` ) );
+    console.error ( color.red ( `Unknown target "${color.underline ( target )}", did you forget to define it?` ) );
 
     process.exit ( 1 );
 

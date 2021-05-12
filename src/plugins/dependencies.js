@@ -4,13 +4,13 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' ),
       execa = require ( 'execa' ),
       fs = require ( 'fs' ),
       open = require ( 'open' ),
       path = require ( 'path' ),
       pify = require ( 'pify' ),
       PluginError = require ( 'plugin-error' ),
+      {color} = require ( 'specialist' ),
       stringMatches = require ( 'string-matches' ).default,
       temp = require ( 'temp' ),
       forAll = require ( './forall' );
@@ -145,7 +145,7 @@ async function dotCheck () {
 
   } catch ( e ) {
 
-    console.error ( chalk.red ( `"${chalk.underline ( 'dot' )}" must be installed in order to render the graph` ) );
+    console.error ( color.red ( `"${color.underline ( 'dot' )}" must be installed in order to render the graph` ) );
 
     return false;
 
@@ -202,7 +202,7 @@ async function graphNodes ( nodes ) {
 
   const graph = dotGetGraph ( nodes );
 
-  if ( !graph ) return console.error ( chalk.red ( 'The dependencies graph can\'t be rendered, there are no nodes to draw' ) );
+  if ( !graph ) return console.error ( color.red ( 'The dependencies graph can\'t be rendered, there are no nodes to draw' ) );
 
   const fileTXT = await pify ( temp.open )({ prefix: 'pacco-dependencies', suffix: '.txt' });
 
@@ -519,13 +519,13 @@ function getErrorDependencies ( nodes, leftovers ) {
 
   /* CIRCULAR DEPENDENCIES */
 
-  return getError ( `Circular dependencies found involving: \n${leftovers.map ( leftover => `  ${chalk.yellow ( leftover )}` ).join ( '\n' )}` );
+  return getError ( `Circular dependencies found involving: \n${leftovers.map ( leftover => `  ${color.yellow ( leftover )}` ).join ( '\n' )}` );
 
 }
 
 function getErrorMissingFile ( filepath1, filepath2 ) {
 
-  return getError ( `"${chalk.yellow ( filepath1 )}" needs "${chalk.yellow ( filepath2 )}", but it has not been found, is the path correct?` );
+  return getError ( `"${color.yellow ( filepath1 )}" needs "${color.yellow ( filepath2 )}", but it has not been found, is the path correct?` );
 
 }
 
@@ -555,11 +555,11 @@ function log ( nodes, files ) {
       const arrow = priority > 0 ? '↑' : '↓',
             color = priority > 0 ? 'green' : 'red';
 
-      line += chalk[color]( ` ${priority}${arrow}` );
+      line += color[color]( ` ${priority}${arrow}` );
 
     }
 
-    const separator = isOverride ? chalk.yellow ( '!' ) : ( isBeforeOrAfter ? chalk.yellow ( '<' ) : '-' );
+    const separator = isOverride ? color.yellow ( '!' ) : ( isBeforeOrAfter ? color.yellow ( '<' ) : '-' );
 
     line = `${_.padStart ( i + 1, files.length.toString ().length )} ${separator} ${line}`;
 

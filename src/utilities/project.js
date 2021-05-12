@@ -2,8 +2,8 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' ),
       path = require ( 'path' ),
+      {color} = require ( 'specialist' ),
       sha1 = require ( 'sha1' ),
       file = require ( './file' ),
       gutil = require ( './gutil' );
@@ -27,7 +27,7 @@ const project = {
 
     if ( !missing.length ) return;
 
-    console.error ( chalk.red ( `Source path(s) not found:\n  ${missing.map ( m => chalk.underline ( m ) ).join ( '\n  ' )}` ) );
+    console.error ( color.red ( `Source path(s) not found:\n  ${missing.map ( m => color.underline ( m ) ).join ( '\n  ' )}` ) );
 
     process.exit ( 1 );
 

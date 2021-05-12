@@ -1,7 +1,7 @@
 
 /* REQUIRE */
 
-const chalk = require ( 'chalk' );
+const {color} = require ( 'specialist' );
 
 /* LOG */
 
@@ -9,7 +9,7 @@ const log = {
 
  line ( type, style, message = '' ) {
 
-    type = chalk[style]( type );
+    type = color[style]( type );
 
     return `[${type}] ${message}`;
 
@@ -20,7 +20,7 @@ const log = {
     const lines = [];
 
     if ( error.plugin ) {
-      lines.push ( log.line ( 'Error', 'red', 'Plugin `' + chalk.underline ( error.plugin ) + '` encountered an error' ) );
+      lines.push ( log.line ( 'Error', 'red', 'Plugin `' + color.underline ( error.plugin ) + '` encountered an error' ) );
     }
 
     if ( error.fileName || error.relativePath || error.file ) {

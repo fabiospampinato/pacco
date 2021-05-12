@@ -4,7 +4,6 @@
 /* REQUIRE */
 
 const _ = require ( 'lodash' ),
-      chalk = require ( 'chalk' ),
       stringMatches = require ( 'string-matches' ).default,
       forAll = require ( './forall' );
 
