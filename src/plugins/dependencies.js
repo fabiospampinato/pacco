@@ -553,9 +553,9 @@ function log ( nodes, files ) {
     if ( priority ) {
 
       const arrow = priority > 0 ? '↑' : '↓',
-            color = priority > 0 ? 'green' : 'red';
+            colorKey = priority > 0 ? 'green' : 'red';
 
-      line += color[color]( ` ${priority}${arrow}` );
+      line += color[colorKey]( ` ${priority}${arrow}` );
 
     }
 
