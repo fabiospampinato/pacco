@@ -43,7 +43,7 @@ function getFile ( name, contents ) {
 
   return new Vinyl ({
     path: _.isFunction ( name ) ? name () : name,
-    contents: new Buffer ( contents )
+    contents: Buffer.from ( contents )
   });
 
 }

@@ -23,7 +23,7 @@ function task () {
   return gulp.src ( output.getPath ( 'scss.all' ), { allowEmpty: true } )
              .pipe ( plumber ( plumberU.error ) )
              .pipe ( gulpif ( !needUpdate && needOutput, () => newer ( output.getPath ( 'scss.partial' ) ) ) )
-             .pipe ( gulpif ( plugins.sass.enabled, () => require ( 'gulp-sass' )( plugins.sass.options ) ) )
+             .pipe ( gulpif ( plugins.sass.enabled, () => require ( 'gulp-sass' )( require ( 'sass' ) )( plugins.sass.options ) ) )
              .pipe ( gulpif ( needOutput, rename ( output.getName ( 'scss.partial' ) ) ) )
              .pipe ( gulpif ( needOutput, () => gulp.dest ( output.getDir ( 'scss.partial' ) ) ) )
              .pipe ( gulpif ( needOutput, touch () ) );
