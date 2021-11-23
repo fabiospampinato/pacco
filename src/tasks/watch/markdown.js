@@ -10,7 +10,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( input.getPath ( 'markdown' ), buildMarkdown );
+  return gulp.watch ( input.getPath ( 'markdown' ), { interval: 500, usePolling: false }, buildMarkdown );
 
 }
 

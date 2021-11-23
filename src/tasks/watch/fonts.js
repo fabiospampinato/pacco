@@ -10,7 +10,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( input.getPath ( 'fonts' ), buildFonts );
+  return gulp.watch ( input.getPath ( 'fonts' ), { interval: 500, usePolling: false }, buildFonts );
 
 }
 

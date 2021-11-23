@@ -11,7 +11,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  return gulp.watch ( _.filter ([ output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' ) ]), buildCSS );
+  return gulp.watch ( _.filter ([ output.getPath ( 'css.partial' ), output.getPath ( 'scss.partial' ) ]), { interval: 500, usePolling: false }, buildCSS );
 
 }
 

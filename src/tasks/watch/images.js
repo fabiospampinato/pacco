@@ -10,7 +10,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( input.getPath ( 'images' ), buildImages );
+  return gulp.watch ( input.getPath ( 'images' ), { interval: 500, usePolling: false }, buildImages );
 
 }
 

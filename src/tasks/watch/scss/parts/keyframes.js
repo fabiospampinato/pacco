@@ -10,7 +10,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( input.getPath ( 'scss.keyframes' ), buildKeyframes );
+  return gulp.watch ( input.getPath ( 'scss.keyframes' ), { interval: 500, usePolling: false }, buildKeyframes );
 
 }
 

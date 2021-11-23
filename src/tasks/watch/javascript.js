@@ -11,7 +11,7 @@ const _ = require ( 'lodash' ),
 
 function task () {
 
-  return gulp.watch ( _.flatten ( _.filter ([ input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' ) ]) ), buildJavascript );
+  return gulp.watch ( _.flatten ( _.filter ([ input.getPath ( 'javascript.all' ), input.getPath ( 'typescript.all' ) ]) ), { interval: 500, usePolling: false }, buildJavascript );
 
 }
 

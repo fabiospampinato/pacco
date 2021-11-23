@@ -10,7 +10,7 @@ const gulp = require ( 'gulp' ),
 
 function task () {
 
-  return gulp.watch ( output.getPath ( 'scss.all' ), buildPartSCSS );
+  return gulp.watch ( output.getPath ( 'scss.all' ), { interval: 500, usePolling: false }, buildPartSCSS );
 
 }
 

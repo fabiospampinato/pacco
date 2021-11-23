@@ -12,7 +12,7 @@ function task () {
 
   const parts = ['functions', 'mixins', 'variables', 'keyframes', 'style'];
 
-  return gulp.watch ( parts.map ( part => output.getPath ( `scss.${part}` ) ), buildSCSS );
+  return gulp.watch ( parts.map ( part => output.getPath ( `scss.${part}` ) ), { interval: 500, usePolling: false }, buildSCSS );
 
 }
 
