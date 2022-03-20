@@ -20,7 +20,7 @@ const paths = {
   input: {
     html: '[src]/**/*.html',
     json: '[src]/**/*.json',
-    fonts: '[src]/**/*.{eot,ttf,woff,woff2}',
+    fonts: '[src]/**/*.{eot,otf,ttf,woff,woff2}',
     images: '[src]/**/*.{bmp,gif,ico,jpg,jpeg,png,svg,webp}',
     markdown: '[src]/**/*.md',
     javascript: {
